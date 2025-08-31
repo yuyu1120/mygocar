@@ -1,5 +1,7 @@
 package com.example.mygocar.controller.fronted;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,18 +29,30 @@ public class VehicleController {
                          Model model) {
 
         int budgetValue = (budget != null && !budget.isEmpty()) ? Integer.parseInt(budget) : Integer.MAX_VALUE;
-
-        System.out.printf("search：地點=%s | 取車日期=%s | 還車日期=%s | 預算=%s | 排序=%s | 期間=%s\n", location, startDate, endDate, budget, sort, period);
-
         
-
-        List<VehicleDTO> vehicles = vehicleService.searchVehicles(startDate, endDate, location, budgetValue, sort, period);
-
+        // 計算 endDate  (月租車)
+        if (period != null && !period.isEmpty()) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            try {
+                LocalDate start = LocalDate.parse(startDate, formatter);
+                LocalDate end = start.plusMonths(Integer.parseInt(period));
+                endDate = end.format(formatter);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         
-        if(vehicles.size()==0){
-            vehicles = vehicleService.searchAllVehicles(); 
+        List<VehicleDTO> vehicles = null;
+
+        if(startDate!=null){
+           vehicles = vehicleService.searchVehicles(startDate, endDate, location, budgetValue, sort, period);
         }
 
+        
+        if(vehicles==null || vehicles.size()==0){
+            vehicles = vehicleService.searchAllVehicles(); 
+        }
+        System.out.printf("search：地點=%s | 取車日期=%s | 還車日期=%s | 預算=%s | 排序=%s | 期間=%s\n", location, startDate, endDate, budget, sort, period);
         System.out.println(vehicles.size());
 
         model.addAttribute("vehicles", vehicles);
