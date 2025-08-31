@@ -19,18 +19,7 @@ public class VehicleService {
     }
 
     public List<VehicleDTO> searchVehicles(String startDate, String endDate, String location, int budget, String sort, String period) {
-        // 計算 endDate
-        if (period != null && !period.isEmpty()) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-            try {
-                LocalDate start = LocalDate.parse(startDate, formatter);
-                LocalDate end = start.plusMonths(Integer.parseInt(period));
-                endDate = end.format(formatter);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
+        
         return vehicleDAO.findAvailableVehicles(startDate, endDate, location, budget, sort);
     }
 

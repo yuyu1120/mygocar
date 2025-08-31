@@ -19,38 +19,48 @@ public class VehicleDAOImpl implements VehicleDAO {
 
     @Override
     public List<VehicleDTO> findAvailableVehicles(String startDate, String endDate, String location, int budget, String sort) {
+        // SQL 主體
         StringBuilder sql = new StringBuilder(
-            "SELECT * " +
-            // "v.vehicleID, v.name, v.brand, v.place, v.monthprice, v.dayprice, v.price_km, v.description, v.productyear, v.photo, v.color" + 
+            "SELECT v.vehicleID, v.name, v.brand, v.place, v.monthprice, v.dayprice, " +
+            "v.price_km, v.description, v.productyear, v.photo, v.color, v.quantity " +
             "FROM vehicle v " +
             "LEFT JOIN orders o ON v.vehicleID = o.vehicle_id " +
-            "WHERE NOT (o.return_datetime < ? OR o.borrow_datetime > ?) " +
-            "GROUP BY v.vehicleID " +
-            "HAVING v.quantity > COUNT(o.order_id) "
+            "    AND NOT (o.return_datetime < ? OR o.borrow_datetime > ?) " + // 只算與查詢時間重疊的訂單
+            "WHERE 1=1 " // 方便動態條件拼接
         );
 
-        // 動態條件
+        // 參數列表
         List<Object> params = new ArrayList<>();
         params.add(startDate != null && !startDate.isEmpty() ? startDate : "0000-00-00");
         params.add(endDate != null && !endDate.isEmpty() ? endDate : "9999-12-31");
 
+        // 動態條件：地點
         if (location != null && !location.trim().isEmpty()) {
             sql.append(" AND v.place LIKE ? ");
             params.add("%" + location + "%");
         }
 
+        // 動態條件：預算
         if (budget > 0) {
             sql.append(" AND v.monthprice <= ? ");
             params.add(budget);
         }
 
-        // 排序條件
+        // GROUP BY 與 HAVING：計算剩餘數量
+        sql.append(" GROUP BY v.vehicleID ");
+        sql.append(" HAVING v.quantity > COUNT(o.order_id) ");
+
+        // 排序
         if ("priceAsc".equals(sort)) {
             sql.append(" ORDER BY v.monthprice ASC");
         } else if ("priceDesc".equals(sort)) {
             sql.append(" ORDER BY v.monthprice DESC");
         }
 
+        System.out.println("SQL: " + sql);
+        System.out.println("Params: " + params);
+
+        // 執行查詢
         return jdbcTemplate.query(
             sql.toString(),
             params.toArray(),
@@ -71,6 +81,7 @@ public class VehicleDAOImpl implements VehicleDAO {
             }
         );
     }
+
 
 
 
