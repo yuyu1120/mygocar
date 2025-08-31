@@ -30,4 +30,9 @@ public class IndexController {
     public String member() {
         return "fronted/member"; 
     }
+
+     @GetMapping("/teamwk")
+    public String teamwk() {
+        return "fronted/teamwk"; 
+    }
 }
