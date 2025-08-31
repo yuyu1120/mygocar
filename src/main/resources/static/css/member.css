@@ -1,0 +1,294 @@
+/* === 全域設定 (Global) === */
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* === Navbar === */
+.header {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10%;
+}
+
+.logo img {
+  height: 50px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links li a {
+  font-weight: 600;
+  color: #333;
+  transition: 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #4682a9; 
+}
+
+/* === 漢堡選單 (Mobile Menu) === */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  border-radius: 2px;
+}
+/* === Breadcrumb 樣式 === */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 10px 15px;
+  margin: 0;
+  background: #1f7bd7;
+  font-size: 20px;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+}
+
+/* 分隔符號用 ::before */
+.breadcrumb li + li::before {
+  content: "›"; 
+  padding: 0 8px;
+  color: #fff;
+}
+
+/* 連結樣式 */
+.breadcrumb a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+/* 目前頁面 (active) */
+.breadcrumb .active a {
+  color: #fff;
+  pointer-events: none; /* 不能點擊 */
+}
+
+.member-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* === 側邊欄 === */
+.sidebar {
+  width: 250px;
+  background: #fff;
+  border-right: 1px solid #ddd;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+
+.profile-box {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.profile-box p {
+  margin: 5px 0;
+}
+
+.menu {
+  list-style: none;
+  padding: 0;
+}
+
+.menu li {
+  margin: 10px 0;
+}
+
+.menu li a {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 10px;
+  display: block;
+  border-radius: 6px;
+}
+
+.menu li.active a,
+.menu li a:hover {
+  background: #e6f0fa;
+  color: #4682a9;
+}
+
+.sidebar-footer {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.sidebar-footer .car-img {
+  width: 100px;
+  margin-bottom: 10px;
+}
+
+/* === 按鈕樣式 === */
+.btn-primary {
+  background: #4682a9;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #315f7a;
+}
+
+/* === 主內容 === */
+.content {
+  flex: 1;
+  padding: 30px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* === Tabs === */
+.tabs {
+  display: flex;
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.tab {
+  background: #f0f4fa;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.tab.active {
+  background: #4682a9;
+  color: #fff;
+}
+
+/* === 空狀態 === */
+.order-list.empty {
+  text-align: center;
+  padding: 50px 0;
+}
+
+.order-list.empty img {
+  width: 100px;
+  margin-bottom: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+/* === Footer === */
+.footer {
+  background: linear-gradient(135deg, #91c8e4, #569ccb);
+  padding: 50px 10% 20px;
+  color: #333;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #2f719e;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.footer a {
+  color: #333;
+  transition: 0.3s;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* === RWD 手機版 (Mobile Responsive) === */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 70px;
+    right: 10%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+}

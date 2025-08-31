@@ -1,0 +1,53 @@
+.progress-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 讓整個進度條集中 */
+    gap: 0; /* 移除多餘間距 */
+}
+.step {
+    /* position: relative; */
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* width: 80px; 固定每個步驟寬度，防止被文字撐開 */
+    flex: 0 0 auto; /* 防止被拉太開 */
+}
+
+.step-label {
+    position: absolute;
+    top: -25px; /* 文字放到圓點上方，不佔空間 */
+    font-size: 14px;
+    white-space: nowrap;
+}
+
+.circle {
+    width: 15px;
+    height: 15px;
+    background-color: #ececec;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5px;
+    font-weight: bold;
+    z-index: 1;
+}
+.step.active .circle {
+    background-color: #ecf71c; /* 當前步驟 */
+}
+.step.completed .circle {
+    background-color: #000704; /* 已完成步驟 */
+}
+.line {
+    height: 2px;
+    background-color: #fff;
+    flex: 0 0 80px; /* 固定線條長度，讓點連得緊 */
+    margin-top: -3px;
+    z-index: 0;
+}
+.step.completed + .line {
+    background-color: #000; /* 已完成線條 */
+}

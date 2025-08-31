@@ -1,0 +1,53 @@
+.quantity-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn-md {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: #6200EE; /* Material 紫色 Primary */
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    box-shadow: 0px 3px 6px rgba(0,0,0,0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-md:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.count {
+    font-size: 20px;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* Ripple 波紋效果 */
+.btn-md::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    background: rgba(255,255,255,0.4);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    transition: transform 0.4s, opacity 0.8s;
+    pointer-events: none;
+}
+
+.btn-md:active::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    transition: transform 0s, opacity 0.8s;
+}

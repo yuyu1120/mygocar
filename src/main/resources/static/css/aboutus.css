@@ -1,0 +1,191 @@
+/* === 全域設定 (Global) === */
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* === Navbar === */
+.header {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10%;
+}
+
+.logo img {
+  height: 50px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links li a {
+  font-weight: 600;
+  color: #333;
+  transition: 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #4682a9; 
+}
+
+/* === 漢堡選單 (Mobile Menu) === */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  border-radius: 2px;
+}
+
+/* === Hero 區塊 === */
+.hero img {
+  width: 100%;   /* 佔滿父容器寬度 */
+  height: auto;  /* 高度自動等比縮放 */
+  display: block; /* 移除預設 inline 間隙 */
+}
+/* === Breadcrumb 樣式 === */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 10px 15px;
+  margin: 0;
+  background: #1f7bd7;
+  font-size: 20px;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+}
+
+/* 分隔符號用 ::before */
+.breadcrumb li + li::before {
+  content: "›"; 
+  padding: 0 8px;
+  color: #fff;
+}
+
+/* 連結樣式 */
+.breadcrumb a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+/* 目前頁面 (active) */
+.breadcrumb .active a {
+  color: #fff;
+  pointer-events: none; /* 不能點擊 */
+}
+
+/* === About 區塊 === */
+.aboutmain {
+  font-size: 18px;
+  text-align: center;
+}
+
+.aboutmain h2 {
+  font-size: 30px;
+  margin-top: 10px;
+  color: #2f719e;
+}
+.aboutmain{
+  margin-bottom: 5px;
+}
+
+/* === Footer === */
+.footer {
+  background: linear-gradient(135deg, #91c8e4, #569ccb);
+  padding: 50px 10% 20px;
+  color: #333;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #2f719e;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.footer a {
+  color: #333;
+  transition: 0.3s;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #555;
+}
+
+/* === RWD 手機版 (Mobile Responsive) === */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 70px;
+    right: 10%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+}

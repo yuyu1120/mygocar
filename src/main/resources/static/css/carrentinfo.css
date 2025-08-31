@@ -1,0 +1,325 @@
+/* === 全域設定 === */
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* === Navbar === */
+.header {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 10%;
+}
+
+.logo img {
+  height: 50px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 30px;
+}
+
+.nav-links li a {
+  font-weight: 600;
+  color: #333;
+  transition: 0.3s;
+}
+
+.nav-links li a:hover {
+  color: #4682a9; 
+}
+
+/* === Breadcrumb 樣式 === */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 10px 15px;
+  margin: 0;
+  background: #1f7bd7;
+  font-size: 20px;
+}
+
+.breadcrumb li {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb li + li::before {
+  content: "›"; 
+  padding: 0 8px;
+  color: #fff;
+}
+
+.breadcrumb a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.breadcrumb a:hover {
+  text-decoration: underline;
+}
+
+.breadcrumb .active a {
+  color: #fff;
+  pointer-events: none;
+}
+
+/* 漢堡選單 */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  border-radius: 2px;
+}
+
+/* RWD 手機版 nav */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 70px;
+    right: 10%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+}
+
+.hero img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* === 流程 ICON === */
+.info-pics {
+  display: flex; 
+  gap: 40px;
+  justify-content: center;
+  align-items: center;
+  margin: 40px auto;
+  flex-wrap: wrap;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.info-item img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 8px;
+}
+
+.info-item p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  margin: 0;
+}
+
+/* === 流程內容卡片 === */
+/* === 流程說明區塊 === */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  padding: 40px 20px;
+  background: #f9f9f9;
+}
+
+.steps .card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.steps .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+}
+
+.steps h2 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: #4682a9; /* 主色調，可改 */
+  border-left: 4px solid #4682a9;
+  padding-left: 8px;
+}
+
+.steps ul {
+  padding-left: 20px;
+  margin: 0 0 15px 0;
+}
+
+.steps ul li {
+  margin-bottom: 8px;
+  line-height: 1.6;
+  position: relative;
+}
+
+.steps ul li::before {
+  content: "✔";
+  color: #4682a9;
+  font-size: 0.9rem;
+  position: absolute;
+  left: -20px;
+  top: 2px;
+}
+
+/* === 表格樣式 === */
+.fee-table {
+  text-align: center;
+  margin: 40px auto;
+  max-width: 1000px; /* 控制表格寬度 */
+}
+
+.fee-table h2 {
+  font-size: 1.4rem;
+  margin-bottom: 12px;
+  color: #4682a9; /* 主色調，可改 */
+  padding-left: 8px;
+}
+
+.fee-table table {
+  margin: 0 auto; /* 置中 */
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 1.1rem; /* 放大字體 */
+  table-layout: fixed; /* 固定表格佈局 */
+  white-space: nowrap; /* 文字不換行 */
+}
+
+.fee-table th,
+.fee-table td {
+  border: 1px solid #ccc;
+  padding: 12px 20px;
+  text-align: center;
+}
+
+.fee-table th {
+  background-color: #4682a9;
+  color: white;
+}
+
+/* 斑馬條紋 */
+.fee-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+.fee-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.fee-table strong{
+  color: #376786;
+}
+
+#backToTopBtn {
+  position: fixed;
+  bottom: 40px; /* 距離底部 */
+  right: 40px;  /* 距離右邊 */
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 50%;
+  background-color: #4682a9; 
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: none; /* 預設隱藏 */
+  transition: opacity 0.3s;
+}
+
+#backToTopBtn:hover {
+  background-color: #4682a9;
+}
+
+
+
+/* === Footer === */
+.footer {
+  background: linear-gradient(135deg, #91c8e4, #569ccb);
+  padding: 50px 10% 20px;
+  color: #333;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #2f719e;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.footer a {
+  color: #333;
+  transition: 0.3s;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #555;
+}

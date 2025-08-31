@@ -1,0 +1,309 @@
+/* === 全域設定 === */
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", Arial, sans-serif;
+  color: #333;
+  line-height: 1.6;
+  background-color: #fff;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* === Navbar === */
+.header {
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between; /* 左右分開 */
+  align-items: center;
+  padding: 15px 10%;
+}
+.logo img {
+  height: 50px;
+}
+.nav-links {
+  display: flex;
+  justify-content: end;
+  gap: 30px;
+  margin-right: 20px;
+}
+.nav-links li a {
+  font-weight: 600;
+  color: #333;
+  transition: 0.3s;
+  text-decoration: none;
+}
+.nav-links {
+  display: flex;
+  gap: 30px;
+  flex: 1; /* 🔑 撐開中間，讓右邊按鈕貼齊右側 */
+  
+}
+
+.nav-links li a:hover {
+  color: #4682a9; 
+}
+.nav-auth {
+  display: flex;
+  justify-content: end;
+  gap: 5px;
+  list-style: none;
+}
+
+.nav-auth a {
+  padding: 8px 16px;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* 統一按鈕樣式 */
+.nav-auth a {
+  display: inline-block;
+  min-width: 80px;   /* 統一最小寬度 */
+  text-align: center;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 14px;    /* 確保文字大小一致 */
+  box-sizing: border-box; /* 避免邊框影響大小 */
+}
+
+/* 登入按鈕 */
+.nav-auth .btnlogin {
+  border: 2px solid #4682a9;
+  background: #fff;         /* 預設白底 */
+  color: #4682a9;
+}
+
+.nav-auth .btnlogin:hover {
+  background: #4682a9;
+  color: #fff;
+}
+
+/* 註冊按鈕 */
+.nav-auth .btnapply {
+  background: #4682a9;
+  border: 2px solid #4682a9; /* 補上邊框，避免大小不一 */
+  color: #fff;
+}
+
+.nav-auth .btnapply:hover {
+  background: #315f7a;
+  border: 2px solid #315f7a;
+}
+
+
+/* 漢堡選單 */
+.menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: #333;
+  border-radius: 2px;
+}
+
+/* RWD 手機版 nav */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: #fff;
+    position: absolute;
+    top: 70px;
+    right: 10%;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .menu-toggle {
+    display: flex;
+  }
+}
+
+/* === Hero 區塊 === */
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #91c8e4;
+  color: white;
+  padding: 60px 10%;
+  min-height: 500px;
+  overflow: hidden;
+}
+
+.hero-text {
+  max-width: 45%;
+}
+
+.hero-text h1 {
+  font-size: 42px;
+  font-weight: bold;
+  line-height: 1.5;
+}
+
+.hero-text .highlight {
+  color: #ffeb3b; /* 黃色強調 */
+}
+
+.hero-text img.event {
+  margin-top: 20px;
+  width: 80%;
+  border-radius: 12px;
+  
+}
+
+.hero-image {
+  position: relative;
+  max-width: 500px;
+  flex-shrink: 0;
+}
+
+.hero-image img.bg {
+  width: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.hero-image img.car {
+  position: absolute;
+  bottom: -20px;
+  right: -30px;
+  width: 90%;
+  animation: float 3s ease-in-out infinite;
+}
+
+/* 車子漂浮動畫 */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+/* === 搜尋框 === */
+.search-box {
+  background: #fff;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 600px;
+  margin: 50px auto 60px;
+}
+
+.search-tabs {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.tab {
+  flex: 1;
+  padding: 10px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+  background: #f0f0f0;
+}
+
+.tab.active {
+  background: #749bc2;
+  color: #fff;
+}
+
+.search-field {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.search-field input,
+.search-field select {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+
+.search-btn {
+  background: #749bc2;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
+  display: block;
+  margin: 0 auto;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.search-btn:hover {
+  background: #4682a9;
+}
+
+/* === Footer === */
+.footer {
+  background: linear-gradient(135deg, #91c8e4, #569ccb);
+  padding: 50px 10% 20px;
+  color: #333;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 30px;
+}
+
+.footer h3,
+.footer h4 {
+  color: #2f719e;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+
+.footer a {
+  color: #333;
+  transition: 0.3s;
+}
+
+.footer a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  text-align: center;
+  margin-top: 30px;
+  font-size: 14px;
+  color: #555;
+}

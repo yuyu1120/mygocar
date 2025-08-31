@@ -1,0 +1,96 @@
+/* === 全域設定 === */
+body {
+  margin: 0;
+  font-family: "Noto Sans TC", Arial, sans-serif;
+  background: #f5f9ff;
+  color: #333;
+}
+
+header.header {
+  text-align: center;
+  padding: 40px 20px;
+  background: #4682a9;
+  color: white;
+}
+
+header.header h1 {
+  margin: 0;
+  font-size: 2em;
+}
+
+header.header p {
+  margin-top: 10px;
+  font-size: 1em;
+}
+
+/* === 團隊卡片容器 === */
+.team-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  padding: 40px 20px;
+}
+
+/* === 單個卡片 === */
+.team-card {
+  background: #fff;
+  border-radius: 12px;
+  width: 350px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.team-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.team-photo {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 15px;
+}
+
+.team-card h3 {
+  margin: 10px 0 5px;
+  font-size: 1.2em;
+}
+
+.team-role {
+  color: #4682a9;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.team-bio {
+  font-size: 0.95em;
+  line-height: 1.4;
+  color: #555;
+}
+
+/* === 右下角 QR Code === */
+.qr-code {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;   /* 可以調整大小，不影響掃描 */
+  height: 60px;
+  opacity: 0.7;  /* 半透明，不太顯眼 */
+  z-index: 1000; /* 確保在最上層 */
+  transition: opacity 0.3s;
+}
+
+.qr-code:hover {
+  opacity: 1;  /* 滑鼠靠近時變清晰 */
+}
+
+.qr-code img {
+  width: 100%;
+  height: 100%;
+}
+
