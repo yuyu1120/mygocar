@@ -164,8 +164,8 @@
                                   <h5 class="card-title">${v.vehicleName}</h5>
                                   <p class="card-text">品牌：${v.vehicleBrand}</p>
                                   <p class="card-text text-danger">月租：NT$ ${v.monthPrice.intValue()} /月</p>
-                                  <form action="${pageContext.request.contextPath}/order/extraInfo.jsp" method="post" onsubmit="return validateSelection(this)">
-                                      <input type="hidden" name="vid" value="${v.vehicleId}" />
+                                  <form action="/search/extraInfo" method="post" onsubmit="return validateSelection(this)">
+                                      <input type="hidden" name="vehicleId" value="${v.vehicleId}" />
                                       <input type="submit" value="查看詳情" class="btn btn-outline-primary btn-sm" />
                                   </form>
                               </div>
@@ -272,6 +272,7 @@
 
 <script src="${pageContext.request.contextPath}/js/date-validation.js"></script>
 <script src="${pageContext.request.contextPath}/js/rentalSearch-MonthlyConfig.js"></script>
+
 
 </body>
 </html>
