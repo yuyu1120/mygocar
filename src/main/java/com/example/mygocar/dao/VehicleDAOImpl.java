@@ -77,6 +77,7 @@ public class VehicleDAOImpl implements VehicleDAO {
                 dto.setVehicleYear(rs.getString("productyear"));
                 dto.setVehicleImage(rs.getString("photo"));
                 dto.setVehicleColor(rs.getString("color"));
+                dto.setQuantity(rs.getInt("quantity")); 
                 return dto;
             }
         );
@@ -105,7 +106,7 @@ public class VehicleDAOImpl implements VehicleDAO {
                 dto.setDayPrice(rs.getDouble("dayprice"));
                 dto.setHourPrice(rs.getDouble("price_km"));
                 dto.setVehicleColor(rs.getString("color"));
-                dto.setQuantity(1); // 預設值
+                dto.setQuantity(rs.getInt("quantity")); 
                 return dto;
             }
         );
@@ -113,15 +114,19 @@ public class VehicleDAOImpl implements VehicleDAO {
 
     @Override
     public VehicleDTO getVehicleById(String vehicleId){
-        String sql = "SELECT * FROM vehicle where vehicleID = ?";
+
+        String sql = "SELECT * FROM vehicle v where v.vehicleID = ?";
 
         // 動態條件
         List<Object> params = new ArrayList<>();
         params.add(vehicleId);
 
+        System.out.println("!!!VehicleDTO getVehicleById：" + vehicleId);
 
-        return (VehicleDTO) jdbcTemplate.query(
+
+        List<VehicleDTO> results = jdbcTemplate.query(
             sql,
+            params.toArray(),
             (rs, rowNum) -> {
                 VehicleDTO dto = new VehicleDTO();
                 dto.setVehicleId(rs.getString("vehicleID"));
@@ -135,10 +140,20 @@ public class VehicleDAOImpl implements VehicleDAO {
                 dto.setDayPrice(rs.getDouble("dayprice"));
                 dto.setHourPrice(rs.getDouble("price_km"));
                 dto.setVehicleColor(rs.getString("color"));
-                dto.setQuantity(1); // 預設值
+                dto.setQuantity(rs.getInt("quantity")); 
                 return dto;
             }
         );
+
+        VehicleDTO output = new VehicleDTO();
+        for(VehicleDTO result:results){
+            System.out.println(result.getVehicleId());
+            output = result;
+        }
+
+        // System.out.println(results);
+
+        return output;
     };
 
 

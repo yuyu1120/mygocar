@@ -1,7 +1,5 @@
 package com.example.mygocar.service;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -26,5 +24,10 @@ public class VehicleService {
     public List<VehicleDTO> searchAllVehicles(){
 
         return vehicleDAO.getAllVehicles();
+    }
+
+    public VehicleDTO getVehicleById(String vehicleId){
+
+        return vehicleDAO.getVehicleById(vehicleId);
     }
 }
