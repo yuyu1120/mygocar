@@ -58,7 +58,7 @@
   </header>
 
 
-    <main  class="container py-5">
+    <main class="container py-5">
 
         <div class="row g-4">
 
