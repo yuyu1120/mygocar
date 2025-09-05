@@ -12,8 +12,8 @@
     <meta charset="UTF-8">
     <title>訂閱車 額外選項</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/css/quantity.css" rel="stylesheet"/>
-    <link href="${pageContext.request.contextPath}/css/nav-order-step.css" rel="stylesheet"/>
+    <link href="/css/quantity.css" rel="stylesheet"/>
+    <link href="/css/nav-order-step.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/resetcss.css">
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -37,14 +37,14 @@
         <li><a href="location">據點查詢</a></li>
         <li><a href="carrentinfo">租車說明</a></li>
         <li><a href="member">會員專區</a></li>
-        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/search/rental_search.jsp">租車</a></li>
+        <li class="nav-item"><a class="nav-link" href="/search">租車</a></li>
         <li class="nav-item">
-            <a class="nav-link" href="<%= isLoggedIn ? "account.jsp" : "../login.jsp" %>">
+            <a class="nav-link" href="<%= isLoggedIn ? "account.jsp" : "/login" %>">
                 <%= isLoggedIn ? username : "登入" %>
             </a>
         </li>
         <% if (isLoggedIn) { %>
-        <li class="nav-item"><a class="nav-link" href="../login.jsp?action=logout">登出</a></li>
+        <li class="nav-item"><a class="nav-link" href="/logout">登出</a></li>
         <% } %>
       </ul>
 
@@ -147,12 +147,13 @@
                 </div>
 
                 <!-- 下一步按鈕 -->
-                <form method="post" action="/order/cart" class="mb-4">
+                <form method="post" action="/cart" class="mb-4">
                     <input type="hidden" name="action" value="addToCart" />
                     <input type="hidden" name="vehicleId" value="${param.vehicleId}" />
                     <input type="hidden" name="rentalQuantity" value="${rentalQuantity}" />
                     <input type="hidden" name="borrowLocation" value="${location}" />
                     <input type="hidden" name="returnLocation" value="${location}" />
+                    <input type="hidden" name="rentalType" value="${rentalType}" />
                     <input type="hidden" name="startDate" value="${startDate}" />
                     <input type="hidden" name="endDate" value="${endDate}" />
                     <input type="hidden" name="startTime" value="${startTime}" />
@@ -284,12 +285,13 @@
             </div>
         </div>
     </div>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="/js/fronted_order_extraInfo/button.js"></script>
     <script>
         // 只有在有錯誤訊息時才顯示 modal
         <% 
-        System.out.println("asd");
+        // System.out.println("asd");
         if (request.getAttribute("errorMessage_missingData") != null ) { %>
 
             document.addEventListener('DOMContentLoaded', function() {
@@ -312,6 +314,6 @@
   <jsp:param name="errorKey" value="errorMessage_missingData" />
 </jsp:include> --%>
 
-<script src="${pageContext.request.contextPath}/js/button.js"></script>
+
 </body>
 </html>
