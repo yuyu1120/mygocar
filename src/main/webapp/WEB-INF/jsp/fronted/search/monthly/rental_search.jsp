@@ -1,7 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ page session="true" %>
 <%@ page import="java.util.*, com.example.mygocar.model.Vehicle, com.example.mygocar.dao.VehicleDAOImpl" %>
-<%@ page import="java.sql.*, com.example.mygocar.utils.DBUtil" %>
 <%@ page import="java.time.LocalDate, java.time.format.DateTimeFormatter" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -53,10 +52,6 @@
     <link rel="stylesheet" href="/css/index.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
-    <style>
-        body { padding-top: 70px; }
-        .vehicle-card img { width: 100%; height: 150px; object-fit: cover; }
-    </style>
 </head>
 <body>
 
@@ -75,14 +70,14 @@
         <li><a href="location">據點查詢</a></li>
         <li><a href="carrentinfo">租車說明</a></li>
         <li><a href="member">會員專區</a></li>
-        <li class="nav-item"><a class="nav-link" href="${pageContext.request.contextPath}/search/rental_search.jsp">租車</a></li>
+        <li class="nav-item"><a class="nav-link" href="/search">租車</a></li>
         <li class="nav-item">
-            <a class="nav-link" href="<%= isLoggedIn ? "account.jsp" : "../login.jsp" %>">
+            <a class="nav-link" href="<%= isLoggedIn ? "account.jsp" : "/login" %>">
                 <%= isLoggedIn ? username : "登入" %>
             </a>
         </li>
         <% if (isLoggedIn) { %>
-        <li class="nav-item"><a class="nav-link" href="../login.jsp?action=logout">登出</a></li>
+        <li class="nav-item"><a class="nav-link" href="/logout">登出</a></li>
         <% } %>
       </ul>
 
@@ -159,12 +154,12 @@
                     <c:forEach var="v" items="${vehicles}">
                         <div class="col-12 col-md-3">
                             <div class="card vehicle-card">
-                                <img src="${v.vehicleImage}" class="card-img-top" alt="車輛圖片">
+                                <img src="/img/cars/${v.vehicleImage}" class="card-img-top" alt="車輛圖片">
                                 <div class="card-body">
                                     <h5 class="card-title">${v.vehicleName}</h5>
                                     <p class="card-text">品牌：${v.vehicleBrand}</p>
                                     <p class="card-text text-danger">月租：NT$ ${v.monthPrice.intValue()} /月</p>
-                                    <form action="/search/extraInfo" method="post" onsubmit="return validateSelection(this)">
+                                    <form action="/search/extraInfo" method="post">
                                         <input type="hidden" name="vehicleId" value="${v.vehicleId}" />
                                         <input type="submit" value="查看詳情" class="btn btn-outline-primary btn-sm" />
                                     </form>

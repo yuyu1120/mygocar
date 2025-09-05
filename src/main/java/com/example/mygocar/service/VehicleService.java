@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.mygocar.dao.VehicleDAO;
 import com.example.mygocar.dto.VehicleDTO;
+import com.example.mygocar.model.Vehicle;
 
 @Service
 public class VehicleService {
@@ -26,7 +27,12 @@ public class VehicleService {
         return vehicleDAO.getAllVehicles();
     }
 
-    public VehicleDTO getVehicleById(String vehicleId){
+    public VehicleDTO getVehicleDTOById(String vehicleId){
+
+        return vehicleDAO.getVehicleDTOById(vehicleId);
+    }
+
+    public Vehicle getVehicleById(String vehicleId){
 
         return vehicleDAO.getVehicleById(vehicleId);
     }

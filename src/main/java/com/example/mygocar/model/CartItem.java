@@ -2,6 +2,9 @@ package com.example.mygocar.model;
 
 import java.time.LocalDateTime;
 
+import javax.print.DocFlavor.STRING;
+
+import com.example.mygocar.model.Vehicle;
 import com.example.mygocar.strategy.PricingStrategy;
 
 public class CartItem {
@@ -16,7 +19,50 @@ public class CartItem {
     private String borrowLocation;       // 取車地點
     private String returnLocation;       // 還車地點
 
-    public LocalDateTime getBorrowDateTime() {
+
+
+    public CartItem() {}
+
+    public CartItem(Vehicle vehicle, int rentalQuantity, PricingStrategy pricingStrategy) {
+        this.vehicle = vehicle;
+        this.rentalQuantity = rentalQuantity;
+        this.pricingStrategy = pricingStrategy;
+    }
+
+    public CartItem(Vehicle vehicle, int rentalQuantity, PricingStrategy pricingStrategy, String borrowLocation, String returnLocation) {
+        this.vehicle = vehicle;
+        this.rentalQuantity = rentalQuantity;
+        this.pricingStrategy = pricingStrategy;
+        this.borrowLocation = borrowLocation;
+        this.returnLocation = returnLocation;
+    }
+
+   public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public int getRentalQuantity() {
+        return rentalQuantity;
+    }
+
+    public void setRentalQuantity(int rentalQuantity) {
+        this.rentalQuantity = rentalQuantity;
+    }
+
+    public PricingStrategy getPricingStrategy() {
+        return pricingStrategy;
+    }
+    
+    public void setPricingStrategy(PricingStrategy pricingStrategy) {
+        this.pricingStrategy = pricingStrategy;
+    }
+
+
+        public LocalDateTime getBorrowDateTime() {
         return borrowDatetime;
     }
 
@@ -46,38 +92,6 @@ public class CartItem {
 
     public void setReturnLocation(String returnLocation) {
         this.returnLocation = returnLocation;
-    }
-
-    public CartItem() {}
-
-    public CartItem(Vehicle vehicle, int rentalQuantity, PricingStrategy pricingStrategy) {
-        this.vehicle = vehicle;
-        this.rentalQuantity = rentalQuantity;
-        this.pricingStrategy = pricingStrategy;
-    }
-
-   public Vehicle getVehicle() {
-        return vehicle;
-    }
-
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
-    }
-
-    public int getRentalQuantity() {
-        return rentalQuantity;
-    }
-
-    public void setRentalQuantity(int rentalQuantity) {
-        this.rentalQuantity = rentalQuantity;
-    }
-
-    public PricingStrategy getPricingStrategy() {
-        return pricingStrategy;
-    }
-    
-    public void setPricingStrategy(PricingStrategy pricingStrategy) {
-        this.pricingStrategy = pricingStrategy;
     }
 
     public double getSubtotal() {

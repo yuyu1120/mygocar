@@ -22,42 +22,57 @@ public class VehicleController {
     @Autowired
     private VehicleService vehicleService;
 
+    /**
+     * 處理訂閱車搜尋
+     * 1. 解析使用者傳入的搜尋條件
+     * 2. 計算月租車 endDate
+     * 3. 查詢資料庫，若沒結果則回傳所有車輛
+     * 4. 將資料存入 Model，JSP 只負責呈現
+     */
     @GetMapping("/search")
-    public String search(@RequestParam(required = false) String location,
-                         @RequestParam(required = false) String startDate,
-                         @RequestParam(required = false) String endDate,
-                         @RequestParam(required = false) String budget,
-                         @RequestParam(required = false) String sort,
-                         @RequestParam(required = false) String period,
-                         Model model) {
+    public String search(
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String endDate,
+            @RequestParam(required = false) String budget,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) String period,
+            Model model) {
 
-        int budgetValue = (budget != null && !budget.isEmpty()) ? Integer.parseInt(budget) : Integer.MAX_VALUE;
-        
-        // 計算 endDate  (月租車)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        LocalDate today = LocalDate.now();
+
+        // 預設日期
+        String defaultStartDate = today.plusDays(1).format(formatter);
+        String defaultEndDate   = today.plusDays(2).format(formatter);
+
+        startDate = (startDate != null && !startDate.isEmpty()) ? startDate : defaultStartDate;
+
+        // 如果有月租期間，自動計算 endDate
         if (period != null && !period.isEmpty()) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
             try {
                 LocalDate start = LocalDate.parse(startDate, formatter);
                 LocalDate end = start.plusMonths(Integer.parseInt(period));
                 endDate = end.format(formatter);
             } catch (Exception e) {
                 e.printStackTrace();
+                endDate = defaultEndDate;
             }
-        }
-        
-        List<VehicleDTO> vehicles = null;
-
-        if(startDate!=null){
-           vehicles = vehicleService.searchVehicles(startDate, endDate, location, budgetValue, sort, period);
+        } else {
+            endDate = (endDate != null && !endDate.isEmpty()) ? endDate : defaultEndDate;
         }
 
-        
-        if(vehicles==null || vehicles.size()==0){
-            vehicles = vehicleService.searchAllVehicles(); 
-        }
-        System.out.printf("search：地點=%s | 取車日期=%s | 還車日期=%s | 預算=%s | 排序=%s | 期間=%s\n", location, startDate, endDate, budget, sort, period);
-        System.out.println(vehicles.size());
+        int budgetValue = (budget != null && !budget.isEmpty()) ? Integer.parseInt(budget) : Integer.MAX_VALUE;
 
+        // 查詢符合條件的車輛
+        List<VehicleDTO> vehicles = vehicleService.searchVehicles(startDate, endDate, location, budgetValue, sort, period);
+
+        // 如果沒結果，回傳所有車輛作推薦
+        if (vehicles == null || vehicles.isEmpty()) {
+            vehicles = vehicleService.searchAllVehicles();
+        }
+
+        // 將資料放入 Model，JSP 使用 EL 呈現
         model.addAttribute("vehicles", vehicles);
         model.addAttribute("startDate", startDate);
         model.addAttribute("endDate", endDate);
@@ -66,9 +81,9 @@ public class VehicleController {
         model.addAttribute("budget", budget);
         model.addAttribute("sort", sort);
 
-        return "fronted/search/monthly/rental_search";  // 對應 JSP → /WEB-INF/jsp/fronted/index.jsp 
+        return "fronted/search/monthly/rental_search"; // 對應 JSP
     }
-
+   
 
 
    @PostMapping("/search/extraInfo")
@@ -81,6 +96,7 @@ public class VehicleController {
         String endDate   = (String) session.getAttribute("endDate");
         String location  = (String) session.getAttribute("location");
         String period    = (String) session.getAttribute("period");
+        String rentalType = (String) session.getAttribute("rentalType");
 
         // 多條件檢查：車輛、日期、時間、地點
         if (vehicleId == null || vehicleId.isEmpty() ||
@@ -99,7 +115,7 @@ public class VehicleController {
         }
 
         // 查詢車輛
-        VehicleDTO vehicle = vehicleService.getVehicleById(vehicleId);
+        VehicleDTO vehicle = vehicleService.getVehicleDTOById(vehicleId);
         model.addAttribute("vehicle", vehicle);
 
         // 租期
@@ -107,6 +123,8 @@ public class VehicleController {
         if (period != null && !period.isEmpty()) {
             rentalQuantity = Long.parseLong(period);
         }
+        rentalType="monthly";
+        model.addAttribute("rentalType", rentalType);
         model.addAttribute("rentalQuantity", rentalQuantity);
         model.addAttribute("periodUnit", "月");
 

@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.example.mygocar.dto.VehicleDTO;
+import com.example.mygocar.model.Vehicle;
 
 @Repository
 public class VehicleDAOImpl implements VehicleDAO {
@@ -83,9 +84,6 @@ public class VehicleDAOImpl implements VehicleDAO {
         );
     }
 
-
-
-
     // 取得所有資料 (無條件)
     @Override
     public List<VehicleDTO> getAllVehicles() {
@@ -113,7 +111,7 @@ public class VehicleDAOImpl implements VehicleDAO {
     }
 
     @Override
-    public VehicleDTO getVehicleById(String vehicleId){
+    public VehicleDTO getVehicleDTOById(String vehicleId){
 
         String sql = "SELECT * FROM vehicle v where v.vehicleID = ?";
 
@@ -147,6 +145,50 @@ public class VehicleDAOImpl implements VehicleDAO {
 
         VehicleDTO output = new VehicleDTO();
         for(VehicleDTO result:results){
+            System.out.println(result.getVehicleId());
+            output = result;
+        }
+
+        // System.out.println(results);
+
+        return output;
+    };
+
+    @Override
+    public Vehicle getVehicleById(String vehicleId){
+
+        String sql = "SELECT * FROM vehicle v where v.vehicleID = ?";
+
+        // 動態條件
+        List<Object> params = new ArrayList<>();
+        params.add(vehicleId);
+
+        System.out.println("!!!VehicleDTO getVehicleById：" + vehicleId);
+
+
+        List<Vehicle> results = jdbcTemplate.query(
+            sql,
+            params.toArray(),
+            (rs, rowNum) -> {
+                Vehicle dto = new Vehicle();
+                dto.setVehicleId(rs.getString("vehicleID"));
+                dto.setVehicleName(rs.getString("name"));
+                dto.setVehicleBrand(rs.getString("brand"));
+                dto.setVehicleDescription(rs.getString("description"));
+                dto.setVehicleLocation(rs.getString("place"));
+                dto.setVehicleYear(rs.getString("productyear"));
+                dto.setVehicleImage(rs.getString("photo"));
+                dto.setMonthPrice(rs.getDouble("monthprice"));
+                dto.setDayPrice(rs.getDouble("dayprice"));
+                dto.setHourPrice(rs.getDouble("price_km"));
+                dto.setVehicleColor(rs.getString("color"));
+                dto.setQuantity(rs.getInt("quantity")); 
+                return dto;
+            }
+        );
+
+        Vehicle output = new Vehicle();
+        for(Vehicle result:results){
             System.out.println(result.getVehicleId());
             output = result;
         }
