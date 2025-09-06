@@ -2,44 +2,54 @@ package com.example.mygocar.service;
 
 import com.example.mygocar.model.Order;
 import com.example.mygocar.model.CartItem;
-import com.example.mygocar.utils.DBUtil;
 import com.example.mygocar.config.LinePayConfig;
+import com.example.mygocar.dao.OrderDAO;
+import com.example.mygocar.dto.OrderDTO;
 
 import java.sql.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
+import org.springframework.stereotype.Service;
+
+
+@Service
 public class OrderService {
+
+    private final OrderDAO orderDAO;
+
+    public OrderService(OrderDAO orderDAO) {
+        this.orderDAO = orderDAO;
+    }
 
     /**
      * 建立新訂單
      */
     public Order createOrder(int userId, List<CartItem> cartItems) throws SQLException {
+
         String orderId = LinePayConfig.generateOrderNumber();
+
         List<CartItem> orderItems = cartItems;
         BigDecimal totalAmount = calculateTotal(cartItems);
 
         System.out.println("orderId: " + orderId);
         // for (int i = 0; i < cartItems.size(); i++) {
-        CartItem item = orderItems.get(0);
+            CartItem item = orderItems.get(0);
 
-        // System.out.println(item.getVehicle().getVehicleId());
+            String vehicleId = item.getVehicle().getVehicleId();
+            String borrowLocation = item.getBorrowLocation();
+            String returnLocation = item.getReturnLocation();
+            Timestamp borrowDatetime = Timestamp.valueOf(item.getBorrowDateTime());
+            Timestamp returnDatetime = Timestamp.valueOf(item.getReturnDateTime());
 
-        String vehicleId = item.getVehicle().getVehicleId();
-        String borrowLocation = item.getBorrowLocation();
-        String returnLocation = item.getReturnLocation();
-        Timestamp borrowDatetime = Timestamp.valueOf(item.getBorrowDateTime());
-        Timestamp returnDatetime = Timestamp.valueOf(item.getReturnDateTime());
-
-        // }
-
-        // Order order = new Order(userId, orderId, orderItems, totalAmount);
-        Order order = new Order(userId, orderId, vehicleId, "pending", borrowLocation,
+            Order order = new Order(userId, orderId, vehicleId, "pending", borrowLocation,
             returnLocation, borrowDatetime, returnDatetime, totalAmount);
 
-        // 插入資料庫
-        insertOrder(order);
+            // 插入資料庫
+            insertOrder(order);
 
+        // }
         return order;
     }
 
@@ -92,127 +102,148 @@ public class OrderService {
      * 插入訂單到資料庫
      */
     private void insertOrder(Order order) throws SQLException {
-        String sql = "INSERT INTO orders (order_id, member_id, vehicle_id, total_price, status, borrow_location, return_location, borrow_datetime, return_datetime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        int affectedRows = orderDAO.insert(order);
 
-        try {
-            conn = DBUtil.getConnection();
-            pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-
-            System.out.println(order.getOrderId());
-
-            pstmt.setString(1, order.getOrderId());
-            pstmt.setInt(2, order.getUserId());
-            pstmt.setString(3, order.getVehicleId());
-            pstmt.setBigDecimal(4, order.getTotalPrice());
-            pstmt.setString(5, order.getStatus());
-            pstmt.setString(6, order.getBorrowLocation());
-            pstmt.setString(7, order.getReturnLocation());
-            pstmt.setString(8, String.valueOf(order.getBorrowDatetime()));
-            pstmt.setString(9, String.valueOf(order.getReturnDatetime()));
-
-            int affectedRows = pstmt.executeUpdate();
-
-            if (affectedRows == 0) {
-                throw new SQLException("建立訂單失敗，沒有資料被插入");
-            }
-
-            // 取得自動產生的 order_id
-            rs = pstmt.getGeneratedKeys();
-            if (rs.next()) {     
-                System.out.println(String.valueOf(rs.getInt(1)));           
-                // order.setOrderId(String.valueOf(rs.getInt(1)));
-            } else {
-                throw new SQLException("建立訂單失敗，無法取得 order_id");
-            }
-
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+        if (affectedRows == 0) {
+            throw new SQLException("建立訂單失敗，沒有資料被插入");
         }
+        // String sql = "INSERT INTO orders (order_id, member_id, vehicle_id, total_price, status, borrow_location, return_location, borrow_datetime, return_datetime) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // Connection conn = null;
+        // PreparedStatement pstmt = null;
+        // ResultSet rs = null;
+
+        // try {
+        //     conn = DBUtil.getConnection();
+        //     pstmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+        //     System.out.println(order.getOrderId());
+
+        //     pstmt.setString(1, order.getOrderId());
+        //     pstmt.setInt(2, order.getUserId());
+        //     pstmt.setString(3, order.getVehicleId());
+        //     pstmt.setBigDecimal(4, order.getTotalPrice());
+        //     pstmt.setString(5, order.getStatus());
+        //     pstmt.setString(6, order.getBorrowLocation());
+        //     pstmt.setString(7, order.getReturnLocation());
+        //     pstmt.setString(8, String.valueOf(order.getBorrowDatetime()));
+        //     pstmt.setString(9, String.valueOf(order.getReturnDatetime()));
+
+        //     int affectedRows = pstmt.executeUpdate();
+
+        //     if (affectedRows == 0) {
+        //         throw new SQLException("建立訂單失敗，沒有資料被插入");
+        //     }
+
+        //     // 取得自動產生的 order_id
+        //     rs = pstmt.getGeneratedKeys();
+        //     if (rs.next()) {     
+        //         System.out.println(String.valueOf(rs.getInt(1)));           
+        //         // order.setOrderId(String.valueOf(rs.getInt(1)));
+        //     } else {
+        //         throw new SQLException("建立訂單失敗，無法取得 order_id");
+        //     }
+
+        // } finally {
+        //     try {
+        //         if (rs != null) rs.close();
+        //         if (pstmt != null) pstmt.close();
+        //         if (conn != null) conn.close();
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
     }
 
     /**
      * 根據訂單編號查詢訂單
      */
     public Order getOrderByNumber(String order_id) throws SQLException {
-        String sql = "SELECT * FROM orders WHERE order_id = ?";
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
+        Optional<Order> optionalOrder = orderDAO.findByOrderId(order_id);
+        
+        Order matchOrder = optionalOrder.orElseThrow(() -> new RuntimeException("找不到訂單"));
+        
+        return matchOrder;
+        // String sql = "SELECT * FROM orders WHERE order_id = ?";
 
-        try {
-            conn = DBUtil.getConnection();
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, order_id);
+        // Connection conn = null;
+        // PreparedStatement pstmt = null;
+        // ResultSet rs = null;
 
-            rs = pstmt.executeQuery();
+        // try {
+        //     conn = DBUtil.getConnection();
+        //     pstmt = conn.prepareStatement(sql);
+        //     pstmt.setString(1, order_id);
 
-            if (rs.next()) {
-                Order order = new Order();
-                order.setOrderId(rs.getString("order_id"));
-                order.setUserId(rs.getInt("member_id"));
-                // order.setOrderNumber(rs.getString("order_number"));
-                order.setVehicleId(rs.getString("vehicle_id"));
-                order.setTotalPrice(rs.getBigDecimal("total_price"));
-                order.setStatus(rs.getString("status"));
-                order.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
-                order.setCreateAt(rs.getTimestamp("created_at"));
-                return order;
-            }
+        //     rs = pstmt.executeQuery();
 
-            return null;
+        //     if (rs.next()) {
+        //         Order order = new Order();
+        //         order.setOrderId(rs.getString("order_id"));
+        //         order.setUserId(rs.getInt("member_id"));
+        //         // order.setOrderNumber(rs.getString("order_number"));
+        //         order.setVehicleId(rs.getString("vehicle_id"));
+        //         order.setTotalPrice(rs.getBigDecimal("total_price"));
+        //         order.setStatus(rs.getString("status"));
+        //         order.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
+        //         order.setCreateAt(rs.getTimestamp("created_at"));
+        //         return order;
+        //     }
 
-        } finally {
-            try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+        //     return null;
+
+        // } finally {
+        //     try {
+        //         if (rs != null) rs.close();
+        //         if (pstmt != null) pstmt.close();
+        //         if (conn != null) conn.close();
+        //     } catch (SQLException e) {
+        //         e.printStackTrace();
+        //     }
+        // }
     }
 
     /**
      * 更新訂單狀態
      */
     public void updateOrderStatus(String orderId, String status, String transactionId) throws SQLException {
-        String sql = "UPDATE orders SET status = ?, linepay_transaction_id = ? WHERE order_id = ?";
+        
+        int affectedRow = orderDAO.updateStatus(orderId, status, transactionId);
+        
+    //     String sql = "UPDATE orders SET status = ?, linepay_transaction_id = ? WHERE order_id = ?";
 
-        Connection conn = null;
-        PreparedStatement pstmt = null;
+    //     Connection conn = null;
+    //     PreparedStatement pstmt = null;
 
-        try {
-            conn = DBUtil.getConnection();
-            pstmt = conn.prepareStatement(sql);
+    //     try {
+    //         conn = DBUtil.getConnection();
+    //         pstmt = conn.prepareStatement(sql);
 
-            pstmt.setString(1, status);
-            pstmt.setString(2, transactionId);
-            pstmt.setString(3, orderId);
+    //         pstmt.setString(1, status);
+    //         pstmt.setString(2, transactionId);
+    //         pstmt.setString(3, orderId);
 
-            int affectedRows = pstmt.executeUpdate();
+    //         int affectedRows = pstmt.executeUpdate();
 
-            if (affectedRows == 0) {
-                throw new SQLException("更新訂單狀態失敗，找不到訂單：" + orderId);
-            }
+    //         if (affectedRows == 0) {
+    //             throw new SQLException("更新訂單狀態失敗，找不到訂單：" + orderId);
+    //         }
 
-        } finally {
-            try {
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+    //     } finally {
+    //         try {
+    //             if (pstmt != null) pstmt.close();
+    //             if (conn != null) conn.close();
+    //         } catch (SQLException e) {
+    //             e.printStackTrace();
+    //         }
+    //     }
     }
+
+
+    public List<OrderDTO> getAllOrders(){
+        return orderDAO.getAllOrders();
+    }
+
 }

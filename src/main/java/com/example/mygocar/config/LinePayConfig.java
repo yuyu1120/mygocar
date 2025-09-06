@@ -12,15 +12,15 @@ public class LinePayConfig {
     public static final String CONFIRM_API = "/v3/payments/{transactionId}/confirm";
 
       // 回調網址（需要改為您的實際網址）
-    public static final String CONFIRM_URL = "http://localhost:8080/mygo-1/checkout?action=success";
-    public static final String CANCEL_URL  = "http://localhost:8080/mygo-1/checkout?action=cancel";
+    public static final String CONFIRM_URL = "http://localhost:8080/checkout/success";
+    public static final String CANCEL_URL  = "http://localhost:8080/checkout/cancel";
 
     // 商店資訊
     public static final String CURRENCY = "TWD";
-    public static final String MERCHANT_NAME = "MYCAR租車";
+    public static final String MERCHANT_NAME = "MYGOCAR租車";
 
     // 訂單編號前綴
-    public static final String ORDER_PREFIX = "MYCAR_ORDER";
+    public static final String ORDER_PREFIX = "MYGOCAR_ORDER_";
 
     // 私有建構子，防止實例化
     private LinePayConfig() {}

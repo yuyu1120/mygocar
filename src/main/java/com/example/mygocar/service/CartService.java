@@ -7,10 +7,14 @@ import com.example.mygocar.strategy.PricingStrategy;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class CartService {
 
     // 取得或初始化購物車
     public List<CartItem> getOrCreateCart(List<CartItem> cart) {
+        
         if (cart == null) {
             cart = new ArrayList<>();
         }
