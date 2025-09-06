@@ -6,15 +6,15 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
 @SpringBootApplication
-public class mygocarApplication extends SpringBootServletInitializer {
+public class MygocarApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
-		SpringApplication.run(mygocarApplication.class, args);
+		SpringApplication.run(MygocarApplication.class, args);
 	}
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(mygocarApplication.class);
+		return builder.sources(MygocarApplication.class);
 
 	}
 }
