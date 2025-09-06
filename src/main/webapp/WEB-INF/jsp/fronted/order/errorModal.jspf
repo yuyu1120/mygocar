@@ -1,0 +1,47 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+<!-- 取得傳入參數 -->
+<c:set var="modalId" value="${param.modalId}" />
+<c:set var="errorKey" value="${param.errorKey}" />
+<c:set var="errorMessage" value="${requestScope[errorKey]}" />
+
+<!-- 伺服器端 log（選用，可在 Eclipse / Tomcat log 看到） -->
+<%
+    String msg = (String) request.getAttribute(errorKey);
+    if(msg != null){
+        System.out.println("錯誤訊息 (server log): " + msg);
+    }
+%>
+
+<!-- 若有錯誤訊息，渲染 Modal -->
+<c:if test="${not empty errorMessage}">
+  <div class="modal fade" id="${modalId}" tabindex="-1" aria-labelledby="${modalId}Label" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header bg-danger text-white">
+          <h1 class="modal-title fs-5" id="${modalId}Label">提示訊息</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="關閉"></button>
+        </div>
+        <div class="modal-body">
+          <c:out value="${errorMessage}" />
+        </div>
+        <div class="modal-footer">
+          <c:if test="${not empty requestScope.redirectUrl}">
+            <a href="${requestScope.redirectUrl}" class="btn btn-primary">前往搜尋</a>
+          </c:if>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+  <!-- 前端 console log + 自動觸發 Modal -->
+  <script>
+    console.log("錯誤 Modal 觸發，訊息: ${errorMessage}");
+    document.addEventListener("DOMContentLoaded", function() {
+      var myModal = new bootstrap.Modal(document.getElementById('${modalId}'));
+      myModal.show();
+    });
+  </script>
+</c:if>

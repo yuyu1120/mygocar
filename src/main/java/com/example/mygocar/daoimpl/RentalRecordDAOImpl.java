@@ -1,12 +1,12 @@
-package com.example.rentcar.daoimpl;
+package com.example.mygocar.daoimpl;
 
-import com.example.rentcar.dao.RentalRecordDAO;
-
-import com.example.rentcar.model.RentalRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import com.example.mygocar.dao.RentalRecordDAO;
+import com.example.mygocar.model.RentalRecord;
 
 import java.util.List;
 import java.util.Map;

@@ -1,10 +1,10 @@
-package com.example.rentcar.service;
+package com.example.mygocar.service;
 
 import org.springframework.stereotype.Service;
 
-import com.example.rentcar.daoimpl.MemberDAOImpl;
-import com.example.rentcar.dto.MemberDTO;
-import com.example.rentcar.dto.ValidationResult;
+import com.example.mygocar.daoimpl.MemberDAOImpl;
+import com.example.mygocar.dto.MemberDTO;
+import com.example.mygocar.dto.ValidationResult;
 
 @Service
 public class AuthService {

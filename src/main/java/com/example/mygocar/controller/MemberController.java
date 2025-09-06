@@ -1,4 +1,4 @@
-package com.example.rentcar.controller;
+package com.example.mygocar.controller;
 
 import java.util.List;
 import java.util.Map;
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.rentcar.dao.RentalRecordDAO;
-import com.example.rentcar.dao.ReviewDAO;
-import com.example.rentcar.daoimpl.MemberDAOImpl;
-import com.example.rentcar.daoimpl.RentalPlanDAOImpl;
-import com.example.rentcar.daoimpl.VehicleDetailDAOImpl;
-import com.example.rentcar.model.Member;
-import com.example.rentcar.model.RentalPlan;
-import com.example.rentcar.model.Review;
-import com.example.rentcar.model.VehicleDetail;
+import com.example.mygocar.dao.RentalRecordDAO;
+import com.example.mygocar.dao.ReviewDAO;
+import com.example.mygocar.daoimpl.MemberDAOImpl;
+import com.example.mygocar.daoimpl.RentalPlanDAOImpl;
+import com.example.mygocar.daoimpl.VehicleDetailDAOImpl;
+import com.example.mygocar.model.Member;
+import com.example.mygocar.model.RentalPlan;
+import com.example.mygocar.model.Review;
+import com.example.mygocar.model.VehicleDetail;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -42,7 +42,7 @@ public class MemberController {
 
     @RequestMapping("/")
     public String index(Model model) {
-
+        System.out.println("123123123123");
         Member members = memberDAO.findById(3);
 
         model.addAttribute("members", members);

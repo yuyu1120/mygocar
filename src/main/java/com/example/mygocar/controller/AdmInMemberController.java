@@ -1,4 +1,4 @@
-package com.example.rentcar.controller;
+package com.example.mygocar.controller;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.example.rentcar.daoimpl.MemberDAOImpl;
-import com.example.rentcar.dto.MemberDTO;
-import com.example.rentcar.model.Member;
+import com.example.mygocar.daoimpl.MemberDAOImpl;
+import com.example.mygocar.dto.MemberDTO;
+import com.example.mygocar.model.Member;
 
 @Controller
 public class AdmInMemberController {

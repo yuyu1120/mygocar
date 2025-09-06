@@ -1,8 +1,9 @@
-package com.example.rentcar.dao;
+package com.example.mygocar.dao;
 
-import com.example.rentcar.model.Review;
 import java.util.List;
 import java.util.Map;
+
+import com.example.mygocar.model.Review;
 
 public interface ReviewDAO {
 

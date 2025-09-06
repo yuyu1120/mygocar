@@ -1,7 +1,8 @@
-package com.example.rentcar.dao;
+package com.example.mygocar.dao;
 
-import com.example.rentcar.model.RentalPlan;
 import java.util.List;
+
+import com.example.mygocar.model.RentalPlan;
 
 public interface RentalPlanDAO {
 

@@ -1,4 +1,4 @@
-package com.example.rentcar.dto;
+package com.example.mygocar.dto;
 
 public class CodeDTO {
     private String code;

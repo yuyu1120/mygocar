@@ -1,4 +1,4 @@
-package com.example.rentcar.controller;
+package com.example.mygocar.controller;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -15,13 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.example.rentcar.daoimpl.MemberDAOImpl;
-import com.example.rentcar.dto.CodeDTO;
-import com.example.rentcar.dto.MemberDTO;
-import com.example.rentcar.dto.ValidationResult;
-import com.example.rentcar.model.Member;
-import com.example.rentcar.service.AuthService;
-import com.example.rentcar.service.MailService;
+import com.example.mygocar.daoimpl.MemberDAOImpl;
+import com.example.mygocar.dto.CodeDTO;
+import com.example.mygocar.dto.MemberDTO;
+import com.example.mygocar.dto.ValidationResult;
+import com.example.mygocar.model.Member;
+import com.example.mygocar.service.AuthService;
+import com.example.mygocar.service.MailService;
 
 import jakarta.servlet.http.HttpSession;
 

@@ -1,4 +1,4 @@
-package com.example.rentcar.service;
+package com.example.mygocar.service;
 
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

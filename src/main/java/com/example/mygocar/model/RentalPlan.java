@@ -1,4 +1,4 @@
-package com.example.rentcar.model;
+package com.example.mygocar.model;
 
 import java.time.LocalDateTime;
 
