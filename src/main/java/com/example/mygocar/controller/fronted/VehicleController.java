@@ -31,13 +31,16 @@ public class VehicleController {
      */
     @GetMapping("/search")
     public String search(
+            @RequestParam(required = false) String vehicleId,
             @RequestParam(required = false) String location,
             @RequestParam(required = false) String startDate,
+            @RequestParam(required = false) String startTime,
             @RequestParam(required = false) String endDate,
             @RequestParam(required = false) String budget,
             @RequestParam(required = false) String sort,
             @RequestParam(required = false) String period,
-            Model model) {
+            Model model,
+            HttpSession session) {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
         LocalDate today = LocalDate.now();
@@ -73,13 +76,23 @@ public class VehicleController {
         }
 
         // 將資料放入 Model，JSP 使用 EL 呈現
-        model.addAttribute("vehicles", vehicles);
-        model.addAttribute("startDate", startDate);
-        model.addAttribute("endDate", endDate);
-        model.addAttribute("location", location);
-        model.addAttribute("period", period);
-        model.addAttribute("budget", budget);
-        model.addAttribute("sort", sort);
+        session.setAttribute("vehicles", vehicles);
+        session.setAttribute("vehicleId", vehicleId);
+        session.setAttribute("startDate", startDate);
+        session.setAttribute("startTime", startTime);
+        session.setAttribute("endDate", endDate);
+        session.setAttribute("location", location);
+        session.setAttribute("period", period);
+        session.setAttribute("budget", budget);
+        session.setAttribute("sort", sort);
+        session.setAttribute("rentalType", "monthly");
+
+        System.out.println("startDate" + startDate);
+
+        // 登入資訊
+        String username = (String) session.getAttribute("username");
+        model.addAttribute("isLoggedIn", username != null);
+        model.addAttribute("username", username);
 
         return "fronted/search/monthly/rental_search"; // 對應 JSP
     }
@@ -97,13 +110,24 @@ public class VehicleController {
         String location  = (String) session.getAttribute("location");
         String period    = (String) session.getAttribute("period");
         String rentalType = (String) session.getAttribute("rentalType");
+        
+        System.out.println(vehicleId);
+        System.out.println(startDate);
+        System.out.println(startTime);
+        System.out.println(endDate);
+        System.out.println(location);
+        System.out.println(period);
+        System.out.println(rentalType);
+
 
         // 多條件檢查：車輛、日期、時間、地點
-        if (vehicleId == null || vehicleId.isEmpty() ||
+        if (
+            vehicleId == null || vehicleId.isEmpty() ||
             startDate == null || startDate.isEmpty() ||
             endDate == null || endDate.isEmpty() ||
             startTime == null || startTime.isEmpty() ||
-            location == null || location.isEmpty()) {
+            location == null || location.isEmpty()
+            ) {
 
             model.addAttribute("errorMessage_missingData", "車輛資訊或取車資料缺失，請先搜尋！");
             model.addAttribute("redirectUrl", "/fronted/search/monthly/rental_search");

@@ -68,7 +68,7 @@
                     <div class="row g-0">
                         <!-- 車子圖片 -->
                         <div class="col-md-4 d-flex align-items-center justify-content-center">
-                            <img src="${vehicle.vehicleImage}" 
+                            <img src="/img/cars/${vehicle.vehicleImage}"  
                                 class="img-fluid" 
                                 alt="${vehicle.vehicleName}" 
                                 style="max-height: 200px; object-fit: contain;">
@@ -94,10 +94,6 @@
                                         <tr>
                                             <th scope="row">顏色</th>
                                             <td>${vehicle.vehicleColor}</td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">車牌號碼</th>
-                                            <td>${vehicle.vehicleLicensePlate}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">燃料類型</th>
@@ -206,7 +202,7 @@
                         <hr class="my-2">
 
                         <!-- 配件提示 -->
-                        <p class="mb-1"><strong>配件選購：</strong>可於下一步頁面選擇 GPS、行車紀錄器或安全座椅，費用將另計。</p>
+                        <p class="mb-1"><strong>配件選購：</strong><br>可於左方頁面選擇 GPS、行車紀錄器或安全座椅，費用將另計。</p>
                         <p class="mb-1 text-muted">※ 本訂單金額僅含車輛租金，保險、加油及其他服務費用未含在內。</p>
                         <p class="mb-0 text-muted">※ 請確認取還車日期與時間，以免影響租期計算。</p>
                 </div>

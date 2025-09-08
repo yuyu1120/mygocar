@@ -43,19 +43,19 @@
             <nav class="mt-2">
                 <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
                     <li class="nav-item">
-                        <a href="/admin/dashboard" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀表板</p></a>
+                        <a href="/admin/dashboard" class="nav-link active"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀表板</p></a>
                     </li>
                     <li class="nav-item">
                         <a href="/admin/member" class="nav-link"><i class="nav-icon fas fa-users"></i><p>會員管理</p></a>
                     </li>
                     <li class="nav-item">
-                        <a href="/admin/vehicle" class="nav-link"><i class="nav-icon fas fa-car"></i><p>車輛管理</p></a>
+                        <a href="/admin/vehicle-manage" class="nav-link"><i class="nav-icon fas fa-car"></i><p>車輛管理</p></a>
                     </li>
                     <li class="nav-item">
                         <a href="/admin/order-manage" class="nav-link"><i class="nav-icon fas fa-receipt"></i><p>訂單管理</p></a>
                     </li>
                     <li class="nav-item">
-                        <a href="/admin/transaction-manage" class="nav-link active"><i class="nav-icon fas fa-credit-card"></i><p>交易管理</p></a>
+                        <a href="/admin/transaction-manage" class="nav-link"><i class="nav-icon fas fa-credit-card"></i><p>交易管理</p></a>
                     </li>
                     <li class="nav-item">
                         <a href="/admin/promotion" class="nav-link"><i class="nav-icon fas fa-tags"></i><p>優惠活動</p></a>
@@ -92,7 +92,7 @@
                         <div class="small-box bg-success">
                             <div class="inner"><h3>54</h3><p>可租車輛</p></div>
                             <div class="icon"><i class="fas fa-car-side"></i></div>
-                            <a href="/admin/vehicle" class="small-box-footer">管理車輛 <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="/admin/vehicle-manage" class="small-box-footer">管理車輛 <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-6">

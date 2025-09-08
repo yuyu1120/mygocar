@@ -1,18 +1,27 @@
 package com.example.mygocar.controller.backend;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.mygocar.dto.OrderDTO;
+import com.example.mygocar.dto.VehicleDTO;
+import com.example.mygocar.model.Order;
 import com.example.mygocar.service.OrderService;
+import com.example.mygocar.service.VehicleService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -25,6 +34,9 @@ public class AdminController {
 
     @Autowired
     private OrderService orderService;
+
+    @Autowired
+    private VehicleService vehicleService;
 
     // 顯示登入頁
     @GetMapping("/login")
@@ -89,6 +101,45 @@ public class AdminController {
         model.addAttribute("orders", orders);
 
         return "backend/order/order-manage";
+    }
+
+
+    @GetMapping("/vehicle-manage")
+    public String vehicle(Model model) {
+
+        // 查詢符合條件的車輛
+        List<VehicleDTO> vehicles = vehicleService.searchAllVehicles();
+
+        // 將資料放入 Model，JSP 使用 EL 呈現
+        model.addAttribute("vehicles", vehicles);
+
+        return "backend/vehicle-manage";
+    }
+
+    // 編輯頁面
+    @GetMapping("/editTransaction")
+    public String editTransaction(@RequestParam String orderId, Model model) {
+        Order order = null;
+        try {
+            order = orderService.getOrderByNumber(orderId);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        model.addAttribute("order", order);
+        return "admin/editTransaction"; // 對應 editTransaction.jsp
+    }
+
+    // 刪除 API
+    @DeleteMapping("/deleteTransaction/{orderId}")
+    @ResponseBody
+    public ResponseEntity<String> deleteTransaction(@PathVariable String orderId) {
+        try {
+            orderService.deleteOrder(orderId);
+            return ResponseEntity.ok("Deleted");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+        }
     }
 
 

@@ -1,4 +1,4 @@
-package com.example.mygocar.dao;
+package com.example.mygocar.daoimpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.example.mygocar.dao.VehicleDAO;
 import com.example.mygocar.dto.VehicleDTO;
 import com.example.mygocar.model.Vehicle;
 
@@ -58,8 +59,8 @@ public class VehicleDAOImpl implements VehicleDAO {
             sql.append(" ORDER BY v.monthprice DESC");
         }
 
-        System.out.println("SQL: " + sql);
-        System.out.println("Params: " + params);
+        // System.out.println("SQL: " + sql);
+        // System.out.println("Params: " + params);
 
         // 執行查詢
         return jdbcTemplate.query(

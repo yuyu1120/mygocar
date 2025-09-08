@@ -43,7 +43,7 @@
                         <a href="/admin/member" class="nav-link"><i class="nav-icon fas fa-users"></i><p>會員管理</p></a>
                     </li>
                     <li class="nav-item">
-                        <a href="/admin/vehicle" class="nav-link"><i class="nav-icon fas fa-car"></i><p>車輛管理</p></a>
+                        <a href="/admin/vehicle-manage" class="nav-link"><i class="nav-icon fas fa-car"></i><p>車輛管理</p></a>
                     </li>
                     <li class="nav-item">
                         <a href="/admin/order-manage" class="nav-link"><i class="nav-icon fas fa-receipt"></i><p>訂單管理</p></a>
