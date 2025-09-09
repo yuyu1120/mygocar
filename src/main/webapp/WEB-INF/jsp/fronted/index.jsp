@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ page session="true" %>
 
 <!DOCTYPE html>
@@ -45,7 +46,7 @@
     <section class="hero">
       <div class="hero-text">
         <h1>
-          MyGo! 優惠租車<br>
+          MyGoCar! 優惠租車<br>
           <span class="highlight">預約・搜尋 GO!GO!</span>
         </h1>
         <img src="/img/bannerpic1.png" class="event" alt="活動圖">
@@ -59,46 +60,55 @@
 
     <!-- 搜尋框 -->
     <section class="search-box">
-      <!-- Tabs -->
-      <div class="search-tabs">
-        <button class="tab active" data-tab="daily">🚗 日租</button>
-        <button class="tab" data-tab="subscribe">📅 訂閱</button>
-      </div>
+      <form id="searchForm" action="${pageContext.request.contextPath}/daily-rental" method="get">
 
-      <!-- 共用：地點 -->
-      <div class="search-field">
-        <i class="fas fa-map-marker-alt"></i>
-        <input type="text" placeholder="輸入地點">
-      </div>
+        <!-- Tabs -->
+        <div class="search-tabs">
+          <button type="button" class="tab active" data-tab="daily">🚗 日租</button>
+          <button type="button" class="tab" data-tab="subscribe">📅 訂閱</button>
+        </div>
 
-      <!-- 日租模式 -->
-      <div class="search-field date-field daily-field">
-        <i class="fas fa-calendar-alt"></i>
-        <label for="start-date">租車日期</label>
-        <input type="date" id="start-date">
-      </div>
+        <!-- 共用：地點 -->
+        <div class="search-field">
+          <i class="fas fa-map-marker-alt"></i>
+          <input type="text" name="location" placeholder="輸入地點"
+                value="${param.location}">
+        </div>
 
-      <div class="search-field date-field daily-field">
-        <i class="fas fa-calendar-alt"></i>
-        <label for="end-date">還車日期</label>
-        <input type="date" id="end-date">
-      </div>
+        <!-- 日租模式 -->
+        <div class="search-field date-field daily-field">
+          <i class="fas fa-calendar-alt"></i>
+          <label for="start-date">租車日期</label>
+          <input type="date" id="start-date" name="startDate"
+                value="${param.startDate}">
+        </div>
 
-      <!-- 訂閱模式 -->
-      <div class="search-field subscribe-field" style="display: none;">
-        <i class="fas fa-calendar-alt"></i>
-        <select>
-          <option value="1">1 個月</option>
-          <option value="3">3 個月</option>
-          <option value="6">6 個月</option>
-          <option value="12">12 個月</option>
-        </select>
-      </div>
+        <div class="search-field date-field daily-field">
+          <i class="fas fa-calendar-alt"></i>
+          <label for="end-date">還車日期</label>
+          <input type="date" id="end-date" name="endDate"
+                value="${param.endDate}">
+        </div>
 
-      <!-- 搜尋按鈕 -->
-      <div class="search-actions">
-        <button class="search-btn">🔍 搜尋</button>
-      </div>
+        <!-- 訂閱模式 -->
+        <div class="search-field subscribe-field" style="display:none;">
+          <i class="fas fa-calendar-alt"></i>
+          <select name="months">
+            <option value="1" ${param.months == '1' ? 'selected' : ''}>1 個月</option>
+            <option value="2" ${param.months == '2' ? 'selected' : ''}>2 個月</option>
+            <option value="3" ${param.months == '3' ? 'selected' : ''}>3 個月</option>
+            <option value="4" ${param.months == '4' ? 'selected' : ''}>4 個月</option>
+            <option value="5" ${param.months == '5' ? 'selected' : ''}>5 個月</option>
+            <option value="6" ${param.months == '6' ? 'selected' : ''}>6 個月</option>
+            <option value="12" ${param.months == '12' ? 'selected' : ''}>12 個月</option>
+          </select>
+        </div>
+
+        <!-- 搜尋按鈕 -->
+        <div class="search-actions">
+          <button type="submit" class="search-btn">🔍 搜尋</button>
+        </div>
+      </form>
     </section>
   </main>
 
@@ -134,7 +144,7 @@
         <p>📧 info@mygocar.com</p>
       </div>
 
-<!-- 社群媒體 -->
+    <!-- 社群媒體 -->
       <div class="footer-social">
         <h4>追蹤我們</h4>
         <div class="social-icons">
@@ -179,6 +189,32 @@
         }
       });
     });
+
+    document.addEventListener("DOMContentLoaded", function() {
+
+      const form = document.getElementById('searchForm');
+      const tabs = document.querySelectorAll('.tab');
+      const dailyFields = document.querySelectorAll('.daily-field');
+      const subscribeFields = document.querySelectorAll('.subscribe-field');
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          const tabType = tab.dataset.tab;
+
+          if (tabType === 'daily') {
+            form.action = "/rental";
+            dailyFields.forEach(f => f.style.display = '');
+            subscribeFields.forEach(f => f.style.display = 'none');
+          } else {
+            form.action = "/search";
+            dailyFields.forEach(f => f.style.display = 'none');
+            subscribeFields.forEach(f => f.style.display = '');
+          }
+        });
+      });
+    })
   </script>
 </body>
 </html>

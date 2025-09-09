@@ -13,7 +13,7 @@
     <!-- 導航列 -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-success">
         <div class="container">
-            <a class="navbar-brand" href="${pageContext.request.contextPath}/search/rental_search.jsp">
+            <a class="navbar-brand" href="/index">
                 <i class="fas fa-store"></i> MYCAR
             </a>
             <div class="navbar-nav ms-auto">
@@ -24,10 +24,10 @@
                     <span class="navbar-text me-3">
                         <i class="fas fa-user"></i> 歡迎，<%= loggedInUser %>
                     </span>
-                    <a class="nav-link" href="${pageContext.request.contextPath}/search/rental_search.jsp">
+                    <a class="nav-link" href="/search">
                         <i class="fas fa-shopping-bag"></i> 回到搜尋租車
                     </a>
-                    <a class="nav-link" href="${pageContext.request.contextPath}/login.jsp?action=logout">
+                    <a class="nav-link" href="/logout">
                         <i class="fas fa-sign-out-alt"></i> 登出
                     </a>
                 <% } %>
@@ -94,7 +94,7 @@
 
                         <!-- 操作按鈕 -->
                         <div class="d-grid gap-2 d-md-flex justify-content-center">
-                            <a href="${pageContext.request.contextPath}/search/rental_search.jsp" class="btn btn-primary btn-lg">
+                            <a href="/search" class="btn btn-primary btn-lg">
                                 <i class="fas fa-shopping-bag"></i> 回到搜尋租車
                             </a>
                             <button class="btn btn-outline-secondary btn-lg" onclick="window.print()">
