@@ -6,9 +6,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-    @GetMapping("/")
+    @GetMapping("/index")
     public String index() {
         return "fronted/index";  // → /WEB-INF/jsp/fronted/index.jsp
+    }
+    @GetMapping("/")
+    public String indexlogin() {
+        return "fronted/indexlogin";  // → /WEB-INF/jsp/fronted/index.jsp
     }
 
     @GetMapping("/aboutus")
@@ -29,5 +33,12 @@ public class IndexController {
     @GetMapping("/member")
     public String member() {
         return "fronted/member"; 
+    }
+
+     @GetMapping("/teamwk")
+    public String teamwk() {
+    
+        return "fronted/teamwk"; 
+        
     }
 }
