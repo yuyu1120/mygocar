@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -77,7 +79,7 @@ public class AdminController {
         return "redirect:/backend/login";
     }
 
-
+    //
     @GetMapping("/transaction-manage")
     public String transaction(Model model) {
 
@@ -116,7 +118,7 @@ public class AdminController {
         return "backend/vehicle-manage";
     }
 
-    // 編輯頁面
+    // 交易管理 編輯頁面
     @GetMapping("/editTransaction")
     public String editTransaction(@RequestParam String orderId, Model model) {
         Order order = null;
@@ -130,7 +132,7 @@ public class AdminController {
         return "admin/editTransaction"; // 對應 editTransaction.jsp
     }
 
-    // 刪除 API
+    // 交易管理  刪除 API
     @DeleteMapping("/deleteTransaction/{orderId}")
     @ResponseBody
     public ResponseEntity<String> deleteTransaction(@PathVariable String orderId) {
@@ -141,6 +143,51 @@ public class AdminController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
         }
     }
+
+
+    // 訂單管理  更新 API
+    // @GetMapping("/admin/updateTransaction")
+    // @ResponseBody
+    // public ResponseEntity<String> updateTransaction(@PathVariable String orderId) {
+    //     try {
+    //         // orderService.updateOrderStatus(orderId);
+    //         return ResponseEntity.ok("Updated");
+    //     } catch (Exception e) {
+    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
+    //     }
+    // }
+
+
+
+    @PostMapping("/addVehicle")
+    @ResponseBody
+    public ResponseEntity<String> addVehicle(@RequestBody VehicleDTO vehicle, Model model){
+        System.out.println("新增車輛");
+        boolean success = vehicleService.addVehicle(vehicle);
+        if (success) {
+            return ResponseEntity.ok("新增成功");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("新增失敗");
+        }
+    }
+
+    @PostMapping("/updateVehicle")
+    @ResponseBody
+    public ResponseEntity<String> updateVehicle(@RequestBody VehicleDTO vehicle, Model model){
+        
+        String vehicleID = vehicle.getVehicleId();
+        System.out.println("更新車輛：" + vehicleID);
+        boolean success = vehicleService.updateVehicle(vehicleID, vehicle);
+        if (success) {
+            return ResponseEntity.ok("更新成功");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                                 .body("更新失敗");
+        }
+    }
+    
+    
 
 
 }

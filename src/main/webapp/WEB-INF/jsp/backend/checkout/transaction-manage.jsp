@@ -104,9 +104,9 @@
                 <td>${order.status}</td>
                 <td>linepay</td>
                 <td>
-                    <a href="editTransaction.jsp?orderId=${order.orderId}" class="btn btn-sm btn-primary">
+                    <%-- <a href="editTransaction.jsp?orderId=${order.orderId}" class="btn btn-sm btn-primary">
                         <i class="fas fa-edit"></i> 編輯
-                    </a>
+                    </a> --%>
                     <button onclick="confirmDelete(${order.orderId})" class="btn btn-sm btn-danger">
                     <i class="fas fa-trash"></i> 刪除
                     </button>

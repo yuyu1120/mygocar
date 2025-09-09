@@ -85,10 +85,18 @@
                                 <th>車輛編號</th>
                                 <th>名稱</th>
                                 <th>品牌</th>
+                                <th>地點</th>
+                                <th>出廠年份</th>
+                                <th>顏色</th>
                                 <th>價格(月租)</th>
+                                <th>價格(日租)</th>
+                                <th>價格(公里)</th>
                                 <th>數量</th>
+                                <th>描述</th>
+                                <th>圖片</th>
                                 <th>操作</th>
                             </tr>
+
                             </thead>
                             <tbody>
                                 <c:forEach items="${vehicles}" var="v">
@@ -96,8 +104,19 @@
                                         <td>${v.vehicleId}</td>
                                         <td class="editable" data-field="vehicleName">${v.vehicleName}</td>
                                         <td class="editable" data-field="vehicleBrand">${v.vehicleBrand}</td>
+                                        <td class="editable" data-field="vehicleLocation">${v.vehicleLocation}</td>
+                                        <td class="editable" data-field="vehicleYear">${v.vehicleYear}</td>
+                                        <td class="editable" data-field="vehicleColor">${v.vehicleColor}</td>
                                         <td class="editable" data-field="monthPrice">${v.monthPrice}</td>
-                                        <td class="editable" data-field="status">${v.quantity}</td>
+                                        <td class="editable" data-field="dayPrice">${v.dayPrice}</td>
+                                        <td class="editable" data-field="hourPrice">${v.hourPrice}</td>
+                                        <td class="editable" data-field="quantity">${v.quantity}</td>
+                                        <td class="editable" data-field="vehicleDescription">${v.vehicleDescription}</td>
+                                        <td>
+                                            <img src="/img/cars/${v.vehicleImage}" alt="圖片" style="width:80px; height:auto;">
+                                            <br>
+                                            <button class="btn btn-sm btn-info change-photo-btn">更換圖片</button>
+                                        </td>
                                         <td>
                                             <button class="btn btn-sm btn-primary edit-btn"><i class="fas fa-edit"></i> 編輯</button>
                                             <button class="btn btn-sm btn-success save-btn d-none"><i class="fas fa-save"></i> 儲存</button>
@@ -105,6 +124,7 @@
                                             <button class="btn btn-sm btn-danger delete-btn"><i class="fas fa-trash"></i> 刪除</button>
                                         </td>
                                     </tr>
+
                                 </c:forEach>
                             </tbody>
                         </table>
@@ -124,16 +144,63 @@
         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
       </div>
       <div class="modal-body">
-        <div class="form-group"><label>名稱</label><input type="text" name="vehicleName" class="form-control" required></div>
-        <div class="form-group"><label>品牌</label><input type="text" name="vehicleBrand" class="form-control" required></div>
-        <div class="form-group"><label>價格(月租)</label><input type="number" name="monthPrice" class="form-control" required></div>
-        <div class="form-group"><label>狀態</label>
+        <div class="form-group">
+            <label>車輛編號</label>
+            <input type="text" name="vehicleId" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>名稱</label>
+            <input type="text" name="vehicleName" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>品牌</label>
+            <input type="text" name="vehicleBrand" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>地點</label>
+            <input type="text" name="vehicleLocation" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>價格(月租)</label>
+            <input type="number" name="monthPrice" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>價格(日租)</label>
+            <input type="number" name="dayPrice" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>價格(公里)</label>
+            <input type="number" name="hourPrice" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>描述</label>
+            <textarea name="vehicleDescription" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label>出廠年份</label>
+            <input type="text" name="vehicleYear" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>照片連結</label>
+            <input type="text" name="vehicleImage" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>顏色</label>
+            <input type="text" name="vehicleColor" class="form-control">
+        </div>
+        <div class="form-group">
+            <label>數量</label>
+            <input type="number" name="quantity" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>狀態</label>
             <select name="status" class="form-control">
                 <option value="可租借">可租借</option>
                 <option value="維修中">維修中</option>
             </select>
         </div>
-      </div>
+    </div>
+
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary">新增</button>
         <button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
@@ -164,7 +231,7 @@
             const row = this.closest('tr');
             row.querySelectorAll('.editable').forEach(td => {
                 const text = td.textContent.trim();
-                td.innerHTML = `<input type="text" class="form-control form-control-sm" value="${text}">`;
+                td.innerHTML = `<input type="text" class="form-control form-control-sm" value="\${text}">`;
             });
             row.querySelector('.edit-btn').classList.add('d-none');
             row.querySelector('.delete-btn').classList.add('d-none');
@@ -195,18 +262,24 @@
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             })
-            .then(resp => resp.ok ? resp.json() : Promise.reject("更新失敗"))
-            .then(() => location.reload())
-            .catch(err => alert(err));
+            .then(resp => resp.text())  // <-- 改成 text()
+            .then(msg => {
+                alert(msg);             // <-- 顯示後端回傳訊息 (更新成功/失敗)
+                if (msg.includes("成功")) {
+                    location.reload();
+                }
+            })
+            .catch(err => alert("更新失敗：" + err));
         });
     });
+
 
     // 刪除
     document.querySelectorAll('.delete-btn').forEach(btn => {
         btn.addEventListener('click', function() {
             const id = this.closest('tr').dataset.id;
-            if(confirm(`確定刪除車輛 ${id}？`)) {
-                fetch(`/admin/deleteVehicle/${id}`, { method: 'DELETE' })
+            if(confirm(`確定刪除車輛 \${id}？`)) {
+                fetch(`/admin/deleteVehicle/\${id}`, { method: 'DELETE' })
                 .then(resp => resp.ok ? location.reload() : alert("刪除失敗"));
             }
         });

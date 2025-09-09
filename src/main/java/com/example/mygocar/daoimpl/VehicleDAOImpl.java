@@ -19,6 +19,74 @@ public class VehicleDAOImpl implements VehicleDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+     //車輛管理  新增
+    @Override
+    public int insert(VehicleDTO vehicleDTO) {
+        String sql ="UPDATE vehicle SET " +
+                    "name = COALESCE(NULLIF(?, ''), name), " +
+                    "brand = COALESCE(NULLIF(?, ''), brand), " +
+                    "place = COALESCE(NULLIF(?, ''), place), " +
+                    "monthprice = COALESCE(NULLIF(?, 0), monthprice), " +
+                    "dayprice = COALESCE(NULLIF(?, 0), dayprice), " +
+                    "price_km = COALESCE(NULLIF(?, 0), price_km), " +
+                    "description = COALESCE(NULLIF(?, ''), description), " +
+                    "productyear = COALESCE(NULLIF(?, ''), productyear), " +
+                    "photo = COALESCE(NULLIF(?, ''), photo), " +
+                    "color = COALESCE(NULLIF(?, ''), color), " +
+                    "quantity = COALESCE(NULLIF(?, 0), quantity) " +
+                    "WHERE vehicleID = ?";
+
+        return jdbcTemplate.update(sql,
+            vehicleDTO.getVehicleId(),
+            vehicleDTO.getVehicleName(),
+            vehicleDTO.getVehicleBrand(),
+            vehicleDTO.getVehicleLocation(),
+            vehicleDTO.getMonthPrice(),
+            vehicleDTO.getDayPrice(),
+            vehicleDTO.getHourPrice(),   // price_km
+            vehicleDTO.getVehicleDescription(),
+            vehicleDTO.getVehicleYear(),
+            vehicleDTO.getVehicleImage(),
+            vehicleDTO.getVehicleColor(),
+            vehicleDTO.getQuantity()
+        );
+    }
+
+    //車輛管理  更新
+    @Override
+    public int update(String vehicleID, VehicleDTO vehicleDTO) {
+        String sql = "UPDATE vehicle SET " +
+                "name = ?, " +
+                "brand = ?, " +
+                "place = ?, " +
+                "monthprice = ?, " +
+                "dayprice = ?, " +
+                "price_km = ?, " +
+                "description = ?, " +
+                "productyear = ?, " +
+                "photo = ?, " +
+                "color = ?, " +
+                "quantity = ? " +
+                "WHERE vehicleID = ?";
+
+        return jdbcTemplate.update(sql,
+            vehicleDTO.getVehicleName(),
+            vehicleDTO.getVehicleBrand(),
+            vehicleDTO.getVehicleLocation(),
+            vehicleDTO.getMonthPrice(),
+            vehicleDTO.getDayPrice(),
+            vehicleDTO.getHourPrice(),   // price_km
+            vehicleDTO.getVehicleDescription(),
+            vehicleDTO.getVehicleYear(),
+            vehicleDTO.getVehicleImage(),
+            vehicleDTO.getVehicleColor(),
+            vehicleDTO.getQuantity(),
+            vehicleID   // 👉 這裡才是 WHERE 的參數
+        );
+    }
+
+    
+
     @Override
     public List<VehicleDTO> findAvailableVehicles(String startDate, String endDate, String location, int budget, String sort) {
         // SQL 主體
