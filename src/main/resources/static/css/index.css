@@ -70,6 +70,238 @@ ul {
   border-radius: 2px;
 }
 
+
+/* frank */
+
+                input[type="password"]::-ms-reveal,
+                input[type="password"]::-ms-clear,
+                input[type="password"]::-webkit-credentials-auto-fill-button,
+                input[type="password"]::-webkit-clear-button {
+                    display: none;
+                }
+
+                body {
+                    background-color: blanchedalmond;
+                }
+
+
+
+                .bodyClose {}
+
+                .modal-background {
+                    display: none;
+                    /* 預設不顯示 */
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    background-color: rgba(0, 0, 0, 0.5);
+                    /* 半透明黑色 */
+                    justify-content: center;
+                    align-items: center;
+                }
+
+                /* 中間白色彈窗 */
+                .modal-content {
+                    background: white;
+                    padding: 20px;
+                    border-radius: 10px;
+                    width: 600px;
+                    text-align: center;
+                }
+
+                /* authCSS */
+                .auth-section {
+                    padding: 7em 0;
+                    position: relative;
+                }
+
+                #auth-container {
+                    display: grid;
+                    grid-template-areas:
+                        "sidebar content";
+                    grid-template-columns: 200px 500px;
+                    justify-content: center;
+                    align-content: center;
+                    height: 50vh;
+
+
+                }
+
+                .auth-sidebar {
+                    grid-area: sidebar;
+                    background-color: rgb(4, 117, 79);
+                    display: flex;
+                    justify-content: flex-end;
+
+                    align-items: center;
+                    height: 500px;
+                }
+
+                .auth-card {
+                    display: flex;
+
+                    flex-direction: column;
+                    gap: 30px;
+
+
+
+                }
+
+                #login {
+
+
+                    width: 130px;
+                    text-align: center;
+                    border-bottom-left-radius: 30px;
+                    border-top-left-radius: 30px;
+
+
+                }
+
+                #sign {
+
+
+                    width: 130px;
+                    text-align: center;
+                    border-bottom-left-radius: 30px;
+                    border-top-left-radius: 30px;
+
+
+                }
+
+                .auth-content {
+                    grid-area: content;
+                    background-color: white;
+                    height: 500px;
+                }
+
+                #login-content {}
+
+                #sign-content {
+                    /* display: none;  */
+                }
+
+
+                /* 三個圓點與線條 */
+                .step-dots {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 40px;
+                    /* 圓點間距 */
+                    position: relative;
+                }
+
+
+
+                .step-dots .dot {
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 50%;
+                    background: #dee2e6;
+                    z-index: 1;
+                }
+
+                .step {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    position: relative;
+                }
+
+                /* 線條 */
+                .dotLine {
+                    position: absolute;
+                    top: 10px;
+                    /* 與圓心對齊 */
+                    width: 100px;
+                    height: 2px;
+                    background: #dee2e6;
+                    /* 預設灰色 */
+                    z-index: 0;
+                }
+
+                .active {
+                    background-color: green !important;
+                }
+
+                .sys-font {
+                    color: #9ca3af;
+
+                }
+
+                .step-font {
+                    font-weight: bold;
+                }
+
+                .left {
+                    left: -70px;
+                }
+
+                dd .line {
+                    border-top: 2px solid black;
+
+                }
+
+                .emailBtn {
+                    border: 2px solid #ccc;
+                    width: 60px;
+                    height: 60px;
+                    border-radius: 3px
+                }
+
+                .btn-absolute {
+                    position: absolute;
+                    left: 0px;
+                    top: 8px;
+                }
+
+                .auth-content input {
+                    background-color: transparent;
+
+                }
+
+                .auth-content input:focus {
+                    outline: none;
+                    box-shadow: none;
+
+                }
+
+                .btn-absolute1 {
+                    position: absolute;
+                    right: 5px;
+                    top: 0px;
+                }
+
+                .inputRelative {
+                    position: relative;
+
+                }
+
+                .hide {
+                    display: none;
+                }
+
+                .backgroudshow {
+                    background-color: white;
+                }
+
+                .colorwhite {
+                    color: white;
+                }
+
+                #textbtn {
+                    background-color: red;
+                    position: absolute;
+                    bottom: 350px;
+                    left: 310px;
+                    height: 100px;
+                    width: 100px;
+                }
+
+
 /* RWD 手機版 nav */
 @media (max-width: 768px) {
   .nav-links {
