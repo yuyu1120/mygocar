@@ -131,7 +131,6 @@ public class OrderService {
         
         int affectedRow = orderDAO.updateStatus(orderId, status, transactionId);
         
-    
     }
 
     public String deleteOrder(String orderId){

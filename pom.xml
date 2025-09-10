@@ -10,7 +10,6 @@
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>mygocar</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 
 	<packaging>war</packaging>
 

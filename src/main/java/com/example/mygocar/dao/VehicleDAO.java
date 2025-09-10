@@ -13,4 +13,8 @@ public interface VehicleDAO {
     VehicleDTO getVehicleDTOById(String vehicleId);
 
     Vehicle getVehicleById(String vehicleId);
+
+    int insert(VehicleDTO vehicleDTO);
+    
+    int update(String vehicleID, VehicleDTO vehicleDTO);
 }

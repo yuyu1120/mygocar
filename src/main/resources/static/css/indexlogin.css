@@ -90,11 +90,16 @@ ul {
   border: 2px solid #4682a9;
   background: #fff;         /* 預設白底 */
   color: #4682a9;
+  width: 80px;
+  height: 40px;
+  border-radius: 8px;
 }
 
 .nav-auth .btnlogin:hover {
   background: #4682a9;
   color: #fff;
+  
+  
 }
 
 /* 註冊按鈕 */
@@ -102,6 +107,9 @@ ul {
   background: #4682a9;
   border: 2px solid #4682a9; /* 補上邊框，避免大小不一 */
   color: #fff;
+  width: 80px;
+  height: 40px;
+  border-radius: 8px;
 }
 
 .nav-auth .btnapply:hover {

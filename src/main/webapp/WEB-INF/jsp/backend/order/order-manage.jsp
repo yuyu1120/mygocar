@@ -109,7 +109,7 @@
                                             <td class="view-mode editable" data-field="borrowLocation">${order.borrowLocation}</td>
                                             <td class="view-mode editable" data-field="returnLocation">${order.returnLocation}</td>
                                             <td>
-                                                <button class="btn btn-sm btn-primary edit-btn">
+                                                <%-- <button class="btn btn-sm btn-primary edit-btn">
                                                     <i class="fas fa-edit"></i> 編輯
                                                 </button>
                                                 <button class="btn btn-sm btn-success save-btn d-none">
@@ -117,7 +117,7 @@
                                                 </button>
                                                 <button class="btn btn-sm btn-secondary cancel-btn d-none">
                                                     <i class="fas fa-times"></i> 取消
-                                                </button>
+                                                </button> --%>
                                                 <button class="btn btn-sm btn-danger delete-btn">
                                                     <i class="fas fa-trash"></i> 刪除
                                                 </button>
@@ -217,8 +217,10 @@ document.addEventListener('DOMContentLoaded', function() {
         btn.addEventListener('click', function() {
             const row = this.closest('tr');
             const orderId = row.dataset.id;
-            if(confirm(`確定刪除訂單 ${orderId}？`)) {
-                fetch(`/admin/deleteTransaction/${orderId}`, { method: 'DELETE' })
+            console.log(row);
+            console.log(orderId);
+            if(confirm(`確定刪除訂單 \${orderId}？`)) {
+                fetch(`/admin/deleteTransaction/\${orderId}`, { method: 'DELETE' })
                 .then(resp => {
                     if (resp.ok) {
                         row.remove();

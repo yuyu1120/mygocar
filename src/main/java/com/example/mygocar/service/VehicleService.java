@@ -17,6 +17,14 @@ public class VehicleService {
         this.vehicleDAO = vehicleDAO;
     }
 
+    public boolean addVehicle(VehicleDTO vehicle) {
+        return vehicleDAO.insert(vehicle) > 0;
+    }
+
+    public boolean updateVehicle(String vehicleID, VehicleDTO vehicle) {
+        return vehicleDAO.update(vehicleID, vehicle) > 0;
+    }
+
     public List<VehicleDTO> searchVehicles(String startDate, String endDate, String location, int budget, String sort, String period) {
         
         return vehicleDAO.findAvailableVehicles(startDate, endDate, location, budget, sort);
