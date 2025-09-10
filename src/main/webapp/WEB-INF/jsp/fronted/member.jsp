@@ -124,9 +124,36 @@
         </div>
 
         <div id="profile" class="content-section" style="display:none;">
-            <h2>帳號管理</h2>
-            <p>這裡放帳號管理內容</p>
+          <h2>帳號管理</h2>
+
+          <div class="profile-card">
+            <img src="/img/members/${member.photo_url}" class="card-img-top" alt="會員圖片">
+
+            <div class="info-section">
+              <h3>👤 個人資訊</h3>
+              <div class="info-row"><span>姓名：</span><span>${member.name}</span></div>
+              <div class="info-row"><span>性別：</span><span>${member.gender}</span></div>
+              <div class="info-row"><span>生日：</span><span>${member.birthday}</span></div>
+              <div class="info-row"><span>地址：</span><span>${member.address}</span></div>
+            </div>
+
+            <div class="info-section">
+              <h3>📞 聯絡方式</h3>
+              <div class="info-row"><span>Email：</span><span>${member.email}</span></div>
+              <div class="info-row"><span>電話：</span><span>${member.phone}</span></div>
+            </div>
+
+            <div class="info-section">
+              <h3>⚙️ 系統資訊</h3>
+              <div class="info-row"><span>帳號：</span><span>${member.account}</span></div>
+              <div class="info-row"><span>角色：</span><span>${member.role}</span></div>
+              <div class="info-row"><span>註冊時間：</span><span>${member.create_Time}</span></div>
+            </div>
+          </div>
         </div>
+
+
+
     </main>
 
     </div>

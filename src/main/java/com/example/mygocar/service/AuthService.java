@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.example.mygocar.daoimpl.MemberDAOImpl;
 import com.example.mygocar.dto.MemberDTO;
 import com.example.mygocar.dto.ValidationResult;
+import com.example.mygocar.model.Member;
 
 @Service
 public class AuthService {
@@ -53,6 +54,10 @@ public class AuthService {
     //透過account取的memeberid
     public int getIdByAccount(String account){
         return memberDAO.findByAccount(account).getId();
-
     }
+
+    public Member findByAccount(String account){
+        return memberDAO.findByAccount(account);
+    }
+
 }

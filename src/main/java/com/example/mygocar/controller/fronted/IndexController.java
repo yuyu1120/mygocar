@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.mygocar.dto.OrderDTO;
+import com.example.mygocar.model.Member;
 import com.example.mygocar.service.AuthService;
 import com.example.mygocar.service.OrderService;
 
@@ -70,7 +71,11 @@ public class IndexController {
         String memberId = String.valueOf(authService.getIdByAccount((String)user));
         List<OrderDTO> orders = orderService.getOrdersByUser(memberId);
 
+        Member member = authService.findByAccount((String)user);
+
+
         model.addAttribute("orders", orders);
+        model.addAttribute("member", member);
 
         return "fronted/member"; // 對應 /WEB-INF/jsp/member.jsp
     }
