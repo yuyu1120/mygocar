@@ -144,4 +144,8 @@ public class OrderService {
         return orderDAO.getAllOrders();
     }
 
+    public List<OrderDTO> getOrdersByUser(String account){
+        return orderDAO.getOrdersByUser(account);
+    }
+
 }

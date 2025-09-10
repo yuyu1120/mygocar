@@ -49,4 +49,10 @@ public class AuthService {
         // 全部驗證通過
         return new ValidationResult(true, "OK");
     }
+
+    //透過account取的memeberid
+    public int getIdByAccount(String account){
+        return memberDAO.findByAccount(account).getId();
+
+    }
 }

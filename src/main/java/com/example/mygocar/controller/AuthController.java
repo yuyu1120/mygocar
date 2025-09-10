@@ -40,7 +40,7 @@ public class AuthController {
         this.mailService = mailService;
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/loginn")
     @ResponseBody
     public String login(@RequestParam("account") String account, @RequestParam("password") String password,
             HttpSession session, Model model) {

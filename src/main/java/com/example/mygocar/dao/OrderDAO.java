@@ -19,4 +19,6 @@ public interface OrderDAO {
 
     int updateStatus(String orderId, String status, String transactionId);
 
+    List<OrderDTO> getOrdersByUser(String account);
+
 }

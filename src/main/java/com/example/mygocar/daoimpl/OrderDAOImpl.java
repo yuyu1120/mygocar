@@ -27,11 +27,36 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public List<OrderDTO> getAllOrders(){
-        System.out.println("DAO");
         String sql = "SELECT * FROM orders";
 
         return jdbcTemplate.query(
             sql,
+            (rs, rowNum) -> {
+                OrderDTO dto = new OrderDTO();
+                dto.setVehicleId(rs.getString("vehicle_id"));
+                dto.setOrderId(rs.getString("order_id"));
+                dto.setMemberId(rs.getInt("member_id"));
+                dto.setStatus(rs.getString("status"));
+                dto.setTotalPrice(rs.getBigDecimal("total_price"));
+                dto.setCreateAt(rs.getTimestamp("created_at"));
+                dto.setBorrowLocation(rs.getString("borrow_location"));
+                dto.setReturnLocation(rs.getString("return_location"));
+                dto.setBorrowDatetime(rs.getTimestamp("borrow_datetime"));
+                dto.setReturnDatetime(rs.getTimestamp("return_datetime"));
+                dto.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
+                return dto;
+            }
+        );
+    }
+
+    public List<OrderDTO> getOrdersByUser(String account){
+        String sql = "SELECT * FROM orders where member_id = ?";
+        List<Object> params = new ArrayList<>();
+        params.add(account);
+
+        return jdbcTemplate.query(
+            sql,
+             params.toArray(),
             (rs, rowNum) -> {
                 OrderDTO dto = new OrderDTO();
                 dto.setVehicleId(rs.getString("vehicle_id"));
@@ -63,6 +88,7 @@ public class OrderDAOImpl implements OrderDAO {
 
         List<OrderDTO> results = jdbcTemplate.query(
             sql,
+            params.toArray(),
             (rs, rowNum) -> {
                 OrderDTO dto = new OrderDTO();
                 dto.setVehicleId(rs.getString("vehicle_id"));
@@ -145,7 +171,15 @@ public class OrderDAOImpl implements OrderDAO {
         order.setStatus(rs.getString("status"));
         order.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
         order.setCreateAt(rs.getTimestamp("created_at"));
+        
+        // 依照你的 OrderDTO 再補上這些欄位
+        order.setBorrowLocation(rs.getString("borrow_location"));
+        order.setReturnLocation(rs.getString("return_location"));
+        order.setBorrowDatetime(rs.getTimestamp("borrow_datetime"));
+        order.setReturnDatetime(rs.getTimestamp("return_datetime"));
+
         return order;
     };
+
 
 }

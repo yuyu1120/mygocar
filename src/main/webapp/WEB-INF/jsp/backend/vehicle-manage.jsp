@@ -114,8 +114,8 @@
                                         <td class="editable" data-field="vehicleDescription">${v.vehicleDescription}</td>
                                         <td>
                                             <img src="/img/cars/${v.vehicleImage}" alt="圖片" style="width:80px; height:auto;">
-                                            <br>
-                                            <button class="btn btn-sm btn-info change-photo-btn">更換圖片</button>
+                                            <%-- <br>
+                                            <button class="btn btn-sm btn-info change-photo-btn">更換圖片</button> --%>
                                         </td>
                                         <td>
                                             <button class="btn btn-sm btn-primary edit-btn"><i class="fas fa-edit"></i> 編輯</button>

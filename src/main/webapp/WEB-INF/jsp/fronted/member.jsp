@@ -1,5 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
 <%@ page session="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt" %>
+
 
 <!DOCTYPE html>
 <html lang="zh-Hant">
@@ -52,93 +55,130 @@
 
     <div class="member-layout">
     
-    <!-- 側邊欄 -->
-    <aside class="sidebar">
-      <div class="profile-box">
-        <p><strong>白金會員</strong></p>
-        <p>小美</p>
-      </div>
-
-      <ul class="menu">
-        <li class="active"><a href="#">我的訂單</a></li>
-        <li><a href="#">付款方式</a></li>
-        <li><a href="#">收藏清單</a></li>
-        <li><a href="#">帳號管理</a></li>
-        <li><a href="#">登出</a></li>
-      </ul>
-
-      <div class="sidebar-footer">
-        <img src="/img/car.png" alt="Car" class="car-img">
-      </div>
-    </aside>
-
-    <!-- 主內容區 -->
-    <main class="content">
-      <div class="card">
-        <h2>我的訂單</h2>
-        <div class="tabs">
-          <button class="tab active">日租</button>
-          <button class="tab">訂閱</button>
+      <!-- 側邊欄 -->
+      <aside class="sidebar">
+        <div class="profile-box">
+            <p><strong>會員</strong></p>
+            <p>${username}</p>
         </div>
 
-        <div class="order-list empty">
+        <ul class="menu">
+            <li><button class="sidebar-btn active" data-target="orders">我的訂單</button></li>
+            <li><button class="sidebar-btn" data-target="profile">帳號管理</button></li>
+            <li><button onclick="location.href='/logout'">登出</button></li>
+        </ul>
 
-          <p>目前沒有訂單資料哦！</p>
-          <button class="btn-primary">前往訂車</button>
+        <div class="sidebar-footer">
+            <img src="/img/car.png" alt="Car" class="car-img">
         </div>
-      </div>
+      </aside>
+
+
+      <!-- 主內容區 -->
+      <main class="content">
+        <div id="orders" class="content-section">
+            <h2>我的訂單</h2>
+            <!-- 訂單表格或空狀態 -->
+            <div class="tabs">
+                <button class="tab active" data-tab="daily">日租</button>
+                <button class="tab" data-tab="subscribe">訂閱</button>
+            </div>
+            <c:choose>
+                <c:when test="${not empty orders}">
+                    <table class="order-table">
+                        <thead>
+                            <tr>
+                                <th>訂單編號</th>
+                                <th>車輛ID</th>
+                                <th>會員ID</th>
+                                <th>總價</th>
+                                <th>狀態</th>
+                                <th>借車時間</th>
+                                <th>還車時間</th>
+                                <th>借車地點</th>
+                                <th>還車地點</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="order" items="${orders}">
+                                <tr>
+                                    <td>${order.orderId}</td>
+                                    <td>${order.vehicleId}</td>
+                                    <td>${order.memberId}</td>
+                                    <td>${order.totalPrice}</td>
+                                    <td>${order.status}</td>
+                                    <td><fmt:formatDate value="${order.borrowDatetime}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                    <td><fmt:formatDate value="${order.returnDatetime}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                    <td>${order.borrowLocation}</td>
+                                    <td>${order.returnLocation}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </c:when>
+                <c:otherwise>
+                    <p>目前沒有訂單資料哦！</p>
+                    <a href="/" class="btn-primary">前往訂車</a>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
+        <div id="profile" class="content-section" style="display:none;">
+            <h2>帳號管理</h2>
+            <p>這裡放帳號管理內容</p>
+        </div>
     </main>
 
-  </div>
-    </main>
+    </div>
+  </main>
 
     <!-- Footer -->
     <footer class="footer">
-    <div class="footer-container">
-        <!-- 公司資訊 -->
-        <div class="footer-about">
-        <h3>MyGoCar租車</h3>
-        <p>
-            提供全天候、安全可靠的出租車與租車服務。<br>
-            以顧客滿意為第一優先，讓您隨時隨地安心出行。
-        </p>
-        </div>
+      <div class="footer-container">
+          <!-- 公司資訊 -->
+          <div class="footer-about">
+          <h3>MyGoCar租車</h3>
+          <p>
+              提供全天候、安全可靠的出租車與租車服務。<br>
+              以顧客滿意為第一優先，讓您隨時隨地安心出行。
+          </p>
+          </div>
 
-        <!-- 快速連結 -->
-        <div class="footer-links">
-        <h4>快速連結</h4>
-        <ul>
-            <li><a href="#">首頁</a></li>
-            <li><a href="#">服務項目</a></li>
-            <li><a href="#">車型介紹</a></li>
-            <li><a href="#">線上預約</a></li>
-            <li><a href="#">常見問題</a></li>
-        </ul>
-        </div>
+          <!-- 快速連結 -->
+          <div class="footer-links">
+          <h4>快速連結</h4>
+          <ul>
+              <li><a href="#">首頁</a></li>
+              <li><a href="#">服務項目</a></li>
+              <li><a href="#">車型介紹</a></li>
+              <li><a href="#">線上預約</a></li>
+              <li><a href="#">常見問題</a></li>
+          </ul>
+          </div>
 
-        <!-- 聯絡方式 -->
-        <div class="footer-contact">
-        <h4>聯絡我們</h4>
-        <p>📍 台北市中正區XX路100號</p>
-        <p>📞 02-1234-5678</p>
-        <p>📧 info@mygocar.com</p>
-        </div>
+          <!-- 聯絡方式 -->
+          <div class="footer-contact">
+          <h4>聯絡我們</h4>
+          <p>📍 台北市中正區XX路100號</p>
+          <p>📞 02-1234-5678</p>
+          <p>📧 info@mygocar.com</p>
+          </div>
 
-<!-- 社群媒體 -->
-      <div class="footer-social">
-        <h4>追蹤我們</h4>
-        <div class="social-icons">
-          <a href="teamwk" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="teamwk" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="teamwk" target="_blank"><i class="fab fa-line"></i></a>
+      <!-- 社群媒體 -->
+        <div class="footer-social">
+          <h4>追蹤我們</h4>
+          <div class="social-icons">
+            <a href="teamwk" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="teamwk" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="teamwk" target="_blank"><i class="fab fa-line"></i></a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 版權 -->
-    <div class="footer-bottom">
-        <p>&copy; 2025 MyGoCar租車. All rights reserved.</p>
-    </div>
+      <!-- 版權 -->
+      <div class="footer-bottom">
+          <p>&copy; 2025 MyGoCar租車. All rights reserved.</p>
+      </div>
     </footer>
 
     <!-- Scripts -->
@@ -167,6 +207,28 @@
             dailyFields.forEach(f => f.style.display = "none");
             subscribeField.style.display = "flex";
         }
+        });
+    });
+
+    // 側邊欄按鈕切換內容
+    const sidebarBtns = document.querySelectorAll('.sidebar-btn');
+    const sections = document.querySelectorAll('.content-section');
+
+    sidebarBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // 切換 active 樣式
+            sidebarBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // 顯示對應內容
+            const targetId = btn.getAttribute('data-target');
+            sections.forEach(sec => {
+                if(sec.id === targetId) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
         });
     });
     </script>
