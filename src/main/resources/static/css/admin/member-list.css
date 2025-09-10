@@ -1,0 +1,80 @@
+             .member-list-container {
+                    display: grid;
+                    grid-template-areas:
+                        "sidebar    content"
+                    ;
+
+                    grid-template-columns: 300px 900px;
+                    grid-template-rows: 900px;
+
+                    justify-content: center;
+
+                    align-content: center;
+
+
+                }
+
+                .sidebar {
+                    grid-area: sidebar;
+                    
+
+
+                }
+
+                .content {
+                    grid-area: content;
+                    background-color: rgb(176, 210, 26);
+                }
+
+                /* 主內容區 */
+                .main {
+                    flex: 1;
+                    padding: 40px;
+                    background-color: #fff;
+                }
+
+                .main h1 {
+                    color: #2f4050;
+                    margin-bottom: 30px;
+                }
+
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    background-color: white;
+                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                }
+
+                th,
+                td {
+                    padding: 12px 16px;
+                    border-bottom: 1px solid #ddd;
+                    text-align: left;
+                }
+
+                th {
+                    background-color: #f4f4f4;
+                    color: #333;
+                }
+
+                .edit-btn {
+                    background-color: #4CAF50;
+                    color: white;
+                    border: none;
+                    padding: 6px 12px;
+                    margin-right: 5px;
+                    cursor: pointer;
+                }
+
+                .delete-btn {
+                    background-color: #e74c3c;
+                    color: white;
+                    border: none;
+                    padding: 6px 12px;
+                    cursor: pointer;
+                }
+
+                .edit-btn:hover,
+                .delete-btn:hover {
+                    opacity: 0.9;
+                }

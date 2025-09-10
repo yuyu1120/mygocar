@@ -41,6 +41,13 @@ public class AdminController {
     private VehicleService vehicleService;
 
     // 顯示登入頁
+    @GetMapping("/member")
+    public String member() {
+        // 對應到 /WEB-INF/jsp/backend/adminLogin.jsp
+        return "backend/member-list";
+    }
+
+    // 顯示登入頁
     @GetMapping("/login")
     public String loginPage() {
         // 對應到 /WEB-INF/jsp/backend/adminLogin.jsp
@@ -50,24 +57,24 @@ public class AdminController {
     // 處理登入請求
     // @PostMapping("/login")
     // public String login(@RequestParam String username,
-    //                     @RequestParam String password,
-    //                     HttpSession session,
-    //                     Model model) {
-    //     Admin admin = adminService.validateLogin(username, password);
-    //     if (admin != null) {
-    //         session.setAttribute("adminUser", admin.getUsername());
-    //         return "redirect:/admin/dashboard";
-    //     } else {
-    //         model.addAttribute("errorMessage", "帳號或密碼錯誤");
-    //         return "backend/adminLogin";
-    //     }
+    // @RequestParam String password,
+    // HttpSession session,
+    // Model model) {
+    // Admin admin = adminService.validateLogin(username, password);
+    // if (admin != null) {
+    // session.setAttribute("adminUser", admin.getUsername());
+    // return "redirect:/admin/dashboard";
+    // } else {
+    // model.addAttribute("errorMessage", "帳號或密碼錯誤");
+    // return "backend/adminLogin";
+    // }
     // }
 
     // 後台首頁
     @GetMapping("/dashboard")
     public String dashboard(HttpSession session) {
         // if (session.getAttribute("adminUser") == null) {
-        //     return "redirect:/backend/login";
+        // return "redirect:/backend/login";
         // }
         return "backend/adminDashboard"; // 對應 backend/adminDashboard.jsp
     }
@@ -92,7 +99,6 @@ public class AdminController {
         return "backend/checkout/transaction-manage";
     }
 
-
     @GetMapping("/order-manage")
     public String order(Model model) {
 
@@ -104,7 +110,6 @@ public class AdminController {
 
         return "backend/order/order-manage";
     }
-
 
     @GetMapping("/vehicle-manage")
     public String vehicle(Model model) {
@@ -132,7 +137,7 @@ public class AdminController {
         return "admin/editTransaction"; // 對應 editTransaction.jsp
     }
 
-    // 交易管理  刪除 API
+    // 交易管理 刪除 API
     @DeleteMapping("/deleteTransaction/{orderId}")
     @ResponseBody
     public ResponseEntity<String> deleteTransaction(@PathVariable String orderId) {
@@ -144,38 +149,36 @@ public class AdminController {
         }
     }
 
-
-    // 訂單管理  更新 API
+    // 訂單管理 更新 API
     // @GetMapping("/admin/updateTransaction")
     // @ResponseBody
-    // public ResponseEntity<String> updateTransaction(@PathVariable String orderId) {
-    //     try {
-    //         // orderService.updateOrderStatus(orderId);
-    //         return ResponseEntity.ok("Updated");
-    //     } catch (Exception e) {
-    //         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
-    //     }
+    // public ResponseEntity<String> updateTransaction(@PathVariable String orderId)
+    // {
+    // try {
+    // // orderService.updateOrderStatus(orderId);
+    // return ResponseEntity.ok("Updated");
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error");
     // }
-
-
+    // }
 
     @PostMapping("/addVehicle")
     @ResponseBody
-    public ResponseEntity<String> addVehicle(@RequestBody VehicleDTO vehicle, Model model){
+    public ResponseEntity<String> addVehicle(@RequestBody VehicleDTO vehicle, Model model) {
         System.out.println("新增車輛");
         boolean success = vehicleService.addVehicle(vehicle);
         if (success) {
             return ResponseEntity.ok("新增成功");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body("新增失敗");
+                    .body("新增失敗");
         }
     }
 
     @PostMapping("/updateVehicle")
     @ResponseBody
-    public ResponseEntity<String> updateVehicle(@RequestBody VehicleDTO vehicle, Model model){
-        
+    public ResponseEntity<String> updateVehicle(@RequestBody VehicleDTO vehicle, Model model) {
+
         String vehicleID = vehicle.getVehicleId();
         System.out.println("更新車輛：" + vehicleID);
         boolean success = vehicleService.updateVehicle(vehicleID, vehicle);
@@ -183,12 +186,8 @@ public class AdminController {
             return ResponseEntity.ok("更新成功");
         } else {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                                 .body("更新失敗");
+                    .body("更新失敗");
         }
     }
-    
-    
-
 
 }
-
