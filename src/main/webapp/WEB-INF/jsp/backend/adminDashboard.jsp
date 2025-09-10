@@ -6,7 +6,7 @@
     <title>租車後台 - 儀表板</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <!-- AdminLTE & Bootstrap -->
+    <!-- AdminLTE -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
 

@@ -61,6 +61,8 @@ public class MemberDAOImpl implements MemberDAO {
         }
     }
 
+    
+
     // ✅ 新增
     @Override
     public int insert(Member m) {

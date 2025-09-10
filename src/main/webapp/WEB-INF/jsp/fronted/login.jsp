@@ -1,84 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" pageEncoding="UTF-8" %>
-<%@ page import="java.sql.*" %>
-<%@ page import="com.example.mygocar.utils.DBUtil" %>
-
 <%
 // page範圍的全域變數
 String message = "";
 String messageType = "";
 String loggedInUser = (String) session.getAttribute("username");
-
-if("POST".equals(request.getMethod())){
-    String username = request.getParameter("username");
-    String password = request.getParameter("password");
-    //判斷有無登入成功
-    Boolean loginSuccess = false;
-    if(username!=null && password!=null){
-    
-        //嘗試連線
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        try{
-            // 取得資料庫連線
-            conn = DBUtil.getConnection();
-
-            // 使用 MySQL SHA2 函數驗證密碼
-            String sql = "SELECT id, username, email FROM member WHERE username = ? AND password = SHA2(?, 256)";
-            pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, username.trim());
-            pstmt.setString(2, password);
-
-            rs = pstmt.executeQuery();
-
-            //組合資料集
-            if (rs.next()) {
-                // 登入成功
-                session.setAttribute("userId", rs.getInt("id"));
-                session.setAttribute("username", rs.getString("username"));
-                session.setAttribute("userEmail", rs.getString("email"));
-                session.setAttribute("loginTime", new java.util.Date().toString());
-
-                loggedInUser = rs.getString("username");
-                message = "登入成功！歡迎 " + loggedInUser;
-                messageType = "success";
-            } else {
-                // 登入失敗
-                message = "帳號或密碼錯誤！";
-                messageType = "danger";
-            }
-
-        }catch(SQLException e){
-            message = "資料庫連線錯誤：" + e.getMessage();
-                            messageType = "danger";
-                            e.printStackTrace();
-        }finally{
-            // 關閉資源
-            try {
-                if (rs != null) rs.close();
-                if (pstmt != null) pstmt.close();
-                if (conn != null) conn.close();
-                
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-
-    }else {
-        message = "帳號和密碼不可為空值！";
-        messageType = "warning";
-    }
-}
-
-
-// 處理登出
-if ("logout".equals(request.getParameter("action"))) {
-    session.invalidate();
-    loggedInUser = null;
-    message = "已成功登出！";
-    messageType = "info";
-    // response.sendRedirect("loginDB.jsp");
-}
 
 %>
 <!DOCTYPE html>
@@ -110,7 +35,7 @@ if ("logout".equals(request.getParameter("action"))) {
                         </div>
                     <% } %>
 
-                        <form method="post">
+                        <form method="post" action="/login">
                             <div class="mb-3">
                                 <label for="exampleInputEmail1" class="form-label">帳號</label>
                                 <input type="text" class="form-control" id="exampleInputEmail1" name="username">
@@ -122,8 +47,8 @@ if ("logout".equals(request.getParameter("action"))) {
                             <button type="submit" class="btn btn-primary">Submit</button>
                         </form>
                         <div class="mt-3">
-                            測試帳號：emmatest1 <br>
-                            測試密碼：testpwd
+                            測試帳號：emma1234 <br>
+                            測試密碼：Qq1234567
                         </div>
                     </div>
                 </div>
@@ -142,7 +67,7 @@ if ("logout".equals(request.getParameter("action"))) {
                             <p>user_id： <%= session.getAttribute("userId") %></p>
                             <p>userEmail： <%= session.getAttribute("userEmail") %></p>
                             <p>sessionID： <%= session.getId() %></p>
-                            <p><a href="login.jsp?action=logout" class="btn btn-warning">登出</a></p>
+                            <p><a href="/logout" class="btn btn-warning">登出</a></p>
 
                         <% }else{ %>
                             <p>sessionID： <%= session.getId() %></p>
