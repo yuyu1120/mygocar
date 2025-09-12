@@ -1,23 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%
-    // 假設這些變數已在其他地方初始化
-    boolean isLoggedIn = session.getAttribute("username") != null;
-    String username = isLoggedIn ? (String) session.getAttribute("username") : "";
- 
-    // 從 request 或 session 取得當前步驟
-    int currentStep = 4; // 預設第一步
-    String stepParam = request.getParameter("step");
-    if (stepParam != null) {
-        try {
-            currentStep = Integer.parseInt(stepParam);
-        } catch (NumberFormatException e) {
-            currentStep = 1;
-        }
-    }
-%>
-
 <!DOCTYPE html>
 <html lang="zh-Hant">
 <head>
@@ -42,66 +25,42 @@
 
 <body class="container py-4">
 
-      <!-- Header -->
-  <header class="header">
-    <nav class="navbar">
-      <!-- Logo -->
-      <a href="/" class="logo">
-        <img src="img/logo1.png" alt="MyGoCar Logo">
-      </a>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <!-- Logo -->
+            <a href="/" class="logo"><img src="/img/logo1.png" alt="MyGoCar Logo"></a>
 
-      <!-- 導覽連結 -->
-      <ul class="nav-links">
-        <li><a href="/">首頁</a></li>
-        <li><a href="aboutus">關於我們</a></li>
-        <li><a href="location">據點查詢</a></li>
-        <li><a href="carrentinfo">租車說明</a></li>
-        <li><a href="member">會員專區</a></li>
-        <li class="nav-item"><a class="nav-link" href="/search">租車</a></li>
-        <li class="nav-item">
-            <a class="nav-link" href="<%= isLoggedIn ? "account.jsp" : "/login" %>">
-                <%= isLoggedIn ? username : "登入" %>
-            </a>
-        </li>
-        <% if (isLoggedIn) { %>
-        <li class="nav-item"><a class="nav-link" href="/logout">登出</a></li>
-        <% } %>
-      </ul>
+            <!-- 左邊導覽 -->
+            <ul class="nav-links">
+            <li><a href="/">首頁</a></li>
+            <li><a href="${pageContext.request.contextPath}/aboutus">關於我們</a></li>
+            <li><a href="${pageContext.request.contextPath}/location">據點查詢</a></li>
+            <li><a href="${pageContext.request.contextPath}/carrentinfo">租車說明</a></li>
+            <li><a href="${pageContext.request.contextPath}/ordertracking">未登入查詢訂單</a></li>
+            
+                <c:choose>
+                    <c:when test="${isLoggedIn}">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/member" class="btnmember">
+                                <c:out value="${username}"/> 會員專區
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/logout" class="btnapply">登出</a>
+                        </li>
+                    </c:when>
 
-      <!-- 漢堡選單 -->
-      <button class="menu-toggle" id="menu-toggle" aria-label="切換選單">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </nav>
-  </header>
+                    <c:otherwise>
+                        <li>
+                            <button id="showLoginForm" class="btnlogin" onclick="showLoginForm()">登入/註冊</button>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </nav>
+    </header>
     
-    
-    <!-- 狀態步驟條 -->
-    <div class="container my-4">
-        <div class="progress-container">
-            <div class="step <%= currentStep > 1 ? "completed" : (currentStep == 1 ? "active" : "") %>">
-                <div class="step-label">加選配件</div>
-                <div class="circle"></div>
-            </div>
-            <div class="line"></div>
-            <div class="step <%= currentStep > 2 ? "completed" : (currentStep == 2 ? "active" : "") %>">
-                <div class="step-label">駕駛資訊</div>
-                <div class="circle"></div>
-            </div>
-            <div class="line"></div>
-            <div class="step <%= currentStep > 3 ? "completed" : (currentStep == 3 ? "active" : "") %>">
-                <div class="step-label">金額明細</div>
-                <div class="circle"></div>
-            </div>
-            <div class="line"></div>
-            <div class="step <%= currentStep == 4 ? "active" : "" %>">
-                <div class="step-label">付款方式</div>
-                <div class="circle"></div>
-            </div>
-        </div>
-    </div>
     <!-- ---- 內容區域 ---- -->
     <div class="container my-4">
         <div class="row g-4">

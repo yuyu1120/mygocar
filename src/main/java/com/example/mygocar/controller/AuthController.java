@@ -23,6 +23,7 @@ import com.example.mygocar.model.Member;
 import com.example.mygocar.service.AuthService;
 import com.example.mygocar.service.MailService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -40,7 +41,7 @@ public class AuthController {
         this.mailService = mailService;
     }
 
-    @RequestMapping("/loginn")
+    @RequestMapping("/login")
     @ResponseBody
     public String login(@RequestParam("account") String account, @RequestParam("password") String password,
             HttpSession session, Model model) {
@@ -54,6 +55,7 @@ public class AuthController {
         }
 
         if (member.getPassword().equals(password)) {
+            session.setAttribute("username", member.getAccount());
             session.setAttribute("user", member);
             return "登入成功";
         } else {
@@ -250,6 +252,25 @@ public class AuthController {
             }
         }
 
+    }
+
+    @RequestMapping("/logout")
+    public String logout(HttpSession session, HttpServletRequest request, Model model) {
+        // 1️⃣ 清除 Session
+        session.invalidate();
+
+        // 2️⃣ 取得上一頁 URL
+        String referer = request.getHeader("Referer"); 
+        if (referer == null || referer.isEmpty()) {
+            referer = "/"; // fallback 到首頁
+        }
+
+        // 3️⃣ 將 alert 訊息放入 model
+        model.addAttribute("logoutMessage", "已成功登出！");
+
+        // 4️⃣ 導向一個共用的 logout 頁面，用 JS alert 並跳回前一頁
+        model.addAttribute("redirectUrl", referer);
+        return "fronted/indexlogin"; 
     }
 
 }

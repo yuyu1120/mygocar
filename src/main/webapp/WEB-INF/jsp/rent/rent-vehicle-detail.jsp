@@ -7,19 +7,22 @@
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
             <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
                 integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
                 crossorigin="anonymous">
+
+            <title>MyGoCar租車-日租車搜尋</title>
+            <link rel="stylesheet" href="/css/resetcss.css">
+            <link rel="stylesheet" href="/css/index.css">
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+            <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
                 integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
                 crossorigin="anonymous">
                 </script>
             <style>
-                body {
-                    background-color: blanchedalmond;
-                }
+
 
                 .carInfo-container {
                     display: grid;
@@ -96,16 +99,9 @@
                 .info-wrapper {
                     grid-area: wrapper;
                     display: flex;
-
-
-
                     flex-wrap: wrap;
                     /* 小螢幕會自動換行 */
                 }
-
-
-
-
 
                 /* 詳細資訊跟評論 */
                 .info-tabs-container {
@@ -240,6 +236,42 @@
         </head>
 
         <body>
+
+            <!-- Header -->
+            <header class="header">
+                <nav class="navbar">
+                    <!-- Logo -->
+                    <a href="/" class="logo"><img src="/img/logo1.png" alt="MyGoCar Logo"></a>
+
+                    <!-- 左邊導覽 -->
+                    <ul class="nav-links">
+                    <li><a href="/">首頁</a></li>
+                    <li><a href="${pageContext.request.contextPath}/aboutus">關於我們</a></li>
+                    <li><a href="${pageContext.request.contextPath}/location">據點查詢</a></li>
+                    <li><a href="${pageContext.request.contextPath}/carrentinfo">租車說明</a></li>
+                    <li><a href="${pageContext.request.contextPath}/ordertracking">未登入查詢訂單</a></li>
+                    
+                        <c:choose>
+                            <c:when test="${isLoggedIn}">
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/member" class="btnmember">
+                                        <c:out value="${username}"/> 會員專區
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="${pageContext.request.contextPath}/logout" class="btnapply">登出</a>
+                                </li>
+                            </c:when>
+
+                            <c:otherwise>
+                                <li>
+                                    <button id="showLoginForm" class="btnlogin" onclick="showLoginForm()">登入/註冊</button>
+                                </li>
+                            </c:otherwise>
+                        </c:choose>
+                    </ul>
+                </nav>
+            </header>
             <section class="carInfo-section">
                 <div class="carInfo-container">
                     <div class="top mt-5">
@@ -355,6 +387,55 @@
                 </div>
             </section>
 
+
+            <!-- Footer -->
+            <footer class="footer">
+                <div class="footer-container">
+                    <!-- 公司資訊 -->
+                    <div class="footer-about">
+                    <h3>MyGoCar租車</h3>
+                    <p>
+                        提供全天候、安全可靠的出租車與租車服務。<br>
+                        以顧客滿意為第一優先，讓您隨時隨地安心出行。
+                    </p>
+                    </div>
+
+                    <!-- 快速連結 -->
+                    <div class="footer-links">
+                    <h4>快速連結</h4>
+                    <ul>
+                        <li><a href="#">首頁</a></li>
+                        <li><a href="#">服務項目</a></li>
+                        <li><a href="#">車型介紹</a></li>
+                        <li><a href="#">線上預約</a></li>
+                        <li><a href="#">常見問題</a></li>
+                    </ul>
+                    </div>
+
+                    <!-- 聯絡方式 -->
+                    <div class="footer-contact">
+                    <h4>聯絡我們</h4>
+                    <p>📍 台北市中正區XX路100號</p>
+                    <p>📞 02-1234-5678</p>
+                    <p>📧 info@mygocar.com</p>
+                    </div>
+
+                    <!-- 社群媒體 -->
+                    <div class="footer-social">
+                    <h4>追蹤我們</h4>
+                    <div class="social-icons">
+                        <a href="teamwk" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="teamwk" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="teamwk" target="_blank"><i class="fab fa-line"></i></a>
+                    </div>
+                    </div>
+                </div>
+
+                <!-- 版權 -->
+                <div class="footer-bottom">
+                    <p>&copy; 2025 MyGoCar租車. All rights reserved.</p>
+                </div>
+            </footer>
 
             <script>
                 function switchTab(id) {

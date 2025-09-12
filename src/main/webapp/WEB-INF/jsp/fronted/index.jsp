@@ -63,7 +63,7 @@
 
           <!-- 搜尋框 -->
           <section class="search-box">
-            <form id="searchForm" action="${pageContext.request.contextPath}/daily-rental" method="get">
+            <form id="searchForm" action="/daily-rental" method="get">
 
               <!-- Tabs -->
               <div class="search-tabs">
@@ -184,7 +184,7 @@
               <div id="login-content" class="auth-sections hide  ">
                 <div class="text-center mb-5 mt-4">
                   <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                  <h5>Bling Bling 有禮</h5>
+                  <h5>MYGOCAR</h5>
                 </div>
                 <form id="loginForm">
                   <!-- 帳號輸入 -->
@@ -237,7 +237,7 @@
               <div id="current-content" class="auth-sections hide">
                 <div class="text-center mb-5 mt-5">
                   <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                  <h5>Bling Bling 有禮</h5>
+                  <h5>MYGOCAR</h5>
                 </div>
 
                 <div class="step-dots mb-4">
@@ -296,7 +296,7 @@
               <div id="email-content" class="auth-sections hide ">
                 <div class="text-center mb-5 mt-5 ">
                   <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                  <h5>Bling Bling 有禮</h5>
+                  <h5>MYGOCAR</h5>
                 </div>
 
                 <div class="step-dots mb-4">
@@ -350,7 +350,7 @@
               <div id="newPassword-content" class="auth-sections ">
                 <div class="text-center mb-5 mt-5">
                   <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                  <h5>Bling Bling 有禮</h5>
+                  <h5>MYGOCAR</h5>
                 </div>
 
                 <div class="step-dots mb-4">
@@ -421,7 +421,7 @@
               <div id="sign-content" class="auth-sections hide">
                 <div class="text-center mb-3 mt-4">
                   <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                  <h5>Bling Bling 有禮</h5>
+                  <h5>MYGOCAR</h5>
                 </div>
                 <form id="signForm">
                   <!-- 帳號輸入 -->

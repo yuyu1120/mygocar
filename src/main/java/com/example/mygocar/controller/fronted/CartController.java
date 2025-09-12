@@ -63,7 +63,12 @@ public class CartController {
             e.printStackTrace();
         }
         model.addAttribute("cartJson", cartJson);
-        // =====================================
+
+        // 登入資訊
+        String username = (String) session.getAttribute("username");
+        // System.out.println("username：" + username);
+        model.addAttribute("isLoggedIn", username != null);
+        model.addAttribute("username", username);
 
         return "fronted/checkout/paymentInfo"; // JSP 頁面
     }
@@ -118,6 +123,12 @@ public class CartController {
             e.printStackTrace();
             model.addAttribute("errorMessage", "系統錯誤");
         }
+
+        // 登入資訊
+        String username = (String) session.getAttribute("username");
+        // System.out.println("username：" + username);
+        model.addAttribute("isLoggedIn", username != null);
+        model.addAttribute("username", username);
 
         return "fronted/checkout/paymentInfo"; // 加入購物車後重新導向購物車頁
     }

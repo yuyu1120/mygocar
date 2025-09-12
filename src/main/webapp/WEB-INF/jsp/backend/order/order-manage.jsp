@@ -29,8 +29,9 @@
             <!-- 使用者面板 -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="info">
-                    <a href="#" class="d-block">您好，Admin</a>
+                    <a href="#" class="d-block">您好，${adminUser}</a>
                 </div>
+
             </div>
 
             <!-- 選單 -->
@@ -47,12 +48,6 @@
                     </li>
                     <li class="nav-item">
                         <a href="/admin/order-manage" class="nav-link active"><i class="nav-icon fas fa-receipt"></i><p>訂單管理</p></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin/transaction-manage" class="nav-link"><i class="nav-icon fas fa-credit-card"></i><p>交易管理</p></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin/promotion" class="nav-link"><i class="nav-icon fas fa-tags"></i><p>優惠活動</p></a>
                     </li>
                     <li class="nav-item">
                         <a href="/admin/logout" class="nav-link"><i class="nav-icon fas fa-sign-out-alt"></i><p>登出</p></a>

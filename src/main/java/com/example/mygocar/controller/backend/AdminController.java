@@ -1,9 +1,8 @@
 package com.example.mygocar.controller.backend;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,9 +20,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.mygocar.dto.OrderDTO;
 import com.example.mygocar.dto.VehicleDTO;
+import com.example.mygocar.model.Admin;
+import com.example.mygocar.model.Member;
 import com.example.mygocar.model.Order;
+import com.example.mygocar.service.AdminService;
+import com.example.mygocar.service.AuthService;
 import com.example.mygocar.service.OrderService;
 import com.example.mygocar.service.VehicleService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -31,14 +36,17 @@ import jakarta.servlet.http.HttpSession;
 @RequestMapping("/admin")
 public class AdminController {
 
-    // @Autowired
-    // private AdminService adminService;
+    @Autowired
+    private AdminService adminService;
 
     @Autowired
     private OrderService orderService;
 
     @Autowired
     private VehicleService vehicleService;
+
+    @Autowired
+    private AuthService authService;
 
     // 顯示登入頁
     @GetMapping("/login")
@@ -48,27 +56,54 @@ public class AdminController {
     }
 
     // 處理登入請求
-    // @PostMapping("/login")
-    // public String login(@RequestParam String username,
-    //                     @RequestParam String password,
-    //                     HttpSession session,
-    //                     Model model) {
-    //     Admin admin = adminService.validateLogin(username, password);
-    //     if (admin != null) {
-    //         session.setAttribute("adminUser", admin.getUsername());
-    //         return "redirect:/admin/dashboard";
-    //     } else {
-    //         model.addAttribute("errorMessage", "帳號或密碼錯誤");
-    //         return "backend/adminLogin";
-    //     }
-    // }
+    @PostMapping("/login")
+    public String login(@RequestParam String account,
+                        @RequestParam String password,
+                        HttpSession session,
+                        Model model) {
+        // System.out.println("account：" + account);
+        Admin admin = adminService.findByAccountAndPassword(account, password);
+        // System.out.println("password" + password);
+        
+        if (admin != null) {
+            session.setAttribute("adminUser", admin.getName());
+            return "redirect:/admin/dashboard";
+        } else {
+            model.addAttribute("errorMessage", "帳號或密碼錯誤");
+            return "backend/adminLogin";
+        }
+    }
 
     // 後台首頁
     @GetMapping("/dashboard")
-    public String dashboard(HttpSession session) {
-        // if (session.getAttribute("adminUser") == null) {
-        //     return "redirect:/backend/login";
-        // }
+    public String dashboard(HttpSession session, Model model) throws JsonProcessingException {
+
+        if (session.getAttribute("adminUser") == null) {
+            return "redirect:/admin/login";
+        }
+
+        List<OrderDTO> orders = orderService.getOrdersWithinDays(7);
+        List<VehicleDTO> vehicles = vehicleService.searchAllVehicles();
+        List<Member> members = authService.getAllMembers();
+
+        long totalAmount = 0L;
+        for(OrderDTO order:orders){
+            totalAmount += Long.valueOf(String.valueOf(order.getTotalPrice()));
+        }
+
+        List<Map<String, Object>> stats = orderService.getOrderLocationStats();
+        ObjectMapper mapper = new ObjectMapper();
+        String statsJson = mapper.writeValueAsString(stats); // 轉成 JSON 字串
+
+        model.addAttribute("orderStatsJson", statsJson);
+    
+        model.addAttribute("numVehicles", vehicles.size());
+        model.addAttribute("numOrders", orders.size());
+        model.addAttribute("numMembers", members.size());
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("orders", orders);
+        model.addAttribute("orderStats", statsJson);
+
         return "backend/adminDashboard"; // 對應 backend/adminDashboard.jsp
     }
 
@@ -76,13 +111,16 @@ public class AdminController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.invalidate();
-        return "redirect:/backend/login";
+        return "redirect:/admin/login";
     }
 
     //
     @GetMapping("/transaction-manage")
-    public String transaction(Model model) {
+    public String transaction(HttpSession session, Model model) {
 
+        if (session.getAttribute("adminUser") == null) {
+            return "redirect:/admin/login";
+        }
         // 查詢符合條件的車輛
         List<OrderDTO> orders = orderService.getAllOrders();
 
@@ -94,8 +132,11 @@ public class AdminController {
 
 
     @GetMapping("/order-manage")
-    public String order(Model model) {
+    public String order(HttpSession session, Model model) {
 
+        if (session.getAttribute("adminUser") == null) {
+            return "redirect:/admin/login";
+        }
         // 查詢符合條件的車輛
         List<OrderDTO> orders = orderService.getAllOrders();
 
@@ -107,8 +148,11 @@ public class AdminController {
 
 
     @GetMapping("/vehicle-manage")
-    public String vehicle(Model model) {
+    public String vehicle(HttpSession session, Model model) {
 
+        if (session.getAttribute("adminUser") == null) {
+            return "redirect:/admin/login";
+        }
         // 查詢符合條件的車輛
         List<VehicleDTO> vehicles = vehicleService.searchAllVehicles();
 
@@ -186,9 +230,6 @@ public class AdminController {
                                  .body("更新失敗");
         }
     }
-    
-    
-
 
 }
 

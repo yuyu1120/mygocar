@@ -1,4 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt"  prefix="fmt" %>
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -35,8 +38,9 @@
             <!-- 使用者面板 -->
             <div class="user-panel mt-3 pb-3 mb-3 d-flex">
                 <div class="info">
-                    <a href="#" class="d-block">您好，Admin</a>
+                    <a href="#" class="d-block">您好，${adminUser}</a>
                 </div>
+
             </div>
 
             <!-- 選單 -->
@@ -53,12 +57,6 @@
                     </li>
                     <li class="nav-item">
                         <a href="/admin/order-manage" class="nav-link"><i class="nav-icon fas fa-receipt"></i><p>訂單管理</p></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin/transaction-manage" class="nav-link"><i class="nav-icon fas fa-credit-card"></i><p>交易管理</p></a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/admin/promotion" class="nav-link"><i class="nav-icon fas fa-tags"></i><p>優惠活動</p></a>
                     </li>
                     <li class="nav-item">
                         <a href="/admin/logout" class="nav-link"><i class="nav-icon fas fa-sign-out-alt"></i><p>登出</p></a>
@@ -83,55 +81,105 @@
                     <!-- 原本四個卡片 -->
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-info">
-                            <div class="inner"><h3>128</h3><p>會員總數</p></div>
+                            <div class="inner"><h3>${numMembers}</h3><p>會員總數</p></div>
                             <div class="icon"><i class="fas fa-users"></i></div>
                             <a href="/admin/member" class="small-box-footer">更多資訊 <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-success">
-                            <div class="inner"><h3>54</h3><p>可租車輛</p></div>
+                            <div class="inner"><h3>${numVehicles}</h3><p>可租車輛</p></div>
                             <div class="icon"><i class="fas fa-car-side"></i></div>
                             <a href="/admin/vehicle-manage" class="small-box-footer">管理車輛 <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-warning">
-                            <div class="inner"><h3>37</h3><p>進行中訂單</p></div>
+                            <div class="inner"><h3>${numOrders}</h3><p>近7天訂單</p></div>
                             <div class="icon"><i class="fas fa-clipboard-list"></i></div>
                             <a href="/admin/order-manage" class="small-box-footer">查看訂單 <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-6">
                         <div class="small-box bg-danger">
-                            <div class="inner"><h3>NT$128,000</h3><p>本月營收</p></div>
+                            <div class="inner">
+                                <h3>
+                                    <fmt:formatNumber value="${totalAmount}" type="currency" pattern="NT$ #,##0" />
+                                </h3>
+                            <p>近7天營收</p></div>
                             <div class="icon"><i class="fas fa-dollar-sign"></i></div>
-                            <a href="/admin/transaction-manage" class="small-box-footer">查看交易 <i class="fas fa-arrow-circle-right"></i></a>
+                            <a href="/admin/order-manage" class="small-box-footer">查看訂單 <i class="fas fa-arrow-circle-right"></i></a>
                         </div>
                     </div>
                 </div>
 
-                <!-- 加入兩個長條圖 -->
+                
                 <div class="row chart-container">
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header"><h3 class="card-title">📈 每月訂單增幅</h3></div>
-                            <div class="card-body">
-                                <canvas id="orderChart"></canvas>
+                    <!-- 左邊：近7天訂單表格 -->
+                    <div class="col-md-7">
+                        <div class="card card-success">
+                            <div class="card-header border-transparent">
+                                <h3 class="card-title">近7天訂單</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table m-0">
+                                        <thead>
+                                            <tr>
+                                                <th>訂單建立時間</th>
+                                                <th>訂單ID</th>
+                                                <th>車輛</th>
+                                                <th>狀態</th>
+                                                <th>金額</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="o" items="${orders}">
+                                                <tr>
+                                                    <td><fmt:formatDate value="${o.createAt}" pattern="yyyy/MM/dd HH:mm:ss" timeZone="Asia/Taipei" /></td>
+                                                    <td>${o.orderId}</td>
+                                                    <td>${o.vehicleId}</td>
+                                                    <td><span class="badge badge-success">${o.status}</span></td>
+                                                    <td>
+                                                        <fmt:formatNumber value="${o.totalPrice}" type="currency" pattern="NT$ #,##0" />
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer clearfix">
+                                <a href="order-manage" class="btn btn-sm btn-secondary float-right">查看所有訂單</a>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-header"><h3 class="card-title">👥 每月會員增幅</h3></div>
+
+                    <!-- 右邊：訂單地區分布圖 -->
+                    <div class="col-md-5">
+                        <div class="card card-danger">
+                            <div class="card-header">
+                                <h3 class="card-title">訂單地區分布圖</h3>
+                                <div class="card-tools">
+                                    <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                        <i class="fas fa-minus"></i>
+                                    </button>
+                                </div>
+                            </div>
                             <div class="card-body">
-                                <canvas id="memberChart"></canvas>
+                                <canvas id="donutChart" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%; display: block;"></canvas>
                             </div>
                         </div>
                     </div>
                 </div>
 
-            </div>
+                    
+                </div>
         </section>
     </div>
 </div>
@@ -141,51 +189,38 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    // 模擬資料：你可以用 JSTL 從後端塞入
-    const labels = ['1月', '2月', '3月', '4月', '5月', '6月', '7月'];
-    
-    const orderData = [50, 65, 70, 90, 100, 120, 150];
-    const memberData = [10, 20, 25, 30, 40, 45, 60];
+    document.addEventListener("DOMContentLoaded", function() {
+        // 從後端傳來的 orderStats
+        const stats = JSON.parse('${orderStatsJson}'); 
 
-    const orderChart = new Chart(document.getElementById('orderChart'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '訂單數',
-                data: orderData,
-                backgroundColor: '#007bff'
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { beginAtZero: true }
-            }
-        }
-    });
+        // 取出 labels 和 data
+        const labels = stats.map(s => s.location);
+        const data = stats.map(s => s.count);
 
-    const memberChart = new Chart(document.getElementById('memberChart'), {
-        type: 'bar',
-        data: {
-            labels: labels,
-            datasets: [{
-                label: '會員數',
-                data: memberData,
-                backgroundColor: '#28a745'
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: {
-                y: { beginAtZero: true }
+        const ctx = document.getElementById('donutChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: data,
+                    backgroundColor: [
+                        '#f56954', '#00a65a', '#f39c12',
+                        '#00c0ef', '#3c8dbc', '#d2d6de'
+                    ]
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true
             }
-        }
+        });
     });
 </script>
+
+
 
 </body>
 </html>

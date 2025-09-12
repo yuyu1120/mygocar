@@ -21,7 +21,7 @@ public class AdmInMemberController {
     @Autowired
     private MemberDAOImpl memberDAO;
 
-    @RequestMapping("/cc")
+    @RequestMapping("/admin/member")
     public String index(Model model) {
 
         List<Member> members = memberDAO.findAll();
@@ -29,8 +29,9 @@ public class AdmInMemberController {
         model.addAttribute("members", members);
         System.out.println(members.get(3).getAccount());
 
-        return "admin/member-list";
+        return "backend/member/member";
     }
+
 
     @PostMapping("/admin/update-member")
     public String updateMember(@RequestBody MemberDTO dto) {
@@ -42,15 +43,15 @@ public class AdmInMemberController {
         m.setPhone(dto.getPhone());
         m.setRole(dto.getRole());
         memberDAO.update(m);
-        System.out.println("有進入哈哈哈2");
-        return "redirect:/c"; // 刪除後回到會員列表
+        System.out.println("會員已更新：" + dto.getId());
+        return "redirect:/admin/member"; // 更新後回到會員列表
     }
 
     @GetMapping("/admin/delete-member")
     public String deleteMember(@RequestParam("id") int id) {
         memberDAO.delete(id);
-        System.out.println("ㄏ哈哈哈");
-        return "redirect:/c"; // 刪除後回到會員列表
+        System.out.println("會員已刪除：" + id);
+        return "redirect:/admin/member"; // 刪除後回到會員列表
     }
 
 }

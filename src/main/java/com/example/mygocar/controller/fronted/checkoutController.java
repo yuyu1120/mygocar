@@ -1,5 +1,6 @@
 package com.example.mygocar.controller.fronted;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.mygocar.model.CartItem;
+import com.example.mygocar.model.Member;
 import com.example.mygocar.model.Order;
 import com.example.mygocar.service.LinePayService;
 import com.example.mygocar.service.OrderService;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -27,22 +30,35 @@ public class CheckoutController {
 
     // 開始結帳
     @GetMapping
-    public String checkout(HttpSession session, Model model) throws SQLException {
-        Integer userId = (Integer) session.getAttribute("userId");
-        if (userId == null) {
-            return "redirect:/login"; // Spring redirect
+    public void checkout(HttpSession session, HttpServletResponse response, Model model) throws IOException, SQLException {
+        Member user = (Member) session.getAttribute("user");
+
+        if (user == null) {
+            // 未登入，跳 alert 並回首頁
+            response.setContentType("text/html;charset=UTF-8");
+            response.getWriter().println("<script>alert('請先登入會員'); window.location.href='/cart';</script>");
+            return;
         }
+
+        // 登入資訊
+        String username = user.getAccount();
+        // System.out.println("username：" + username);
+        model.addAttribute("isLoggedIn", username != null);
+        model.addAttribute("username", username);
+
+        Integer userId = (int) user.getId();
 
         @SuppressWarnings("unchecked")
         List<CartItem> cartItems = (List<CartItem>) session.getAttribute("cart");
         if (cartItems == null || cartItems.isEmpty()) {
-            return "fronted/checkout/paymentInfo";
+            response.sendRedirect("/fronted/checkout/paymentInfo");
+            return;
         }
 
         try {
             // 建立訂單
-            System.out.println("userId：" + userId);
-            System.out.println("cartItems：" + cartItems);
+            // System.out.println("userId：" + userId);
+            // System.out.println("cartItems：" + cartItems);
             Order order = orderService.createOrder(userId, cartItems);
 
             // 呼叫 Line Pay API
@@ -53,16 +69,17 @@ public class CheckoutController {
             session.setAttribute("currentOrderNumber", order.getOrderId());
 
             // 重新導向到付款頁
-            return "redirect:" + paymentUrl;
+            response.sendRedirect(paymentUrl);
 
         } catch (SQLException e) {
-            model.addAttribute("errorMessage", "建立訂單時發生錯誤：" + e.getMessage());
-            return "fronted/checkout/payment-failed";
+            session.setAttribute("errorMessage", "建立訂單時發生錯誤：" + e.getMessage());
+            response.sendRedirect("/fronted/checkout/payment-failed");
         } catch (Exception e) {
-            model.addAttribute("errorMessage", "發起付款時發生錯誤：" + e.getMessage());
-            return "fronted/checkout/payment-failed";
+            session.setAttribute("errorMessage", "發起付款時發生錯誤：" + e.getMessage());
+            response.sendRedirect("/fronted/checkout/payment-failed");
         }
     }
+
 
     // 付款成功
     @GetMapping("/success")
@@ -82,6 +99,11 @@ public class CheckoutController {
         model.addAttribute("orderId", orderNumber);
         model.addAttribute("transactionId", transactionId);
 
+        // 登入資訊
+        String username = (String) session.getAttribute("username");
+        model.addAttribute("isLoggedIn", username != null);
+        model.addAttribute("username", username);
+
         return "fronted/checkout/payment-success";
     }
 
@@ -94,7 +116,13 @@ public class CheckoutController {
             session.removeAttribute("currentOrderNumber");
         }
 
+        // 登入資訊
+        String username = (String) session.getAttribute("username");
+        model.addAttribute("isLoggedIn", username != null);
+        model.addAttribute("username", username);
+
         model.addAttribute("message", "付款已取消，您可以重新選擇付款方式");
         return "fronted/checkout/payment-failed";
     }
+    
 }

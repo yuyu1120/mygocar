@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" %>
 
 <!DOCTYPE html>
@@ -13,30 +14,40 @@
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 </head>
 <body>
-  <!-- Header -->
+ <!-- Header -->
   <header class="header">
-    <nav class="navbar">
-      <!-- Logo -->
-      <a href="/" class="logo">
-        <img src="img/logo1.png" alt="MyGoCar Logo">
-      </a>
+      <nav class="navbar">
+          <!-- Logo -->
+          <a href="/" class="logo"><img src="/img/logo1.png" alt="MyGoCar Logo"></a>
 
-      <!-- 導覽連結 -->
-      <ul class="nav-links">
-        <li><a href="/">首頁</a></li>
-        <li><a href="aboutus">關於我們</a></li>
-        <li><a href="location">據點查詢</a></li>
-        <li><a href="carrentinfo">租車說明</a></li>
-        <li><a href="member">會員專區</a></li>
-      </ul>
+          <!-- 左邊導覽 -->
+          <ul class="nav-links">
+          <li><a href="/">首頁</a></li>
+          <li><a href="${pageContext.request.contextPath}/aboutus">關於我們</a></li>
+          <li><a href="${pageContext.request.contextPath}/location">據點查詢</a></li>
+          <li><a href="${pageContext.request.contextPath}/carrentinfo">租車說明</a></li>
+          <li><a href="${pageContext.request.contextPath}/ordertracking">未登入查詢訂單</a></li>
+          
+              <c:choose>
+                  <c:when test="${isLoggedIn}">
+                      <li>
+                          <a href="${pageContext.request.contextPath}/member" class="btnmember">
+                              <c:out value="${username}"/> 會員專區
+                          </a>
+                      </li>
+                      <li>
+                          <a href="${pageContext.request.contextPath}/logout" class="btnapply">登出</a>
+                      </li>
+                  </c:when>
 
-      <!-- 漢堡選單 -->
-      <button class="menu-toggle" id="menu-toggle" aria-label="切換選單">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </nav>
+                  <c:otherwise>
+                      <li>
+                          <button id="showLoginForm" class="btnlogin" onclick="showLoginForm()">登入/註冊</button>
+                      </li>
+                  </c:otherwise>
+              </c:choose>
+          </ul>
+      </nav>
   </header>
 
   <!-- Main -->

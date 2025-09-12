@@ -42,7 +42,7 @@ public class MemberController {
 
     @RequestMapping("/")
     public String index(Model model) {
-        System.out.println("123123123123");
+        // System.out.println("123123123123");
         Member members = memberDAO.findById(3);
 
         model.addAttribute("members", members);
@@ -82,19 +82,23 @@ public class MemberController {
 
     @RequestMapping("/rental/detail")
     public String rentcarinfo(@RequestParam(value = "rentalPlanId", required = false) Integer vehicleId, Model model) {
-
+        System.out.println(vehicleId);
         if (vehicleId == null) {
 
             return "rent/rent-vehicles";
         }
 
         VehicleDetail v = vehicleDetailDAO.findById(vehicleId);
-
+        
         if (v == null) {
-
             return "rent/rent-vehicles";
         }
+
+        System.out.println(v.getRentalPlanId());
+
         RentalPlan plan = rentDAO.findById(v.getRentalPlanId());
+
+        System.out.println(plan);
         List<Review> reviews = reviewDAO.findAllWithMemberName();
 
         Map<String, Object> ratingSummary = reviewDAO.getRatingSummaryByRentalPlanId(vehicleId);
@@ -110,49 +114,49 @@ public class MemberController {
         return "rent/rent-vehicle-detail";
     }
 
-    @RequestMapping("/rent2")
-    public String extalnfo(Model model) {
+    // @RequestMapping("/rent2")
+    // public String extalnfo(Model model) {
 
-        return "rent/rent-vehicke-order";
-    }
+    //     return "rent/rent-vehicke-order";
+    // }
 
-    @RequestMapping("/rent3")
-    public String reservation(Model model) {
+    // @RequestMapping("/rent3")
+    // public String reservation(Model model) {
 
-        return "rent/rent-vehicle-options";
-    }
+    //     return "rent/rent-vehicle-options";
+    // }
 
-    @RequestMapping("/rent4")
-    public String carinformation(Model model) {
+    // @RequestMapping("/rent4")
+    // public String carinformation(Model model) {
 
-        return "rent/rent-confirmation";
-    }
+    //     return "rent/rent-confirmation";
+    // }
 
-    @RequestMapping("/text1")
-    public String carinformations(Model model) {
+    // @RequestMapping("/text1")
+    // public String carinformations(Model model) {
 
-        return "x";
-    }
+    //     return "x";
+    // }
 
-    @RequestMapping("/text")
-    public String carinformation1s(Model model) {
+    // @RequestMapping("/text")
+    // public String carinformation1s(Model model) {
 
-        return "text";
-    }
+    //     return "text";
+    // }
 
-    @RequestMapping("/x")
-    public String indexx(HttpSession session, Model model) {
-        Member member = (Member) session.getAttribute("user");
+    // @RequestMapping("admin/member-manage")
+    // public String MemberManage(HttpSession session, Model model) {
+    //     Member member = (Member) session.getAttribute("user");
 
-        Member a123 = memberDAO.findByAccount("a123");
+    //     Member a123 = memberDAO.findByAccount("a123");
 
-        if (member != null) {
-            model.addAttribute("member", member);
-        }
+    //     if (member != null) {
+    //         model.addAttribute("member", member);
+    //     }
 
-        model.addAttribute("user", a123);
+    //     model.addAttribute("user", a123);
 
-        return "memberpofile";
-    }
+    //     return "memberpofile";
+    // }
 
 }

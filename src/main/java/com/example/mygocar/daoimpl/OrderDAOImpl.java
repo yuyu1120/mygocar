@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -48,6 +49,33 @@ public class OrderDAOImpl implements OrderDAO {
             }
         );
     }
+
+    @Override
+    public List<OrderDTO> getOrdersWithinDays(int days) {
+        String sql = "SELECT * FROM orders " +
+                    "WHERE created_at BETWEEN DATE_SUB(NOW(), INTERVAL ? DAY) AND NOW()";
+
+        return jdbcTemplate.query(
+            sql,
+            new Object[]{days},
+            (rs, rowNum) -> {
+                OrderDTO dto = new OrderDTO();
+                dto.setVehicleId(rs.getString("vehicle_id"));
+                dto.setOrderId(rs.getString("order_id"));
+                dto.setMemberId(rs.getInt("member_id"));
+                dto.setStatus(rs.getString("status"));
+                dto.setTotalPrice(rs.getBigDecimal("total_price"));
+                dto.setCreateAt(rs.getTimestamp("created_at"));
+                dto.setBorrowLocation(rs.getString("borrow_location"));
+                dto.setReturnLocation(rs.getString("return_location"));
+                dto.setBorrowDatetime(rs.getTimestamp("borrow_datetime"));
+                dto.setReturnDatetime(rs.getTimestamp("return_datetime"));
+                dto.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
+                return dto;
+            }
+        );
+    }
+
 
     public List<OrderDTO> getOrdersByUser(String account){
         String sql = "SELECT * FROM orders where member_id = ?";
@@ -94,7 +122,7 @@ public class OrderDAOImpl implements OrderDAO {
                 dto.setVehicleId(rs.getString("vehicle_id"));
                 dto.setOrderId(rs.getString("order_id"));
                 dto.setMemberId(rs.getInt("member_id"));
-                dto.setStatus(rs.getString("vehicleID"));
+                dto.setStatus(rs.getString("status"));
                 dto.setTotalPrice(rs.getBigDecimal("total_price"));
                 dto.setCreateAt(rs.getTimestamp("created_at"));
                 dto.setBorrowLocation(rs.getString("borrow_location"));
@@ -181,5 +209,13 @@ public class OrderDAOImpl implements OrderDAO {
         return order;
     };
 
+
+    @Override
+    public List<Map<String, Object>> getOrderLocationStats() {
+        String sql = "SELECT borrow_location AS location, COUNT(*) AS count " +
+                    "FROM orders GROUP BY borrow_location";
+
+        return jdbcTemplate.queryForList(sql);
+    }
 
 }

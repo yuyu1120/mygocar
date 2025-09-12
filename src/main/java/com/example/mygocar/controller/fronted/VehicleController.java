@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.mygocar.dto.VehicleDTO;
+import com.example.mygocar.service.OrderService;
 import com.example.mygocar.service.VehicleService;
 
 import jakarta.servlet.http.HttpSession;
@@ -21,6 +22,9 @@ public class VehicleController {
 
     @Autowired
     private VehicleService vehicleService;
+
+    @Autowired
+    private OrderService orderService;
 
     /**
      * 處理訂閱車搜尋
@@ -120,6 +124,12 @@ public class VehicleController {
         System.out.println(rentalType);
 
 
+        // 登入資訊
+        String username = (String) session.getAttribute("username");
+        model.addAttribute("isLoggedIn", username != null);
+        model.addAttribute("username", username);
+
+
         // 多條件檢查：車輛、日期、時間、地點
         if (
             vehicleId == null || vehicleId.isEmpty() ||
@@ -132,9 +142,6 @@ public class VehicleController {
             model.addAttribute("errorMessage_missingData", "車輛資訊或取車資料缺失，請先搜尋！");
             model.addAttribute("redirectUrl", "/fronted/search/monthly/rental_search");
 
-            // System.out.println(model.getAttribute("errorMessage_missingData"));
-            // out.println("<script>alert('車輛資訊缺失，請先搜尋！'); location.href='" + request.getContextPath() + "/search/rental_search.jsp';</script>");
-        // return;
             return "fronted/order/extraInfo"; // 仍回 extraInfo.jsp，由 Modal 顯示錯誤
         }
 
@@ -156,8 +163,6 @@ public class VehicleController {
 
         return "fronted/order/extraInfo";
     }
-
-
 
 
 

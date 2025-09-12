@@ -9,6 +9,7 @@ import com.example.mygocar.dto.OrderDTO;
 import java.sql.*;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -125,6 +126,17 @@ public class OrderService {
     }
 
     /**
+     * 根據訂單編號查詢訂單_非會員
+     */
+    public OrderDTO getOrderByorderId(String order_id) throws SQLException {
+
+        OrderDTO order = orderDAO.getVOrderDTOById(order_id);
+        
+        return order;
+       
+    }
+
+    /**
      * 更新訂單狀態
      */
     public void updateOrderStatus(String orderId, String status, String transactionId) throws SQLException {
@@ -146,6 +158,14 @@ public class OrderService {
 
     public List<OrderDTO> getOrdersByUser(String account){
         return orderDAO.getOrdersByUser(account);
+    }
+
+    public List<OrderDTO> getOrdersWithinDays(int days){
+        return orderDAO.getOrdersWithinDays(days);
+    }
+
+    public List<Map<String, Object>> getOrderLocationStats(){
+        return orderDAO.getOrderLocationStats();
     }
 
 }

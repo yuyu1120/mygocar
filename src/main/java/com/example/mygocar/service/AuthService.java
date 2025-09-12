@@ -1,5 +1,7 @@
 package com.example.mygocar.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.example.mygocar.daoimpl.MemberDAOImpl;
@@ -58,6 +60,10 @@ public class AuthService {
 
     public Member findByAccount(String account){
         return memberDAO.findByAccount(account);
+    }
+
+    public List<Member> getAllMembers(){
+        return memberDAO.findAll();
     }
 
 }

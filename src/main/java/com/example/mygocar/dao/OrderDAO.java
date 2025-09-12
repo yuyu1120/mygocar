@@ -1,6 +1,7 @@
 package com.example.mygocar.dao;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import com.example.mygocar.dto.OrderDTO;
@@ -10,6 +11,8 @@ import com.example.mygocar.model.Order;
 public interface OrderDAO {
 
     List<OrderDTO> getAllOrders();
+
+    List<OrderDTO> getOrdersWithinDays(int days);
 
     OrderDTO getVOrderDTOById(String orderId);
 
@@ -21,4 +24,5 @@ public interface OrderDAO {
 
     List<OrderDTO> getOrdersByUser(String account);
 
+    List<Map<String, Object>> getOrderLocationStats();
 }

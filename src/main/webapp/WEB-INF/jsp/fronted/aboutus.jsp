@@ -1,4 +1,5 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page session="true" %>
 
 <!DOCTYPE html>
@@ -13,30 +14,41 @@
   <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 </head>
 <body>
+
   <!-- Header -->
   <header class="header">
-    <nav class="navbar">
-      <!-- Logo -->
-      <a href="/" class="logo">
-        <img src="img/logo1.png" alt="MyGoCar Logo">
-      </a>
+      <nav class="navbar">
+          <!-- Logo -->
+          <a href="/" class="logo"><img src="/img/logo1.png" alt="MyGoCar Logo"></a>
 
-      <!-- 導覽連結 -->
-      <ul class="nav-links">
-        <li><a href="/">首頁</a></li>
-        <li><a href="aboutus">關於我們</a></li>
-        <li><a href="location">據點查詢</a></li>
-        <li><a href="carrentinfo">租車說明</a></li>
-        <li><a href="member">會員專區</a></li>
-      </ul>
+          <!-- 左邊導覽 -->
+          <ul class="nav-links">
+          <li><a href="/">首頁</a></li>
+          <li><a href="${pageContext.request.contextPath}/aboutus">關於我們</a></li>
+          <li><a href="${pageContext.request.contextPath}/location">據點查詢</a></li>
+          <li><a href="${pageContext.request.contextPath}/carrentinfo">租車說明</a></li>
+          <li><a href="${pageContext.request.contextPath}/ordertracking">未登入查詢訂單</a></li>
+          
+              <c:choose>
+                  <c:when test="${isLoggedIn}">
+                      <li>
+                          <a href="${pageContext.request.contextPath}/member" class="btnmember">
+                              <c:out value="${username}"/> 會員專區
+                          </a>
+                      </li>
+                      <li>
+                          <a href="${pageContext.request.contextPath}/logout" class="btnapply">登出</a>
+                      </li>
+                  </c:when>
 
-      <!-- 漢堡選單 -->
-      <button class="menu-toggle" id="menu-toggle" aria-label="切換選單">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </nav>
+                  <c:otherwise>
+                      <li>
+                          <button id="showLoginForm" class="btnlogin" onclick="showLoginForm()">登入/註冊</button>
+                      </li>
+                  </c:otherwise>
+              </c:choose>
+          </ul>
+      </nav>
   </header>
 
   <!-- Main -->
@@ -92,51 +104,51 @@
 
     <!-- Footer -->
     <footer class="footer">
-    <div class="footer-container">
-        <!-- 公司資訊 -->
-        <div class="footer-about">
-        <h3>MyGoCar租車</h3>
-        <p>
-            提供全天候、安全可靠的出租車與租車服務。<br>
-            以顧客滿意為第一優先，讓您隨時隨地安心出行。
-        </p>
-        </div>
+      <div class="footer-container">
+          <!-- 公司資訊 -->
+          <div class="footer-about">
+          <h3>MyGoCar租車</h3>
+          <p>
+              提供全天候、安全可靠的出租車與租車服務。<br>
+              以顧客滿意為第一優先，讓您隨時隨地安心出行。
+          </p>
+          </div>
 
-        <!-- 快速連結 -->
-        <div class="footer-links">
-        <h4>快速連結</h4>
-        <ul>
-            <li><a href="#">首頁</a></li>
-            <li><a href="#">服務項目</a></li>
-            <li><a href="#">車型介紹</a></li>
-            <li><a href="#">線上預約</a></li>
-            <li><a href="#">常見問題</a></li>
-        </ul>
-        </div>
+          <!-- 快速連結 -->
+          <div class="footer-links">
+          <h4>快速連結</h4>
+          <ul>
+              <li><a href="#">首頁</a></li>
+              <li><a href="#">服務項目</a></li>
+              <li><a href="#">車型介紹</a></li>
+              <li><a href="#">線上預約</a></li>
+              <li><a href="#">常見問題</a></li>
+          </ul>
+          </div>
 
-        <!-- 聯絡方式 -->
-        <div class="footer-contact">
-        <h4>聯絡我們</h4>
-        <p>📍 台北市中正區XX路100號</p>
-        <p>📞 02-1234-5678</p>
-        <p>📧 info@mygocar.com</p>
-        </div>
+          <!-- 聯絡方式 -->
+          <div class="footer-contact">
+          <h4>聯絡我們</h4>
+          <p>📍 台北市中正區XX路100號</p>
+          <p>📞 02-1234-5678</p>
+          <p>📧 info@mygocar.com</p>
+          </div>
 
-<!-- 社群媒體 -->
-      <div class="footer-social">
-        <h4>追蹤我們</h4>
-        <div class="social-icons">
-          <a href="teamwk" target="_blank"><i class="fab fa-facebook-f"></i></a>
-          <a href="teamwk" target="_blank"><i class="fab fa-instagram"></i></a>
-          <a href="teamwk" target="_blank"><i class="fab fa-line"></i></a>
+        <!-- 社群媒體 -->
+        <div class="footer-social">
+          <h4>追蹤我們</h4>
+          <div class="social-icons">
+            <a href="teamwk" target="_blank"><i class="fab fa-facebook-f"></i></a>
+            <a href="teamwk" target="_blank"><i class="fab fa-instagram"></i></a>
+            <a href="teamwk" target="_blank"><i class="fab fa-line"></i></a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- 版權 -->
-    <div class="footer-bottom">
-        <p>&copy; 2025 MyGoCar租車. All rights reserved.</p>
-    </div>
+      <!-- 版權 -->
+      <div class="footer-bottom">
+          <p>&copy; 2025 MyGoCar租車. All rights reserved.</p>
+      </div>
     </footer>
 
     <!-- Scripts -->

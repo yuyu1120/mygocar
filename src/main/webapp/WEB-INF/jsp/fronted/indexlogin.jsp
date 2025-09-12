@@ -1,26 +1,24 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-  <%@ page session="true" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page session="true" %>
 
-    <!DOCTYPE html>
+  <!DOCTYPE html>
     <html lang="zh-Hant">
 
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <title>MyGoCar租車</title>
-      <link rel="stylesheet" href="/css/resetcss.css">
-      <link rel="stylesheet" href="/css/index.css">
+      
+      
       <link rel="stylesheet" href="/css/indexlogin.css">
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-      <link rel="icon" href="img/favicon.ico" type="image/x-icon">
-      <script src="/js/index.js"></script>
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
-        </script>
-
+      
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+      <link rel="stylesheet" href="/css/resetcss.css">
+      <link rel="stylesheet" href="/css/index.css">
+      <link rel="icon" href="img/favicon.ico" type="image/x-icon">
 
     </head>
 
@@ -29,9 +27,7 @@
       <header class="header">
         <nav class="navbar">
           <!-- Logo -->
-          <a href="/" class="logo">
-            <img src="img/logo1.png" alt="MyGoCar Logo">
-          </a>
+          <a href="/" class="logo"><img src="/img/logo1.png" alt="MyGoCar Logo"></a>
 
           <!-- 左邊導覽 -->
           <ul class="nav-links">
@@ -39,23 +35,29 @@
             <li><a href="aboutus">關於我們</a></li>
             <li><a href="location">據點查詢</a></li>
             <li><a href="carrentinfo">租車說明</a></li>
+            <li><a href="ordertracking">未登入查詢訂單</a></li>
+          
+              <c:choose>
+                  <c:when test="${isLoggedIn}">
+                      <li>
+                          <a href="/member" class="btnmember">
+                              <c:out value="${username}"/> 會員專區
+                          </a>
+                      </li>
+                      <li>
+                          <a href="/logout" class="btnapply">登出</a>
+                      </li>
+                  </c:when>
 
-          </ul>
-
-          <!-- 右邊登入/註冊 -->
-          <ul class="nav-auth">
-
-            <li><button id="showLoginForm" class="btnlogin" onclick="showLoginForm()">登入</button></li>
-
-
-
-            <li><a href="#" class="btnapply">註冊</a></li>
+                  <c:otherwise>
+                      <li>
+                          <button id="showLoginForm" class="btnlogin" onclick="showLoginForm()">登入/註冊</button>
+                      </li>
+                  </c:otherwise>
+              </c:choose>
           </ul>
         </nav>
       </header>
-
-
-
 
       <!-- 漢堡選單 -->
       <button class="menu-toggle" id="menu-toggle" aria-label="切換選單">
@@ -86,7 +88,7 @@
 
         <!-- 搜尋框 -->
         <section class="search-box">
-          <form id="searchForm" action="${pageContext.request.contextPath}/daily-rental" method="get">
+          <form id="searchForm" action="/rental" method="get">
 
             <!-- Tabs -->
             <div class="search-tabs">
@@ -184,405 +186,407 @@
         </div>
       </footer>
 
-
-
-
-
-      <section id="auth-section" class=" modal-background" style="display: flex;">
-        <div id="auth-container">
-          <div class="auth-sidebar">
-            <div class="auth-card">
-              <div id="login" class="backgroudshow">
-                <button id="loginbtn" type="button" class=" border-0 fw-bold "
-                  style=" font-size: 25px; background-color: transparent;"
-                  onclick="switchTab('login-content')">LOGIN</button>
-              </div>
-              <div id="sign">
-                <button id="signbtn" type="button" class=" border-0 fw-bold colorwhite"
-                  style=" font-size: 25px;background-color: transparent; " onclick="switchTab('sign-content')">SIGN
-                  UP</button>
+      <c:if test="${empty isLoggedIn or not isLoggedIn}">
+        <section id="auth-section" class="modal-background" style="display: flex;">
+          <div id="auth-container">
+            <div class="auth-sidebar">
+              <div class="auth-card">
+                <div id="login" class="backgroudshow">
+                  <button id="loginbtn" type="button" class=" border-0 fw-bold "
+                    style=" font-size: 25px; background-color: transparent;"
+                    onclick="switchTab('login-content')">LOGIN</button>
+                </div>
+                <div id="sign">
+                  <button id="signbtn" type="button" class=" border-0 fw-bold colorwhite"
+                    style=" font-size: 25px;background-color: transparent; " onclick="switchTab('sign-content')">SIGN
+                    UP</button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="auth-content">
-            <div id="login-content" class="auth-sections   ">
-              <div class="text-center mb-5 mt-4">
-                <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                <h5>Bling Bling 有禮</h5>
-              </div>
-              <form id="loginForm">
-                <!-- 帳號輸入 -->
-                <div class="mx-auto mt-2 mb-3 w-75">
-                  <div class="input-group">
-                    <label for="account">
-                      <img src="image/icons8-male-user-60.png" alt="logo" width="50px">
-                    </label>
-                    <input type="text" id="account"
-                      class="form-control border-0 border-bottom border-dark border-2 rounded-0 " name="account"
-                      placeholder="帳號">
-                  </div>
+            <div class="auth-content">
+              <div id="login-content" class="auth-sections   ">
+                <div class="text-center mb-5 mt-4">
+                  <!-- <img src="your-logo.png" alt="logo" width="100"> -->
+                  <h5>MYGOCAR</h5>
                 </div>
-
-                <!-- 密碼輸入 -->
-                <div class="mx-auto mb-5 w-75">
-                  <div class="input-group">
-                    <label for="password">
-                      <img src="image/icons8-password-50.png" alt="logo" width="50px">
-                    </label>
-                    <input id="password" type="password"
-                      class="form-control border-0 border-bottom border-dark border-2 rounded-0 " name="password"
-                      placeholder="密碼">
-                    <button type="button" onclick="togglePassword1()"
-                      class="border-0 border-bottom border-dark border-2" style="background:none">
-                      <img id="passwordimg" src="image/icons8-closed-eye-24.png" alt="logo" width="25px" height="25px">
-                    </button>
+                <form id="loginForm">
+                  <!-- 帳號輸入 -->
+                  <div class="mx-auto mt-2 mb-3 w-75">
+                    <div class="input-group">
+                      <label for="account">
+                        <img src="image/icons8-male-user-60.png" alt="logo" width="50px">
+                      </label>
+                      <input type="text" id="account"
+                        class="form-control border-0 border-bottom border-dark border-2 rounded-0 " name="account"
+                        placeholder="帳號">
+                    </div>
                   </div>
-                  <div class="ps-5 mt-2" style="color:blue;" onclick="switchTab('current-content')">
-                    忘記密碼
+
+                  <!-- 密碼輸入 -->
+                  <div class="mx-auto mb-5 w-75">
+                    <div class="input-group">
+                      <label for="password">
+                        <img src="image/icons8-password-50.png" alt="logo" width="50px">
+                      </label>
+                      <input id="password" type="password"
+                        class="form-control border-0 border-bottom border-dark border-2 rounded-0 " name="password"
+                        placeholder="密碼">
+                      <button type="button" onclick="togglePassword1()"
+                        class="border-0 border-bottom border-dark border-2" style="background:none">
+                        <img id="passwordimg" src="image/icons8-closed-eye-24.png" alt="logo" width="25px" height="25px">
+                      </button>
+                    </div>
+                    <div class="ps-5 mt-2" style="color:blue;" onclick="switchTab('current-content')">
+                      忘記密碼
+                    </div>
                   </div>
+
+                  <!-- 登入按鈕 -->
+                  <div class="d-grid mb-4 w-50 mx-auto">
+                    <button type="submit" class="btn btn-success">登入</button>
+                  </div>
+                </form>
+                <!-- OR -->
+                <div class="text-center mb-3 text-muted">OR</div>
+
+                <!-- 第三方登入 -->
+                <div class="d-flex justify-content-center gap-3">
+                  <img src="image/icons8-fb-48.png" alt="fb" width="40px" height="40px">
+                  <img src="image/icons8-google-48.png" alt="google" width="40px" height="40px">
                 </div>
-
-                <!-- 登入按鈕 -->
-                <div class="d-grid mb-4 w-50 mx-auto">
-                  <button type="submit" class="btn btn-success">登入</button>
-                </div>
-              </form>
-              <!-- OR -->
-              <div class="text-center mb-3 text-muted">OR</div>
-
-              <!-- 第三方登入 -->
-              <div class="d-flex justify-content-center gap-3">
-                <img src="image/icons8-fb-48.png" alt="fb" width="40px" height="40px">
-                <img src="image/icons8-google-48.png" alt="google" width="40px" height="40px">
-              </div>
-            </div>
-
-            <div id="current-content" class="auth-sections hide">
-              <div class="text-center mb-5 mt-5">
-                <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                <h5>Bling Bling 有禮</h5>
               </div>
 
-              <div class="step-dots mb-4">
-                <div class="step">
-                  <div class="dot  active "></div>
-                  <div class="step-font">輸入帳號</div>
+              <div id="current-content" class="auth-sections hide">
+                <div class="text-center mb-5 mt-5">
+                  <!-- <img src="your-logo.png" alt="logo" width="100"> -->
+                  <h5>MYGOCAR</h5>
                 </div>
-                <div class="step">
-                  <div class="dot "></div>
-                  <div class="dotLine left "></div>
-                  <div class="sys-font">信箱確認</div>
+
+                <div class="step-dots mb-4">
+                  <div class="step">
+                    <div class="dot  active "></div>
+                    <div class="step-font">輸入帳號</div>
+                  </div>
+                  <div class="step">
+                    <div class="dot "></div>
+                    <div class="dotLine left "></div>
+                    <div class="sys-font">信箱確認</div>
+                  </div>
+                  <div class="step">
+                    <div class="dot "></div>
+                    <div class="dotLine left "></div>
+                    <div class="sys-font">密碼修改</div>
+                  </div>
                 </div>
-                <div class="step">
-                  <div class="dot "></div>
-                  <div class="dotLine left "></div>
-                  <div class="sys-font">密碼修改</div>
-                </div>
+                <!-- 帳號確認 -->
+                <form id="currentAccount">
+                  <div class="mx-auto  mt-5 mb-3 w-75" style="padding-left:10px;">
+                    <div class="input-group">
+                      <label for="account">
+                        <img src="image/icons8-male-user-60.png" alt="logo" width="50px">
+                      </label>
+                      <input type="text" id="current-account" class=" rounded border p-1" style="width: 300px;"
+                        name="account" placeholder="請輸入帳號">
+                    </div>
+                  </div>
+
+                  <div class="mx-auto mb-3 w-75" style="padding-left:10px;">
+                    <div class="input-group">
+                      <label for="email">
+                        <img src="image/icons8-email-48.png" alt="logo" width="50px">
+                      </label>
+                      <input type="text" id="current-email" class=" rounded border p-1" style="width: 300px;" name="email"
+                        placeholder="請輸入信箱">
+                    </div>
+                  </div>
+                  <div style="display: flex;" class="mt-4">
+                    <!-- 註冊按鈕 -->
+                    <div class=" mt-3  ">
+                      <button type="submit" class="btn btn-success " style="width:  100px; margin-left: 115px;"
+                        onclick="switchTab('login-content')">取消</button>
+                    </div>
+
+
+                    <div class=" mt-3 ">
+                      <button id="currentAccountEmail" type="submit" class="btn btn-success"
+                        style="width:  100px; margin-left: 60px;">確認</button>
+                    </div>
+                  </div>
+                </form>
+
               </div>
-              <!-- 帳號確認 -->
-              <form id="currentAccount">
-                <div class="mx-auto  mt-5 mb-3 w-75" style="padding-left:10px;">
-                  <div class="input-group">
-                    <label for="account">
-                      <img src="image/icons8-male-user-60.png" alt="logo" width="50px">
-                    </label>
-                    <input type="text" id="current-account" class=" rounded border p-1" style="width: 300px;"
-                      name="account" placeholder="請輸入帳號">
-                  </div>
+              <div id="email-content" class="auth-sections hide ">
+                <div class="text-center mb-5 mt-5 ">
+                  <!-- <img src="your-logo.png" alt="logo" width="100"> -->
+                  <h5>MYGOCAR</h5>
                 </div>
 
-                <div class="mx-auto mb-3 w-75" style="padding-left:10px;">
-                  <div class="input-group">
-                    <label for="email">
-                      <img src="image/icons8-email-48.png" alt="logo" width="50px">
-                    </label>
-                    <input type="text" id="current-email" class=" rounded border p-1" style="width: 300px;" name="email"
-                      placeholder="請輸入信箱">
+                <div class="step-dots mb-4">
+                  <div class="step">
+                    <div class="dot active "></div>
+                    <div class="sys-font">輸入帳號</div>
+                  </div>
+                  <div class="step">
+                    <div class="dot active "></div>
+                    <div class="dotLine left active "></div>
+                    <div class="step-font">信箱確認</div>
+                  </div>
+                  <div class="step">
+                    <div class="dot "></div>
+                    <div class="dotLine left "></div>
+                    <div class="sys-font">密碼修改</div>
                   </div>
                 </div>
-                <div style="display: flex;" class="mt-4">
-                  <!-- 註冊按鈕 -->
-                  <div class=" mt-3  ">
-                    <button type="submit" class="btn btn-success " style="width:  100px; margin-left: 115px;"
-                      onclick="switchTab('login-content')">取消</button>
-                  </div>
-
-
-                  <div class=" mt-3 ">
-                    <button id="currentAccountEmail" type="submit" class="btn btn-success"
-                      style="width:  100px; margin-left: 60px;">確認</button>
-                  </div>
-                </div>
-              </form>
-
-            </div>
-            <div id="email-content" class="auth-sections hide ">
-              <div class="text-center mb-5 mt-5 ">
-                <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                <h5>Bling Bling 有禮</h5>
-              </div>
-
-              <div class="step-dots mb-4">
-                <div class="step">
-                  <div class="dot active "></div>
-                  <div class="sys-font">輸入帳號</div>
-                </div>
-                <div class="step">
-                  <div class="dot active "></div>
-                  <div class="dotLine left active "></div>
-                  <div class="step-font">信箱確認</div>
-                </div>
-                <div class="step">
-                  <div class="dot "></div>
-                  <div class="dotLine left "></div>
-                  <div class="sys-font">密碼修改</div>
-                </div>
-              </div>
-              <!-- 新密碼輸入 -->
-              <form id="currentEmailCode">
-                <div class=" mt-2 mb-3 " style="position: relative;  margin-left: 50px;">
-                  <div class="mb-3">請輸入6位數驗證碼
-                  </div>
-                  <div style="display: flex;  ">
-                    <input type="type" maxlength="1" class="emailBtn me-2">
-                    <input type="type" maxlength="1" class="emailBtn me-2">
-                    <input type="type" maxlength="1" class="emailBtn me-2">
-                    <input type="type" maxlength="1" class="emailBtn me-2">
-                    <input type="type" maxlength="1" class="emailBtn me-2">
-                    <input type="type" maxlength="1" class="emailBtn">
-
-                  </div>
-
-                  <div class="mt-3" style="text-align: right;  margin-right: 50px;">沒有收到驗證性?重新發送
-                  </div>
-                </div>
-
-                <div style="display: flex;" class="mt-4">
-                  <!-- 註冊按鈕 -->
-                  <div class=" mt-3  ">
-                    <button type="submit" class="btn btn-success " style="width:  100px; margin-left: 115px;"
-                      onclick="switchTab('login-content')">取消</button>
-                  </div>
-                  <div class=" mt-3  ">
-                    <button type="submit" class="btn btn-success " style="width:  100px; margin-left: 60px;"
-                      id="currentEmailCode2">確認</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div id="newPassword-content" class="auth-sections hide">
-              <div class="text-center mb-5 mt-5">
-                <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                <h5>Bling Bling 有禮</h5>
-              </div>
-
-              <div class="step-dots mb-4">
-                <div class="step ">
-                  <div class="dot active"></div>
-                  <div class="sys-font">輸入帳號</div>
-                </div>
-                <div class="step">
-                  <div class="dot active "></div>
-                  <div class="dotLine left active "></div>
-                  <div class="sys-font">信箱確認</div>
-                </div>
-                <div class="step">
-                  <div class="dot active"></div>
-                  <div class="dotLine left  active"></div>
-                  <div class="step-font">密碼修改</div>
-                </div>
-              </div>
-              <form id="editNewPassword">
                 <!-- 新密碼輸入 -->
-                <div class="mx-auto  mt-5 mb-3 w-75" style="padding-left:10px; ">
-                  <div class="input-group inputRelative">
-                    <label for="newPassword">
-                      <img src="image/icons8-password-50.png" alt="logo" width="50px">
-                    </label>
-                    <input type="password" id="newPassword" class=" rounded border p-1" style="width: 300px;"
-                      name="password" placeholder="請輸入新密碼">
-                    <button type="button" onclick="togglePassword4()" class="border-0 btn-absolute "
-                      style="background:none; left: 305px;">
-                      <img id="newPasswordimg" src="image/icons8-closed-eye-24.png" alt="logo" width="25px"
-                        height="25px">
-                    </button>
+                <form id="currentEmailCode">
+                  <div class=" mt-2 mb-3 " style="position: relative;  margin-left: 50px;">
+                    <div class="mb-3">請輸入6位數驗證碼
+                    </div>
+                    <div style="display: flex;  ">
+                      <input type="type" maxlength="1" class="emailBtn me-2">
+                      <input type="type" maxlength="1" class="emailBtn me-2">
+                      <input type="type" maxlength="1" class="emailBtn me-2">
+                      <input type="type" maxlength="1" class="emailBtn me-2">
+                      <input type="type" maxlength="1" class="emailBtn me-2">
+                      <input type="type" maxlength="1" class="emailBtn">
 
+                    </div>
+
+                    <div class="mt-3" style="text-align: right;  margin-right: 50px;">沒有收到驗證性?重新發送
+                    </div>
                   </div>
-                </div>
 
-
-                <div class="mx-auto mb-3 w-75" style="padding-left:60px; position:relative;">
-                  <div class="input-group inputRelative">
-
-                    <input type="password" id="newPassword2" class=" rounded border p-1"
-                      style="width: 300px; height: 45px; " placeholder="請確認密碼">
-                    <button type="button" onclick="togglePassword5() " class=" border-0 btn-absolute "
-                      style=" background:none; left:255px;">
-                      <img id="newPasswordimg2" src="image/icons8-closed-eye-24.png" alt="logo" width="25px"
-                        height="25px">
-                    </button>
+                  <div style="display: flex;" class="mt-4">
+                    <!-- 註冊按鈕 -->
+                    <div class=" mt-3  ">
+                      <button type="submit" class="btn btn-success " style="width:  100px; margin-left: 115px;"
+                        onclick="switchTab('login-content')">取消</button>
+                    </div>
+                    <div class=" mt-3  ">
+                      <button type="submit" class="btn btn-success " style="width:  100px; margin-left: 60px;"
+                        id="currentEmailCode2">確認</button>
+                    </div>
                   </div>
-                </div>
-
-
-
-                <div style="display: flex;" class="mt-4">
-                  <!-- 註冊按鈕 -->
-                  <div class=" mt-3  ">
-                    <button type="submit" class="btn btn-success " style="width:  100px; margin-left: 115px;"
-                      onclick="switchTab('login-content')">取消</button>
-                  </div>
-                  <div class=" mt-3  ">
-                    <button type="submit" class="btn btn-success" style="width:  100px; margin-left: 60px;"
-                      id="editnewcurrentpassword">修改</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-
-
-            <div id="sign-content" class="auth-sections hide">
-              <div class="text-center mb-3 mt-4">
-                <!-- <img src="your-logo.png" alt="logo" width="100"> -->
-                <h5>Bling Bling 有禮</h5>
+                </form>
               </div>
-              <form id="signForm">
-                <!-- 帳號輸入 -->
-                <div class="mx-auto mb-3 w-75">
-
-                  <div id="react-account" class="text-end ">&nbsp;
-                  </div>
-
-                  <div class="input-group ">
-                    <label id="enterAccount">
-                      <img src="image/icons8-male-user-60.png" alt="logo" width="20px" height="20px">
-                    </label>
-                    <input type="text" class=" rounded border p-1" style="height: 25px; width: 350px;" name="account"
-                      id="signAccount" placeholder="  帳號">
-                  </div>
-                  <div class="mt-2 line">
-                  </div>
+              <div id="newPassword-content" class="auth-sections hide">
+                <div class="text-center mb-5 mt-5">
+                  <!-- <img src="your-logo.png" alt="logo" width="100"> -->
+                  <h5>MYGOCAR</h5>
                 </div>
 
-
-                <!-- 手機輸入 -->
-                <div class="mx-auto  mb-3 w-75">
-                  <div id="react-phone" class="text-end ">&nbsp;
+                <div class="step-dots mb-4">
+                  <div class="step ">
+                    <div class="dot active"></div>
+                    <div class="sys-font">輸入帳號</div>
                   </div>
-                  <div class="input-group ">
-                    <label id="enterPhone">
-                      <img src="image/icons8-phone-48.png" alt="logo" width="20px" height="20px">
-                    </label>
-                    <input type="text" class=" rounded border p-1" style="height: 25px;  width: 350px;" id="signPhone"
-                      name="phone" placeholder="  手機">
+                  <div class="step">
+                    <div class="dot active "></div>
+                    <div class="dotLine left active "></div>
+                    <div class="sys-font">信箱確認</div>
                   </div>
-                  <div class="mt-2 line">
-                  </div>
-                </div>
-
-                <!-- 信箱輸入 -->
-                <div class="mx-auto mb-3 w-75">
-                  <div id="react-email" class="text-end">&nbsp;
-                  </div>
-                  <div class="input-group ">
-                    <label id="enterEmail">
-                      <img src="image/icons8-email-48.png" alt="logo" width="20px" height="20px">
-                    </label>
-                    <input type="email" class=" rounded border p-1" style="height: 25px; width: 350px;" id="signEmail"
-                      name="email" placeholder="  信箱">
-                  </div>
-                  <div class="mt-2 line">
+                  <div class="step">
+                    <div class="dot active"></div>
+                    <div class="dotLine left  active"></div>
+                    <div class="step-font">密碼修改</div>
                   </div>
                 </div>
+                <form id="editNewPassword">
+                  <!-- 新密碼輸入 -->
+                  <div class="mx-auto  mt-5 mb-3 w-75" style="padding-left:10px; ">
+                    <div class="input-group inputRelative">
+                      <label for="newPassword">
+                        <img src="image/icons8-password-50.png" alt="logo" width="50px">
+                      </label>
+                      <input type="password" id="newPassword" class=" rounded border p-1" style="width: 300px;"
+                        name="password" placeholder="請輸入新密碼">
+                      <button type="button" onclick="togglePassword4()" class="border-0 btn-absolute "
+                        style="background:none; left: 305px;">
+                        <img id="newPasswordimg" src="image/icons8-closed-eye-24.png" alt="logo" width="25px"
+                          height="25px">
+                      </button>
+
+                    </div>
+                  </div>
 
 
-                <!-- 密碼輸入 -->
-                <div class="mx-auto mb-3 w-75">
-                  <div id="react-password" class="text-end">&nbsp;
-                  </div>
-                  <div class="input-group inputRelative ">
-                    <label id="emailPassword">
-                      <img src="image/icons8-password-50.png" alt="logo" width="20px" height="20px">
-                    </label>
-                    <input type="password" class=" rounded border p-1" style="height: 25px;  width: 350px;"
-                      id="signPassword" name="password" placeholder="  密碼">
+                  <div class="mx-auto mb-3 w-75" style="padding-left:60px; position:relative;">
+                    <div class="input-group inputRelative">
 
-                    <button type="button" onclick="togglePassword2()" class="border-0 btn-absolute1 "
-                      style="background:none">
-                      <img id="signPasswordImg" src="image/icons8-closed-eye-24.png" alt="logo" width="20px"
-                        height="20px">
-                    </button>
+                      <input type="password" id="newPassword2" class=" rounded border p-1"
+                        style="width: 300px; height: 45px; " placeholder="請確認密碼">
+                      <button type="button" onclick="togglePassword5() " class=" border-0 btn-absolute "
+                        style=" background:none; left:255px;">
+                        <img id="newPasswordimg2" src="image/icons8-closed-eye-24.png" alt="logo" width="25px"
+                          height="25px">
+                      </button>
+                    </div>
                   </div>
-                  <div class="mt-2 line">
+
+
+
+                  <div style="display: flex;" class="mt-4">
+                    <!-- 註冊按鈕 -->
+                    <div class=" mt-3  ">
+                      <button type="submit" class="btn btn-success " style="width:  100px; margin-left: 115px;"
+                        onclick="switchTab('login-content')">取消</button>
+                    </div>
+                    <div class=" mt-3  ">
+                      <button type="submit" class="btn btn-success" style="width:  100px; margin-left: 60px;"
+                        id="editnewcurrentpassword">修改</button>
+                    </div>
                   </div>
+                </form>
+              </div>
+
+
+              <div id="sign-content" class="auth-sections hide">
+                <div class="text-center mb-3 mt-4">
+                  <!-- <img src="your-logo.png" alt="logo" width="100"> -->
+                  <h5>MYGOCAR</h5>
                 </div>
+                <form id="signForm">
+                  <!-- 帳號輸入 -->
+                  <div class="mx-auto mb-3 w-75">
 
-                <!-- 密碼確認 -->
-                <div class="mx-auto mb-3 w-75">
-                  <div id="react-password2" class="text-end">&nbsp;
+                    <div id="react-account" class="text-end ">&nbsp;
+                    </div>
+
+                    <div class="input-group ">
+                      <label id="enterAccount">
+                        <img src="image/icons8-male-user-60.png" alt="logo" width="20px" height="20px">
+                      </label>
+                      <input type="text" class=" rounded border p-1" style="height: 25px; width: 350px;" name="account"
+                        id="signAccount" placeholder="  帳號">
+                    </div>
+                    <div class="mt-2 line">
+                    </div>
                   </div>
-                  <div class="input-group ps-4  inputRelative">
 
-                    <input type="password" class=" rounded border p-1 " style=" height: 25px;  width: 350px;"
-                      id="signPassword2" name="signPassword2" placeholder="  密碼確認">
-                    <button type="button" onclick="togglePassword3()" class="border-0 btn-absolute1"
-                      style="background:none">
-                      <img id="signPasswordImg2" src="image/icons8-closed-eye-24.png" alt="logo" width="20px"
-                        height="20px">
-                    </button>
+
+                  <!-- 手機輸入 -->
+                  <div class="mx-auto  mb-3 w-75">
+                    <div id="react-phone" class="text-end ">&nbsp;
+                    </div>
+                    <div class="input-group ">
+                      <label id="enterPhone">
+                        <img src="image/icons8-phone-48.png" alt="logo" width="20px" height="20px">
+                      </label>
+                      <input type="text" class=" rounded border p-1" style="height: 25px;  width: 350px;" id="signPhone"
+                        name="phone" placeholder="  手機">
+                    </div>
+                    <div class="mt-2 line">
+                    </div>
                   </div>
 
-                  <div class="mt-2  line   ms-auto" style="width: 360px ;">
+                  <!-- 信箱輸入 -->
+                  <div class="mx-auto mb-3 w-75">
+                    <div id="react-email" class="text-end">&nbsp;
+                    </div>
+                    <div class="input-group ">
+                      <label id="enterEmail">
+                        <img src="image/icons8-email-48.png" alt="logo" width="20px" height="20px">
+                      </label>
+                      <input type="email" class=" rounded border p-1" style="height: 25px; width: 350px;" id="signEmail"
+                        name="email" placeholder="  信箱">
+                    </div>
+                    <div class="mt-2 line">
+                    </div>
                   </div>
-                </div>
 
 
-                <!-- 註冊按鈕 -->
-                <div class="d-grid mb-3 w-25 mx-auto">
-                  <button type="submit" class="btn btn-success">註冊</button>
-                </div>
-              </form>
+                  <!-- 密碼輸入 -->
+                  <div class="mx-auto mb-3 w-75">
+                    <div id="react-password" class="text-end">&nbsp;
+                    </div>
+                    <div class="input-group inputRelative ">
+                      <label id="emailPassword">
+                        <img src="image/icons8-password-50.png" alt="logo" width="20px" height="20px">
+                      </label>
+                      <input type="password" class=" rounded border p-1" style="height: 25px;  width: 350px;"
+                        id="signPassword" name="password" placeholder="  密碼">
+
+                      <button type="button" onclick="togglePassword2()" class="border-0 btn-absolute1 "
+                        style="background:none">
+                        <img id="signPasswordImg" src="image/icons8-closed-eye-24.png" alt="logo" width="20px"
+                          height="20px">
+                      </button>
+                    </div>
+                    <div class="mt-2 line">
+                    </div>
+                  </div>
+
+                  <!-- 密碼確認 -->
+                  <div class="mx-auto mb-3 w-75">
+                    <div id="react-password2" class="text-end">&nbsp;
+                    </div>
+                    <div class="input-group ps-4  inputRelative">
+
+                      <input type="password" class=" rounded border p-1 " style=" height: 25px;  width: 350px;"
+                        id="signPassword2" name="signPassword2" placeholder="  密碼確認">
+                      <button type="button" onclick="togglePassword3()" class="border-0 btn-absolute1"
+                        style="background:none">
+                        <img id="signPasswordImg2" src="image/icons8-closed-eye-24.png" alt="logo" width="20px"
+                          height="20px">
+                      </button>
+                    </div>
+
+                    <div class="mt-2  line   ms-auto" style="width: 360px ;">
+                    </div>
+                  </div>
+
+
+                  <!-- 註冊按鈕 -->
+                  <div class="d-grid mb-3 w-25 mx-auto">
+                    <button type="submit" class="btn btn-success">註冊</button>
+                  </div>
+                </form>
+              </div>
+
             </div>
-
-
-
 
 
           </div>
+        </section>
+      </c:if>
 
-
-        </div>
-      </section>
-
+      <script src="/js/fronted_indexlogin/indexlogin.js"></script>
 
       <script src="/js/app.js"></script>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
+      </script>
+
+      <%-- 判斷 isLoggedIn，只有 未登入時 才輸出這段 JS --%>
+      <c:if test="${empty isLoggedIn or not isLoggedIn}">
+        <script>
+          document.addEventListener("click", function (e) {
+            const authContainer = document.getElementById('auth-container');
+            const showLoginBtn = document.getElementById('showLoginForm');
+
+            if (authContainer && showLoginBtn) {
+              if (!authContainer.contains(e.target) && !showLoginBtn.contains(e.target)) {
+                document.getElementById('auth-section').style.display = 'none';
+              }
+            }
+          });
         </script>
+        </c:if>
       <script>
 
-        //  顯示登入頁面 
-        document.addEventListener("click", function (e) {
-
-          if (!document.getElementById('auth-container').contains(e.target) && !document.getElementById('showLoginForm').contains(e.target)) { document.getElementById('auth-section').style.display = 'none'; }
-
-        })
         function showLoginForm() {
-
           document.getElementById('auth-section').style.display = 'flex';
-
-
         }
+
         function hideLoginForm() {
           document.getElementById('auth-section').style.display = 'none';
         }
+
         async function switchTab(id) {
-
-
-
+          
           document.querySelectorAll(".auth-sections").forEach(btn => btn.classList.add("hide"));
-
           document.getElementById(id).classList.remove("hide");
+          
           if (id === "login-content") {
             document.getElementById("login").classList.add("backgroudshow");
             document.getElementById("sign").classList.remove("backgroudshow");
@@ -599,10 +603,8 @@
           else {
             console.log("有進入");
           }
-
-
-
         }
+
         function toggleLogin() {
           document.getElementById("login-content").classList.remove("hide")
           document.getElementById("sign-content").classList.add("hide")
@@ -611,6 +613,7 @@
           document.getElementById("loginbtn").classList.remove("colorwhite")
           document.getElementById("signbtn").classList.add("colorwhite")
         }
+
         function toggleSign() {
           document.getElementById("login-content").classList.add("hide")
           document.getElementById("sign-content").classList.remove("hide")
@@ -621,6 +624,7 @@
 
 
         }
+
         function togglePassword1() {
           const input = document.getElementById("password");
           const img = document.getElementById("passwordimg");
@@ -818,7 +822,7 @@
         }
         );
 
-
+        //監聽按下登入的事件
         document.getElementById("loginForm").addEventListener("submit", function (e) {
 
           e.preventDefault();
@@ -861,7 +865,7 @@
             .then(response => response.text())
             .then(data => {
               if (data === "登入成功") {
-                window.location.href = "/x";
+                window.location.href = "/";
 
               } else {
                 alert(data);
@@ -1098,10 +1102,6 @@
 
           }
         });
-
-
-
-
 
         const inputs = document.querySelectorAll('.emailBtn');
         // 綁定每格事件

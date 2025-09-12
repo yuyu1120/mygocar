@@ -300,3 +300,83 @@ details[open] > summary::after {
   font-size: 14px;
   color: #555;
 }
+
+
+
+/* 按鈕美化 - 藍色系 */
+.btnmember {
+    font-size: 16px;           /* 字型大小 */
+    font-weight: bold;          /* 粗體 */
+    color: #ffffff;             /* 白色字體 */
+    /* background-color: #4682a9; 藍色底色 */
+    border: none;               /* 無邊框 */
+    border-radius: 8px;         /* 圓角 */
+    padding: 8px 20px;          /* 上下/左右內距 */
+    cursor: pointer;            /* 滑鼠變手指 */
+    transition: all 0.3s ease; /* 平滑動畫 */
+}
+
+.btnmember:hover {
+    background-color: #cbdae9; /* 深藍色 hover */
+    color: #ffffff;
+    transform: translateY(-2px); /* 微浮動效果 */
+}
+
+
+/* 按鈕美化 - 藍色系 */
+.btnlogin {
+    font-size: 16px;           /* 字型大小 */
+    font-weight: bold;          /* 粗體 */
+    color: #ffffff;             /* 白色字體 */
+    background-color: #4682a9; /* 藍色底色 */
+    border: none;               /* 無邊框 */
+    border-radius: 8px;         /* 圓角 */
+    padding: 8px 20px;          /* 上下/左右內距 */
+    cursor: pointer;            /* 滑鼠變手指 */
+    transition: all 0.3s ease; /* 平滑動畫 */
+}
+
+.btnlogin:hover {
+    background-color: #2e6296; /* 深藍色 hover */
+    color: #ffffff;
+    transform: translateY(-2px); /* 微浮動效果 */
+}
+
+
+/* 搜尋 tab active 狀態藍色 */
+.tab.active {
+    background: #4682a9; /* 主藍色 */
+    color: #fff;
+}
+
+/* 搜尋按鈕 */
+.search-btn {
+    background: #4682a9;
+    color: white;
+    cursor: pointer;
+    transition: 0.3s;
+    display: block;
+    margin: 0 auto;
+    border: none;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+.search-btn:hover {
+    background: #35628f;
+}
+
+/* auth modal sidebar 的藍色 */
+.auth-sidebar {
+    background-color: #4682a9;
+}
+
+/* 步驟圓點 active 狀態改成藍色 */
+.step-dots .dot.active {
+    background-color: #4682a9 !important;
+}
+
+.dotLine.active {
+    background-color: #4682a9;
+}

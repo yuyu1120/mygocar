@@ -22,40 +22,41 @@
 
 <body>
 
-  <!-- Header -->
-  <header class="header">
-    <nav class="navbar">
-      <!-- Logo -->
-      <a href="/" class="logo">
-        <img src="img/logo1.png" alt="MyGoCar Logo">
-      </a>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <!-- Logo -->
+            <a href="/" class="logo"><img src="/img/logo1.png" alt="MyGoCar Logo"></a>
 
-      <!-- 導覽連結 -->
-      <ul class="nav-links">
-        <li><a href="/">首頁</a></li>
-        <li><a href="aboutus">關於我們</a></li>
-        <li><a href="location">據點查詢</a></li>
-        <li><a href="carrentinfo">租車說明</a></li>
-        <li><a href="member">會員專區</a></li>
-        <li class="nav-item"><a class="nav-link" href="/search">租車</a></li>
-        <li class="nav-item">
-            <a class="nav-link" href="<%= isLoggedIn ? "account.jsp" : "/login" %>">
-                <%= isLoggedIn ? username : "登入" %>
-            </a>
-        </li>
-        <% if (isLoggedIn) { %>
-        <li class="nav-item"><a class="nav-link" href="/logout">登出</a></li>
-        <% } %>
-      </ul>
+            <!-- 左邊導覽 -->
+            <ul class="nav-links">
+            <li><a href="/">首頁</a></li>
+            <li><a href="${pageContext.request.contextPath}/aboutus">關於我們</a></li>
+            <li><a href="${pageContext.request.contextPath}/location">據點查詢</a></li>
+            <li><a href="${pageContext.request.contextPath}/carrentinfo">租車說明</a></li>
+            <li><a href="${pageContext.request.contextPath}/ordertracking">未登入查詢訂單</a></li>
+            
+                <c:choose>
+                    <c:when test="${isLoggedIn}">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/member" class="btnmember">
+                                <c:out value="${username}"/> 會員專區
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/logout" class="btnapply">登出</a>
+                        </li>
+                    </c:when>
 
-      <!-- 漢堡選單 -->
-      <button class="menu-toggle" id="menu-toggle" aria-label="切換選單">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </nav>
-  </header>
+                    <c:otherwise>
+                        <li>
+                            <button id="showLoginForm" class="btnlogin" onclick="showLoginForm()">登入/註冊</button>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </nav>
+    </header>
 
 
     <main class="container py-5">

@@ -12,8 +12,10 @@ public class LinePayConfig {
     public static final String CONFIRM_API = "/v3/payments/{transactionId}/confirm";
 
       // 回調網址（需要改為您的實際網址）
-    public static final String CONFIRM_URL = "http://localhost:8080/checkout/success";
-    public static final String CANCEL_URL  = "http://localhost:8080/checkout/cancel";
+    // public static final String CONFIRM_URL = "http://localhost:8085/checkout/success";
+    // public static final String CANCEL_URL  = "http://localhost:8085/checkout/cancel";
+    public static final String CONFIRM_URL = "http://mygocar.ddns.net/checkout/success";
+    public static final String CANCEL_URL  = "http://mygocar.ddns.net/checkout/cancel";
 
     // 商店資訊
     public static final String CURRENCY = "TWD";

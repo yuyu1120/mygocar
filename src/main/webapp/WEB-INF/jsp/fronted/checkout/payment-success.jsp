@@ -1,4 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
@@ -7,33 +10,48 @@
     <title>付款成功</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/resetcss.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" href="/img/favicon.ico" type="image/x-icon">
 </head>
 <body class="bg-light">
 
-    <!-- 導航列 -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container">
-            <a class="navbar-brand" href="/index">
-                <i class="fas fa-store"></i> MYCAR
-            </a>
-            <div class="navbar-nav ms-auto">
-                <%
-                    String loggedInUser = (String) session.getAttribute("username");
-                    if (loggedInUser != null) {
-                %>
-                    <span class="navbar-text me-3">
-                        <i class="fas fa-user"></i> 歡迎，<%= loggedInUser %>
-                    </span>
-                    <a class="nav-link" href="/search">
-                        <i class="fas fa-shopping-bag"></i> 回到搜尋租車
-                    </a>
-                    <a class="nav-link" href="/logout">
-                        <i class="fas fa-sign-out-alt"></i> 登出
-                    </a>
-                <% } %>
-            </div>
-        </div>
-    </nav>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <!-- Logo -->
+            <a href="/" class="logo"><img src="/img/logo1.png" alt="MyGoCar Logo"></a>
+
+            <!-- 左邊導覽 -->
+            <ul class="nav-links">
+            <li><a href="/">首頁</a></li>
+            <li><a href="${pageContext.request.contextPath}/aboutus">關於我們</a></li>
+            <li><a href="${pageContext.request.contextPath}/location">據點查詢</a></li>
+            <li><a href="${pageContext.request.contextPath}/carrentinfo">租車說明</a></li>
+            <li><a href="${pageContext.request.contextPath}/ordertracking">未登入查詢訂單</a></li>
+            
+                <c:choose>
+                    <c:when test="${isLoggedIn}">
+                        <li>
+                            <a href="${pageContext.request.contextPath}/member" class="btnmember">
+                                <c:out value="${username}"/> 會員專區
+                            </a>
+                        </li>
+                        <li>
+                            <a href="${pageContext.request.contextPath}/logout" class="btnapply">登出</a>
+                        </li>
+                    </c:when>
+
+                    <c:otherwise>
+                        <li>
+                            <button id="showLoginForm" class="btnlogin" onclick="showLoginForm()">登入/註冊</button>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+            </ul>
+        </nav>
+    </header>
 
     <div class="container mt-5">
         <div class="row justify-content-center">

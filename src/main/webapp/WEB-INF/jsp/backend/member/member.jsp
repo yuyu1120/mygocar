@@ -1,15 +1,19 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-    <%@ taglib uri="jakarta.tags.core" prefix="c" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 
-        <!DOCTYPE html>
-        <html lang="en">
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <title>MYGOCAR後台 - 會員管理</title>
 
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Document</title>
+    <!-- AdminLTE & Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/css/adminlte.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
                 integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
                 crossorigin="anonymous">
 
@@ -18,94 +22,63 @@
                 crossorigin="anonymous">
             </script>
 
-            <style>
-                .member-list-container {
-                    display: grid;
-                    grid-template-areas:
-                        "sidebar    content"
-                    ;
+</head>
+<body class="hold-transition sidebar-mini layout-fixed">
+<div class="wrapper">
 
-                    grid-template-columns: 300px 900px;
-                    grid-template-rows: 900px;
+    <!-- 側邊欄 -->
+    <aside class="main-sidebar sidebar-dark-primary elevation-4">
+        <!-- Logo -->
+        <a href="#" class="brand-link">
+            <i class="fas fa-car brand-image img-circle elevation-3" style="opacity: .8"></i>
+            <span class="brand-text font-weight-light">MYGOCAR後台</span>
+        </a>
 
-                    justify-content: center;
-
-                    align-content: center;
-
-
-                }
-
-                .sidebar {
-                    grid-area: sidebar;
-                    background-color: blue;
-
-
-                }
-
-                .content {
-                    grid-area: content;
-                    background-color: rgb(176, 210, 26);
-                }
-
-                /* 主內容區 */
-                .main {
-                    flex: 1;
-                    padding: 40px;
-                    background-color: #fff;
-                }
-
-                .main h1 {
-                    color: #2f4050;
-                    margin-bottom: 30px;
-                }
-
-                table {
-                    width: 100%;
-                    border-collapse: collapse;
-                    background-color: white;
-                    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-                }
-
-                th,
-                td {
-                    padding: 12px 16px;
-                    border-bottom: 1px solid #ddd;
-                    text-align: left;
-                }
-
-                th {
-                    background-color: #f4f4f4;
-                    color: #333;
-                }
-
-                .edit-btn {
-                    background-color: #4CAF50;
-                    color: white;
-                    border: none;
-                    padding: 6px 12px;
-                    margin-right: 5px;
-                    cursor: pointer;
-                }
-
-                .delete-btn {
-                    background-color: #e74c3c;
-                    color: white;
-                    border: none;
-                    padding: 6px 12px;
-                    cursor: pointer;
-                }
-
-                .edit-btn:hover,
-                .delete-btn:hover {
-                    opacity: 0.9;
-                }
-            </style>
-        </head>
-
-        <body>
-            <section class="member-list-container">
-                <div class="sidebar">你好
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <!-- 使用者面板 -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="info">
+                    <a href="#" class="d-block">您好，${adminUser}</a>
                 </div>
+
+            </div>
+
+            <!-- 選單 -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" role="menu">
+                    <li class="nav-item">
+                        <a href="/admin/dashboard" class="nav-link"><i class="nav-icon fas fa-tachometer-alt"></i><p>儀表板</p></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/member" class="nav-link active"><i class="nav-icon fas fa-users"></i><p>會員管理</p></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/vehicle-manage" class="nav-link"><i class="nav-icon fas fa-car"></i><p>車輛管理</p></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/order-manage" class="nav-link"><i class="nav-icon fas fa-receipt"></i><p>訂單管理</p></a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/admin/logout" class="nav-link"><i class="nav-icon fas fa-sign-out-alt"></i><p>登出</p></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- 右側內容區 -->
+    <div class="content-wrapper">
+        <!-- 頁面標題 -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <h1>會員管理</h1>
+                <p>此頁可查看所有會員資料。</p>
+            </div>
+        </section>
+
+        <section class="member-list-container" style="margin:30px">
+                
                 <div class="content main">
                     <!-- 主要內容 -->
 
@@ -218,56 +191,63 @@
                     </div>
 
                 </div>
-            </section>
+        </section>
+    </div>
 
-            <script>
-
-                document.getElementById('btnClear').addEventListener('click', () => {
-                    console.log("哈哈");
-                    document.getElementById('keyword').value = '';
-                    document.getElementById('keyword').focus();
-                });
-                // 當 Modal 打開時，把按鈕的 data 帶到表單
-                var editModal = document.getElementById('editMemberModal');
-                editModal.addEventListener('show.bs.modal', function (event) {
-                    var button = event.relatedTarget;
-                    document.getElementById('memberId').value = button.getAttribute('data-id');
-                    document.getElementById('account').value = button.getAttribute('data-account');
-                    document.getElementById('name').value = button.getAttribute('data-name');
-                    document.getElementById('email').value = button.getAttribute('data-email');
-                    document.getElementById('phone').value = button.getAttribute('data-phone');
-                    document.getElementById('role').value = button.getAttribute('data-role');
-                });
-
-
-                document.getElementById('editMemberForm').addEventListener('submit', function (e) {
-                    e.preventDefault();
-
-
-                    const formData = {
-                        id: document.getElementById('memberId').value,
-                        account: document.getElementById('account').value,
-                        name: document.getElementById('name').value,
-                        email: document.getElementById('email').value,
-                        phone: document.getElementById('phone').value,
-                        role: document.getElementById('role').value
-                    };
-                    console.log("有進入哈哈 ");
-                    fetch('/admin/update-member', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(formData)
-                    })
-
-                        .then(data => {
-                            alert(data.msg || "更新成功");
-                            location.reload(); // 重新整理頁面
-                        });
-                });
-            </script>
+</div>
 
 
 
-        </body>
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/admin-lte@3.2/dist/js/adminlte.min.js"></script>
 
-        </html>
+    <script>
+
+                    document.getElementById('btnClear').addEventListener('click', () => {
+                        console.log("哈哈");
+                        document.getElementById('keyword').value = '';
+                        document.getElementById('keyword').focus();
+                    });
+                    // 當 Modal 打開時，把按鈕的 data 帶到表單
+                    var editModal = document.getElementById('editMemberModal');
+                    editModal.addEventListener('show.bs.modal', function (event) {
+                        var button = event.relatedTarget;
+                        document.getElementById('memberId').value = button.getAttribute('data-id');
+                        document.getElementById('account').value = button.getAttribute('data-account');
+                        document.getElementById('name').value = button.getAttribute('data-name');
+                        document.getElementById('email').value = button.getAttribute('data-email');
+                        document.getElementById('phone').value = button.getAttribute('data-phone');
+                        document.getElementById('role').value = button.getAttribute('data-role');
+                    });
+
+
+                    document.getElementById('editMemberForm').addEventListener('submit', function (e) {
+                        e.preventDefault();
+
+
+                        const formData = {
+                            id: document.getElementById('memberId').value,
+                            account: document.getElementById('account').value,
+                            name: document.getElementById('name').value,
+                            email: document.getElementById('email').value,
+                            phone: document.getElementById('phone').value,
+                            role: document.getElementById('role').value
+                        };
+                        console.log("有進入哈哈 ");
+                        fetch('/admin/update-member', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(formData)
+                        })
+
+                            .then(data => {
+                                alert(data.msg || "更新成功");
+                                location.reload(); // 重新整理頁面
+                            });
+                    });
+    </script>
+
+</body>
+</html>
