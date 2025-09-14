@@ -29,6 +29,10 @@ public class OrderTrackController {
     public String ordertracking(@RequestParam(required = false) String orderId,
                                 Model model,
                                 HttpSession session) throws SQLException {
+
+        String username = (String) session.getAttribute("username");
+        model.addAttribute("isLoggedIn", username != null);
+        model.addAttribute("username", username);
         
         OrderDTO order = orderService.getOrderByorderId(orderId);
         model.addAttribute("order", order);

@@ -89,50 +89,96 @@
       <main class="content">
         <div id="orders" class="content-section">
             <h2>我的訂單</h2>
-            <!-- 訂單表格或空狀態 -->
+
+            <!-- 分頁按鈕 -->
             <div class="tabs">
                 <button class="tab active" data-tab="daily">日租</button>
                 <button class="tab" data-tab="subscribe">訂閱</button>
             </div>
-            <c:choose>
-                <c:when test="${not empty orders}">
-                    <table class="order-table">
-                        <thead>
-                            <tr>
-                                <th>訂單編號</th>
-                                <th>車輛ID</th>
-                                <th>會員ID</th>
-                                <th>總價</th>
-                                <th>狀態</th>
-                                <th>借車時間</th>
-                                <th>還車時間</th>
-                                <th>借車地點</th>
-                                <th>還車地點</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach var="order" items="${orders}">
+
+            <!-- 日租訂單 -->
+            <div class="tab-content" id="daily" style="display:block;">
+                <c:choose>
+                    <c:when test="${not empty orders_daily}">
+                        <table class="order-table">
+                            <thead>
                                 <tr>
-                                    <td>${order.orderId}</td>
-                                    <td>${order.vehicleId}</td>
-                                    <td>${order.memberId}</td>
-                                    <td>${order.totalPrice}</td>
-                                    <td>${order.status}</td>
-                                    <td><fmt:formatDate value="${order.borrowDatetime}" pattern="yyyy-MM-dd HH:mm"/></td>
-                                    <td><fmt:formatDate value="${order.returnDatetime}" pattern="yyyy-MM-dd HH:mm"/></td>
-                                    <td>${order.borrowLocation}</td>
-                                    <td>${order.returnLocation}</td>
+                                    <th>訂單編號</th>
+                                    <th>車輛ID</th>
+                                    <th>會員ID</th>
+                                    <th>總價</th>
+                                    <th>狀態</th>
+                                    <th>借車時間</th>
+                                    <th>還車時間</th>
+                                    <th>借車地點</th>
+                                    <th>還車地點</th>
                                 </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                </c:when>
-                <c:otherwise>
-                    <p>目前沒有訂單資料哦！</p>
-                    <a href="/" class="btn-primary">前往訂車</a>
-                </c:otherwise>
-            </c:choose>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="order" items="${orders_daily}">
+                                    <tr>
+                                        <td>${order.orderId}</td>
+                                        <td>${order.vehicleId}</td>
+                                        <td>${order.memberId}</td>
+                                        <td>${order.totalPrice}</td>
+                                        <td>${order.status}</td>
+                                        <td><fmt:formatDate value="${order.borrowDatetime}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                        <td><fmt:formatDate value="${order.returnDatetime}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                        <td>${order.borrowLocation}</td>
+                                        <td>${order.returnLocation}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <p>目前沒有日租訂單資料哦！</p>
+                    </c:otherwise>
+                </c:choose>
+            </div>
+
+            <!-- 訂閱訂單 -->
+            <div class="tab-content" id="subscribe" style="display:none;">
+                <c:choose>
+                    <c:when test="${not empty orders_monthly}">
+                        <table class="order-table">
+                            <thead>
+                                <tr>
+                                    <th>訂單編號</th>
+                                    <th>車輛ID</th>
+                                    <th>會員ID</th>
+                                    <th>總價</th>
+                                    <th>狀態</th>
+                                    <th>開始時間</th>
+                                    <th>結束時間</th>
+                                    <th>借車地點</th>
+                                    <th>還車地點</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="order" items="${orders_monthly}">
+                                    <tr>
+                                        <td>${order.orderId}</td>
+                                        <td>${order.vehicleId}</td>
+                                        <td>${order.memberId}</td>
+                                        <td>${order.totalPrice}</td>
+                                        <td>${order.status}</td>
+                                        <td><fmt:formatDate value="${order.borrowDatetime}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                        <td><fmt:formatDate value="${order.returnDatetime}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                        <td>${order.borrowLocation}</td>
+                                        <td>${order.returnLocation}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:when>
+                    <c:otherwise>
+                        <p>目前沒有訂閱訂單資料哦！</p>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
+
 
         <div id="profile" class="content-section" style="display:none;">
           <h2>帳號管理</h2>
@@ -230,27 +276,8 @@
                 });
             }
 
-            // 搜尋 Tabs 切換
-            const tabs = document.querySelectorAll(".tab");
-            const dailyFields = document.querySelectorAll(".daily-field");
-            const subscribeField = document.querySelector(".subscribe-field");
 
-            if(tabs.length > 0){
-                tabs.forEach(tab => {
-                    tab.addEventListener("click", () => {
-                        tabs.forEach(t => t.classList.remove("active"));
-                        tab.classList.add("active");
-
-                        if (tab.dataset.tab === "daily") {
-                            dailyFields.forEach(f => f.style.display = "flex");
-                            if(subscribeField) subscribeField.style.display = "none";
-                        } else {
-                            dailyFields.forEach(f => f.style.display = "none");
-                            if(subscribeField) subscribeField.style.display = "flex";
-                        }
-                    });
-                });
-            }
+            
 
             // 側邊欄按鈕切換內容
             const sidebarBtns = document.querySelectorAll('.sidebar-btn');
@@ -276,6 +303,66 @@
                 });
             }
         });
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+
+    // ----------------------
+    // 側邊欄按鈕切換內容
+    // ----------------------
+    const sidebarBtns = document.querySelectorAll('.sidebar-btn');
+    const sections = document.querySelectorAll('.content-section');
+
+    sidebarBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // 切換 active 樣式
+            sidebarBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // 顯示對應內容
+            const targetId = btn.dataset.target;
+            sections.forEach(sec => {
+                sec.style.display = (sec.id === targetId) ? 'block' : 'none';
+            });
+
+            // 點回訂單時，預設日租 tab
+            if(targetId === 'orders'){
+                activateTab('daily');
+            }
+        });
+    });
+
+    // ----------------------
+    // 訂單 Tab 切換 (日租 / 訂閱)
+    // ----------------------
+    const tabs = document.querySelectorAll(".tab");
+    const contents = document.querySelectorAll(".tab-content");
+
+    tabs.forEach(tab => {
+        tab.addEventListener("click", () => {
+            activateTab(tab.dataset.tab);
+        });
+    });
+
+    // ----------------------
+    // Tab 切換函數
+    // ----------------------
+    function activateTab(tabId){
+        // 切換按鈕 active
+        tabs.forEach(t => t.classList.toggle('active', t.dataset.tab === tabId));
+        // 切換內容顯示
+        contents.forEach(c => c.style.display = (c.id === tabId) ? 'block' : 'none');
+    }
+
+    // ----------------------
+    // 預設顯示會員專區訂單 -> 日租
+    // ----------------------
+    activateTab('daily');
+
+});
+
+
+        
     </script>
 
    

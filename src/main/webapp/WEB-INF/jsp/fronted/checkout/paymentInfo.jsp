@@ -88,6 +88,7 @@
                                             <p class="card-text mb-1">租期：${v.borrowDateTime} ~ ${v.returnDateTime}</p>
                                             <p class="card-text mb-1">取車|還車：${v.borrowLocation} | ${v.returnLocation}</p>
                                             <p class="card-text mb-0 fw-bold">月租：NT$ ${v.vehicle.monthPrice}</p>
+                                            <p class="card-text mb-0 fw-bold">日租：NT$ ${v.vehicle.dayPrice}</p>
                                         </div>
                                         <div class="card-actions ms-auto pe-2">
                                             <form method="post" action="/cart/remove">
@@ -116,7 +117,10 @@
                             <i class="fas fa-credit-card"></i> Line Pay 結帳
                         </button>
                         <a href="/search" class="btn btn-outline-primary">
-                            <i class="fas fa-shopping-bag"></i> 繼續購物
+                            <i class="fas fa-shopping-bag"></i> 訂閱車搜尋
+                        </a>
+                        <a href="/rental" class="btn btn-outline-primary">
+                            <i class="fas fa-shopping-bag"></i> 日租車搜尋
                         </a>
                         <button class="btn btn-outline-danger" id="removeAllBtn">
                             <i class="fas fa-trash"></i> 清空購物車

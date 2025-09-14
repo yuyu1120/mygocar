@@ -58,7 +58,6 @@ public class LinePayService {
                 response.append(line);
             }
         }
-
         // 解析回應取得付款網址
         return parsePaymentUrl(response.toString());
     }
@@ -79,11 +78,8 @@ public class LinePayService {
         json.append("\"packages\":[{");
         json.append("\"id\":\"").append(order.getOrderId()).append("\",");
         json.append("\"amount\":").append(order.getTotalPrice().intValue()).append(",");
-        // json.append("\"amount\":").append(12000).append(",");
         json.append("\"name\":\"").append(LinePayConfig.MERCHANT_NAME).append("\",");
         json.append("\"products\":[");
-
-        System.out.println(order.getTotalPrice());
 
         // 商品清單
         for (int i = 0; i < cartItems.size(); i++) {

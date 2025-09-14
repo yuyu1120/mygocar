@@ -112,8 +112,8 @@
 
                         <!-- 操作按鈕 -->
                         <div class="d-grid gap-2 d-md-flex justify-content-center">
-                            <a href="/search" class="btn btn-primary btn-lg">
-                                <i class="fas fa-shopping-bag"></i> 回到搜尋租車
+                            <a href="/" class="btn btn-primary btn-lg">
+                                <i class="fas fa-shopping-bag"></i> 回到首頁
                             </a>
                             <button class="btn btn-outline-secondary btn-lg" onclick="window.print()">
                                 <i class="fas fa-print"></i> 列印收據

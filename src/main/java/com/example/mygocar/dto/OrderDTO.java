@@ -21,6 +21,7 @@ public class OrderDTO {
     private Timestamp returnDatetime;
     private BigDecimal totalPrice;
     private String linepayTransactionId;
+    private String rentalType;
 
     // 建構子
     public OrderDTO() {}
@@ -38,7 +39,7 @@ public class OrderDTO {
 
 
     public OrderDTO(int userId, String orderId, String vehicleId, String status, String borrowLocation,
-            String returnLocation, Timestamp borrowDatetime, Timestamp returnDatetime, BigDecimal totalPrice) {
+            String returnLocation, Timestamp borrowDatetime, Timestamp returnDatetime, BigDecimal totalPrice, String rentalType) {
         this.userId = userId;
         this.orderId = orderId;
         this.vehicleId = vehicleId;
@@ -48,6 +49,7 @@ public class OrderDTO {
         this.borrowDatetime = borrowDatetime;
         this.returnDatetime = returnDatetime;
         this.totalPrice = totalPrice;
+        this.rentalType = rentalType;
     }
 
 
@@ -165,4 +167,16 @@ public class OrderDTO {
         this.linepayTransactionId = linepayTransactionId;
     }
 
+
+    public String getRentalType() {
+        return rentalType;
+    }
+
+
+    public void setRentalType(String rentalType) {
+        this.rentalType = rentalType;
+    }
+
+
+    
 }

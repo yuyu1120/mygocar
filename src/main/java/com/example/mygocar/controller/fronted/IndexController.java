@@ -71,7 +71,6 @@ public class IndexController {
 
         // 登入資訊
         String username = (String) session.getAttribute("username");
-        System.out.println("location" + username);
         model.addAttribute("isLoggedIn", username != null);
         model.addAttribute("username", username);
 
@@ -111,13 +110,18 @@ public class IndexController {
         String username = (String) user;
         // 有登入 → 顯示會員專區 JSP
         String memberId = String.valueOf(authService.getIdByAccount((String)user));
-        List<OrderDTO> orders = orderService.getOrdersByUser(memberId);
+        // List<OrderDTO> orders = orderService.getOrdersByUser(memberId);
+
+        List<OrderDTO> orders_monthly = orderService.getOrdersByUser(memberId, "monthly");
+        List<OrderDTO> orders_daily = orderService.getOrdersByUser(memberId, "daily");
 
         Member member = authService.findByAccount((String)user);
 
-        model.addAttribute("username", username);
+        
         model.addAttribute("isLoggedIn", username != null);
-        model.addAttribute("orders", orders);
+        model.addAttribute("username", username);
+        model.addAttribute("orders_monthly", orders_monthly);
+        model.addAttribute("orders_daily", orders_daily);
         model.addAttribute("member", member);
 
         return "fronted/member"; // 對應 /WEB-INF/jsp/member.jsp

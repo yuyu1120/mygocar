@@ -98,6 +98,7 @@ public class CartItem {
         if (pricingStrategy == null || vehicle == null) {
             return 0;
         }
+        System.out.println("getSubtotal");
         return pricingStrategy.calculateTotal(vehicle, rentalQuantity);
     }
 }

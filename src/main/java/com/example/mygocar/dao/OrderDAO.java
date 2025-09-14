@@ -24,5 +24,7 @@ public interface OrderDAO {
 
     List<OrderDTO> getOrdersByUser(String account);
 
+    List<OrderDTO> getOrdersByUser(String account, String rentalType);
+
     List<Map<String, Object>> getOrderLocationStats();
 }

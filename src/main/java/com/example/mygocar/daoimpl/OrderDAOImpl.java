@@ -45,6 +45,7 @@ public class OrderDAOImpl implements OrderDAO {
                 dto.setBorrowDatetime(rs.getTimestamp("borrow_datetime"));
                 dto.setReturnDatetime(rs.getTimestamp("return_datetime"));
                 dto.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
+                dto.setRentalType(rs.getString("rental_type"));
                 return dto;
             }
         );
@@ -71,6 +72,7 @@ public class OrderDAOImpl implements OrderDAO {
                 dto.setBorrowDatetime(rs.getTimestamp("borrow_datetime"));
                 dto.setReturnDatetime(rs.getTimestamp("return_datetime"));
                 dto.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
+                dto.setRentalType(rs.getString("rental_type"));
                 return dto;
             }
         );
@@ -98,10 +100,45 @@ public class OrderDAOImpl implements OrderDAO {
                 dto.setBorrowDatetime(rs.getTimestamp("borrow_datetime"));
                 dto.setReturnDatetime(rs.getTimestamp("return_datetime"));
                 dto.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
+                dto.setRentalType(rs.getString("rental_type"));
                 return dto;
             }
         );
     }
+
+
+    @Override
+    public List<OrderDTO> getOrdersByUser(String account, String rentalType){
+        String sql = "SELECT * FROM orders where member_id = ? and rental_type=?";
+        List<Object> params = new ArrayList<>();
+        params.add(account);
+        params.add(rentalType);
+
+        return jdbcTemplate.query(
+            sql,
+             params.toArray(),
+            (rs, rowNum) -> {
+                OrderDTO dto = new OrderDTO();
+                dto.setVehicleId(rs.getString("vehicle_id"));
+                dto.setOrderId(rs.getString("order_id"));
+                dto.setMemberId(rs.getInt("member_id"));
+                dto.setStatus(rs.getString("status"));
+                dto.setTotalPrice(rs.getBigDecimal("total_price"));
+                dto.setCreateAt(rs.getTimestamp("created_at"));
+                dto.setBorrowLocation(rs.getString("borrow_location"));
+                dto.setReturnLocation(rs.getString("return_location"));
+                dto.setBorrowDatetime(rs.getTimestamp("borrow_datetime"));
+                dto.setReturnDatetime(rs.getTimestamp("return_datetime"));
+                dto.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
+                dto.setRentalType(rs.getString("rental_type"));
+                return dto;
+            }
+        );
+    }
+
+
+
+
 
     @Override
     public OrderDTO getVOrderDTOById(String orderId){
@@ -130,6 +167,7 @@ public class OrderDAOImpl implements OrderDAO {
                 dto.setBorrowDatetime(rs.getTimestamp("borrow_datetime"));
                 dto.setReturnDatetime(rs.getTimestamp("return_datetime"));
                 dto.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
+                 dto.setRentalType(rs.getString("rental_type"));
                 return dto;
             }
         );
@@ -142,12 +180,13 @@ public class OrderDAOImpl implements OrderDAO {
 
         return output;
     }
+    
 
 
     @Override
     public int insert(Order order) {
-        String sql = "INSERT INTO orders (order_id, member_id, vehicle_id, total_price, status, borrow_location, return_location, borrow_datetime, return_datetime) " +
-                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO orders (order_id, member_id, vehicle_id, total_price, status, borrow_location, return_location, borrow_datetime, return_datetime, rental_type) " +
+                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -162,6 +201,7 @@ public class OrderDAOImpl implements OrderDAO {
             ps.setString(7, order.getReturnLocation());
             ps.setTimestamp(8, order.getBorrowDatetime());
             ps.setTimestamp(9, order.getReturnDatetime());
+            ps.setString(10, order.getRentalType());
             return ps;
         }, keyHolder);
 
@@ -198,6 +238,7 @@ public class OrderDAOImpl implements OrderDAO {
         order.setTotalPrice(rs.getBigDecimal("total_price"));
         order.setStatus(rs.getString("status"));
         order.setLinepayTransactionId(rs.getString("linepay_transaction_id"));
+        order.setRentalType(rs.getString("rental_type"));
         order.setCreateAt(rs.getTimestamp("created_at"));
         
         // 依照你的 OrderDTO 再補上這些欄位

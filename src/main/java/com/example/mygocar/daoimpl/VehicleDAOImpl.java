@@ -19,38 +19,35 @@ public class VehicleDAOImpl implements VehicleDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-     //車輛管理  新增
+
     @Override
     public int insert(VehicleDTO vehicleDTO) {
-        String sql ="UPDATE vehicle SET " +
-                    "name = COALESCE(NULLIF(?, ''), name), " +
-                    "brand = COALESCE(NULLIF(?, ''), brand), " +
-                    "place = COALESCE(NULLIF(?, ''), place), " +
-                    "monthprice = COALESCE(NULLIF(?, 0), monthprice), " +
-                    "dayprice = COALESCE(NULLIF(?, 0), dayprice), " +
-                    "price_km = COALESCE(NULLIF(?, 0), price_km), " +
-                    "description = COALESCE(NULLIF(?, ''), description), " +
-                    "productyear = COALESCE(NULLIF(?, ''), productyear), " +
-                    "photo = COALESCE(NULLIF(?, ''), photo), " +
-                    "color = COALESCE(NULLIF(?, ''), color), " +
-                    "quantity = COALESCE(NULLIF(?, 0), quantity) " +
-                    "WHERE vehicleID = ?";
+        String sql = "INSERT INTO vehicle (vehicleID, name, brand, place, monthprice, dayprice, price_km, " +
+                    "description, productyear, photo, color, quantity) " +
+                    "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+        // 如果 productyear 是空字串，改傳 null
+        String year = vehicleDTO.getVehicleYear();
+        if (year != null && year.isEmpty()) {
+            year = null;
+        }
 
         return jdbcTemplate.update(sql,
-            vehicleDTO.getVehicleId(),
-            vehicleDTO.getVehicleName(),
-            vehicleDTO.getVehicleBrand(),
-            vehicleDTO.getVehicleLocation(),
-            vehicleDTO.getMonthPrice(),
-            vehicleDTO.getDayPrice(),
-            vehicleDTO.getHourPrice(),   // price_km
-            vehicleDTO.getVehicleDescription(),
-            vehicleDTO.getVehicleYear(),
-            vehicleDTO.getVehicleImage(),
-            vehicleDTO.getVehicleColor(),
-            vehicleDTO.getQuantity()
+                vehicleDTO.getVehicleId(),
+                vehicleDTO.getVehicleName(),
+                vehicleDTO.getVehicleBrand(),
+                vehicleDTO.getVehicleLocation(),
+                vehicleDTO.getMonthPrice(),
+                vehicleDTO.getDayPrice(),
+                vehicleDTO.getHourPrice(),
+                vehicleDTO.getVehicleDescription(),
+                year,   // 處理過的值
+                vehicleDTO.getVehicleImage(),
+                vehicleDTO.getVehicleColor(),
+                vehicleDTO.getQuantity()
         );
     }
+
 
     //車輛管理  更新
     @Override
@@ -64,7 +61,7 @@ public class VehicleDAOImpl implements VehicleDAO {
                 "price_km = ?, " +
                 "description = ?, " +
                 "productyear = ?, " +
-                "photo = ?, " +
+                // "photo = ?, " +
                 "color = ?, " +
                 "quantity = ? " +
                 "WHERE vehicleID = ?";
@@ -78,7 +75,7 @@ public class VehicleDAOImpl implements VehicleDAO {
             vehicleDTO.getHourPrice(),   // price_km
             vehicleDTO.getVehicleDescription(),
             vehicleDTO.getVehicleYear(),
-            vehicleDTO.getVehicleImage(),
+            // vehicleDTO.getVehicleImage(),
             vehicleDTO.getVehicleColor(),
             vehicleDTO.getQuantity(),
             vehicleID   // 👉 這裡才是 WHERE 的參數
@@ -232,7 +229,7 @@ public class VehicleDAOImpl implements VehicleDAO {
         List<Object> params = new ArrayList<>();
         params.add(vehicleId);
 
-        System.out.println("!!!VehicleDTO getVehicleById：" + vehicleId);
+        // System.out.println("!!!VehicleDTO getVehicleById：" + vehicleId);
 
 
         List<Vehicle> results = jdbcTemplate.query(

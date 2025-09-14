@@ -82,7 +82,8 @@ public class MemberController {
 
     @RequestMapping("/rental/detail")
     public String rentcarinfo(@RequestParam(value = "rentalPlanId", required = false) Integer vehicleId, Model model) {
-        System.out.println(vehicleId);
+        System.out.println("/rental/detail");
+        System.out.println("vehicleId：" + vehicleId);
         if (vehicleId == null) {
 
             return "rent/rent-vehicles";
@@ -94,7 +95,7 @@ public class MemberController {
             return "rent/rent-vehicles";
         }
 
-        System.out.println(v.getRentalPlanId());
+        System.out.println("rental plan：" + v.getRentalPlanId());
 
         RentalPlan plan = rentDAO.findById(v.getRentalPlanId());
 
@@ -106,6 +107,7 @@ public class MemberController {
         Map<String, Object> result = rentalRecordDAO.findCountAndSumByRentalPlanId(vehicleId);
 
         model.addAttribute("vehicle", v);
+        model.addAttribute("vehicleId", vehicleId);
         model.addAttribute("plan", plan);
         model.addAttribute("reviews", reviews);
         model.addAttribute("avgRating", ratingSummary.get("avg_rating"));

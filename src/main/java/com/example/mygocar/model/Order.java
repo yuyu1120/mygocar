@@ -17,6 +17,7 @@ public class Order {
     private Timestamp returnDatetime;
     private BigDecimal totalPrice;
     private String linepayTransactionId;
+    private String rentalType;
 
     // 建構子
     public Order() {}
@@ -34,7 +35,7 @@ public class Order {
 
 
     public Order(int userId, String orderId, String vehicleId, String status, String borrowLocation,
-            String returnLocation, Timestamp borrowDatetime, Timestamp returnDatetime, BigDecimal totalPrice) {
+            String returnLocation, Timestamp borrowDatetime, Timestamp returnDatetime, BigDecimal totalPrice, String rentalType) {
         this.userId = userId;
         this.orderId = orderId;
         this.vehicleId = vehicleId;
@@ -44,8 +45,10 @@ public class Order {
         this.borrowDatetime = borrowDatetime;
         this.returnDatetime = returnDatetime;
         this.totalPrice = totalPrice;
+        this.rentalType = rentalType;
     }
 
+    
 
     // Getter 和 Setter 方法
     public int getUserId() {
@@ -160,5 +163,16 @@ public class Order {
     public void setLinepayTransactionId(String linepayTransactionId) {
         this.linepayTransactionId = linepayTransactionId;
     }
+
+    
+    public String getRentalType() {
+        return rentalType;
+    }
+
+
+    public void setRentalType(String rentalType) {
+        this.rentalType = rentalType;
+    }
+
 
 }

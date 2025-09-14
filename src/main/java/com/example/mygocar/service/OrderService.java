@@ -8,6 +8,7 @@ import com.example.mygocar.dto.OrderDTO;
 
 import java.sql.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,31 +28,37 @@ public class OrderService {
     /**
      * 建立新訂單
      */
-    public Order createOrder(int userId, List<CartItem> cartItems) throws SQLException {
+    public List<Order> createOrder(int userId, List<CartItem> cartItems) throws SQLException {
 
         String orderId = LinePayConfig.generateOrderNumber();
 
-        List<CartItem> orderItems = cartItems;
-        BigDecimal totalAmount = calculateTotal(cartItems);
+        // List<CartItem> orderItems = cartItems;
+        // BigDecimal totalAmount = calculateTotal(cartItems);
 
         System.out.println("orderId: " + orderId);
-        // for (int i = 0; i < cartItems.size(); i++) {
-            CartItem item = orderItems.get(0);
+        System.out.println("cartItemSize：" + cartItems.size());
+        
+        List<Order> orders = new ArrayList<>();
+        for (int i = 0; i < cartItems.size(); i++) {
+            CartItem item = cartItems.get(i);
 
+            String rentalType = item.getPricingStrategy().getType();
             String vehicleId = item.getVehicle().getVehicleId();
             String borrowLocation = item.getBorrowLocation();
             String returnLocation = item.getReturnLocation();
+
             Timestamp borrowDatetime = Timestamp.valueOf(item.getBorrowDateTime());
             Timestamp returnDatetime = Timestamp.valueOf(item.getReturnDateTime());
-
+            
+            BigDecimal total = BigDecimal.valueOf(item.getSubtotal());
             Order order = new Order(userId, orderId, vehicleId, "pending", borrowLocation,
-            returnLocation, borrowDatetime, returnDatetime, totalAmount);
+            returnLocation, borrowDatetime, returnDatetime, total, rentalType);
 
             // 插入資料庫
             insertOrder(order);
-
-        // }
-        return order;
+            orders.add(order);
+        }
+        return orders;
     }
 
     /**
@@ -125,6 +132,8 @@ public class OrderService {
        
     }
 
+    
+
     /**
      * 根據訂單編號查詢訂單_非會員
      */
@@ -158,6 +167,10 @@ public class OrderService {
 
     public List<OrderDTO> getOrdersByUser(String account){
         return orderDAO.getOrdersByUser(account);
+    }
+
+    public List<OrderDTO> getOrdersByUser(String account, String rentalType){
+        return orderDAO.getOrdersByUser(account, rentalType);
     }
 
     public List<OrderDTO> getOrdersWithinDays(int days){

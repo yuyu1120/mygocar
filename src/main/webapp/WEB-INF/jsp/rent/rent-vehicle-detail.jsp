@@ -11,7 +11,7 @@
                 integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
                 crossorigin="anonymous">
 
-            <title>MyGoCar租車-日租車搜尋</title>
+            <title>MyGoCar租車-日租車詳細頁面</title>
             <link rel="stylesheet" href="/css/resetcss.css">
             <link rel="stylesheet" href="/css/index.css">
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -294,7 +294,22 @@
                             <div class="actions ">
                                 <button class="btn-secondary">⭐ 收藏</button>
                                 <button class="btn-secondary">🔗 複製連結</button>
-                                <button class="btn-primary ">立即預約</button>
+                                <%-- <button class="btn-primary ">立即預約</button> --%>
+                                <!-- 下一步按鈕 -->
+                                <form method="post" action="/cart" class="mb-4">
+                                    <input type="hidden" name="action" value="addToCart" />
+                                    <input type="hidden" name="vehicleId" value="${vehicleId}" />
+                                    <input type="hidden" name="rentalQuantity" value="3" />
+                                    <input type="hidden" name="borrowLocation" value="${location}" />
+                                    <input type="hidden" name="returnLocation" value="${location}" />
+                                    <input type="hidden" name="rentalType" value="daily" />
+                                    <input type="hidden" name="startDate" value="${startDate}" />
+                                    <input type="hidden" name="endDate" value="${endDate}" />
+                                    <input type="hidden" name="startTime" value="${startTime}" />
+                                    <input type="hidden" name="endTime" value="${startTime}" />
+                                    <button class="btn btn-primary w-100" type="submit">下一步，付款</button>
+                                </form>
+                                
                             </div>
                         </div>
                     </div>
