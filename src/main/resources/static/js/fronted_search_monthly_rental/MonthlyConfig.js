@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const selectedPeriod = config.period || "";
 
-
+    console.log(selectedLocation)
     
 
     // --- 取車區域選單 ---
@@ -90,22 +90,59 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 // 隱藏的日期範圍選擇器
+    // let dateRange = flatpickr("#rentalRange", {
+    //     mode: "single",
+    //     dateFormat: "Y/m/d",
+    //     minDate: "today",
+    //     showMonths: 2,
+    //     onClose: function(selectedDates){
+    //         if(selectedDates.length===1){
+    //             // 填回取車、還車日期欄位
+    //             // console.log(selectedDates);
+    //             // console.log(document.getElementById("pickupDatetime").value);
+    //             document.getElementById("pickupDatetime").value = formatDate(selectedDates[0]);
+    //         }   
+    //     }
+    // });
+
     let dateRange = flatpickr("#rentalRange", {
         mode: "single",
-        dateFormat: "Y/m/d",
+        dateFormat: "Y-m-d",
+        // altInput: true,
+        // altFormat: "Y/m/d",
         minDate: "today",
         showMonths: 2,
-        onClose: function(selectedDates){
+        appendTo: document.body,   // 插到 body
+        onOpen: function(selectedDates, dateStr, instance){
+            // 加上居中 class
+            instance.calendarContainer.classList.add("flatpickr-centered");
+
+            // 建立遮罩
+            let overlay = document.createElement("div");
+            overlay.id = "flatpickr-overlay";
+            document.body.appendChild(overlay);
+
+            // 點擊遮罩關閉
+            overlay.addEventListener("click", () => {
+                instance.close();
+            });
+        },
+        onClose: function(selectedDates, dateStr, instance){
+            // 關閉時移除遮罩
             if(selectedDates.length===1){
                 // 填回取車、還車日期欄位
-                console.log(selectedDates);
+                // console.log(selectedDates);
+                // console.log(document.getElementById("pickupDatetime").value);
                 document.getElementById("pickupDatetime").value = formatDate(selectedDates[0]);
             }   
+            const overlay = document.getElementById("flatpickr-overlay");
+            if (overlay) overlay.remove();
         }
     });
+
     
     // 點擊任一完整日期時間 input 時顯示隱藏日期範圍
-    document.getElementById("pickupDatetime").addEventListener("focus", ()=>{
+    pickupInput.addEventListener("focus", ()=>{
         document.getElementById("rentalRange").classList.remove('d-none');
         dateRange.open();
     });

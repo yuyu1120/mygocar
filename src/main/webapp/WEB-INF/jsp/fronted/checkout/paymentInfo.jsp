@@ -5,7 +5,9 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8" />
-    <title>付款方式</title>
+    <title>MYGOCAR-付款方式</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/css/nav-order-step.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/css/resetcss.css">
@@ -77,7 +79,7 @@
                             <c:forEach var="v" items="${cart}">
                                 <div class="col-12">
                                     <div class="card flex-row align-items-center p-2 shadow-sm">
-                                        <img src="${v.vehicle.vehicleImage}" class="card-img-left rounded" 
+                                        <img src="/img/cars/${v.vehicle.vehicleImage}" class="card-img-left rounded" 
                                             style="width:120px; height:80px; object-fit:cover;" 
                                             alt="${v.vehicle.vehicleName}">
                                         <div class="card-body">
@@ -110,7 +112,7 @@
                     <hr>
                     <p class="fs-5 fw-bold total" id="totalAmount">總金額：NT$ ${total}</p>
                     <div class="d-grid gap-2">
-                        <button class="btn btn-success btn-lg" onclick="checkout()" id="checkoutBtn">
+                        <button class="btn btn-success btn-lg" id="checkoutBtn">
                             <i class="fas fa-credit-card"></i> Line Pay 結帳
                         </button>
                         <a href="/search" class="btn btn-outline-primary">
@@ -123,10 +125,12 @@
                 </div>
             </div>
         </div>
+        <div id="messageArea" class="position-fixed top-0 end-0 p-3" style="z-index: 1055;"></div>
+
     </div>
 
 
-        <!-- Footer -->
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-container">
         <!-- 公司資訊 -->
@@ -179,6 +183,56 @@
         window.initialCart = ${cartJson};
     </script>
     <script src="/js/fronted_checkout_paymentInfo/button.js"></script>
+
+<c:if test="${empty isLoggedIn or not isLoggedIn}">
+
+    <script>console.log("isLoggedIn：" + isLoggedIn);</script>
+
+    <script src="/js/fronted_indexlogin/indexlogin.js"></script>
+
+    <jsp:include page="../common/authModal.jsp"/>
+
+    <script src="/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
+    </script>
+
+    <script>
+        const checkoutBtn = document.getElementById("checkoutBtn");
+        const showLoginBtn = document.getElementById("showLoginForm");
+        const authSection = document.getElementById("auth-section");
+        const closeAuthBtn = document.getElementById("closeAuth");
+
+        // 點結帳按鈕
+        checkoutBtn.addEventListener("click", (e) => {   
+            // 已登入才真正執行結帳
+            checkout();
+        });
+
+        showLoginBtn?.addEventListener("click", () => {
+        authSection.style.display = "flex";
+        });
+
+        closeAuthBtn?.addEventListener("click", () => {
+        authSection.style.display = "none";
+        });
+
+        // 點 modal 背景關閉
+        authSection?.addEventListener("click", (e) => {
+        if (e.target === authSection) {
+            authSection.style.display = "none";
+        }
+        });
+
+        // 阻止 modal 內部點擊冒泡
+        const authContainer = document.getElementById("auth-container");
+        authContainer?.addEventListener("click", (e) => {
+        e.stopPropagation(); // 阻止事件冒泡到 auth-section
+        });
+
+    </script>
+    
+</c:if>
 
 </body>
 </html>

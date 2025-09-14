@@ -49,7 +49,6 @@ public class CartController {
                 total += item.getSubtotal(); // CartItem 內應該有 getSubtotal() 方法
             }
         }
-        
 
         model.addAttribute("total", total);
         model.addAttribute("cart", cart);
@@ -134,15 +133,15 @@ public class CartController {
     }
 
     // 移除購物車
-    @PostMapping("/cart/remove")
-    public String removeFromCart(@RequestParam String vehicleId, HttpSession session) {
-        List<CartItem> cart = cartService.getOrCreateCart(
-            (List<CartItem>) session.getAttribute("cart")
-        );
-        cart.removeIf(item -> item.getVehicle().getVehicleId().equals(vehicleId));
-        session.setAttribute("cart", cart);
-        return "redirect:/fronted/checkout/paymentInfo";
-    }
+    // @PostMapping("/cart/remove")
+    // public String removeFromCart(@RequestParam String vehicleId, HttpSession session) {
+    //     List<CartItem> cart = cartService.getOrCreateCart(
+    //         (List<CartItem>) session.getAttribute("cart")
+    //     );
+    //     cart.removeIf(item -> item.getVehicle().getVehicleId().equals(vehicleId));
+    //     session.setAttribute("cart", cart);
+    //     return "fronted/checkout/paymentInfo";
+    // }
     
 
     @GetMapping("/cart/json")

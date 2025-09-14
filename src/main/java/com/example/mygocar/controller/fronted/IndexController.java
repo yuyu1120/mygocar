@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.example.mygocar.daoimpl.MemberDAOImpl;
 import com.example.mygocar.dto.MemberDTO;
 import com.example.mygocar.dto.OrderDTO;
 import com.example.mygocar.model.Member;
@@ -24,6 +25,9 @@ public class IndexController {
     @Autowired
     AuthService authService;
 
+    // @Autowired
+    // private MemberDAOImpl memberDAO;
+
     @GetMapping("/index")
     public String index() {
         return "fronted/index";  // → /WEB-INF/jsp/fronted/index.jsp
@@ -32,12 +36,9 @@ public class IndexController {
     @GetMapping("/")
     public String indexlogin(HttpSession session, Model model) {
         System.out.println("/indexlogin");
-
-        Member member   = (Member) session.getAttribute("user");
         // 登入資訊
+        Member member   = (Member) session.getAttribute("user");
         String username = (String) session.getAttribute("username");
-        // model.addAttribute("isLoggedIn", username != null);
-        // model.addAttribute("username", username);
 
         System.out.println(member);
         System.out.println(username);

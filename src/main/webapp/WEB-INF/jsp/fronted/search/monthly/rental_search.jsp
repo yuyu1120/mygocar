@@ -6,6 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>訂閱車搜尋結果</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/resetcss.css">
@@ -43,7 +45,7 @@
 
                     <c:otherwise>
                         <li>
-                            <button id="showLoginForm" class="btnlogin" onclick="showLoginForm()">登入/註冊</button>
+                            <button id="showLoginForm" class="btnlogin">登入/註冊</button>
                         </li>
                     </c:otherwise>
                 </c:choose>
@@ -65,7 +67,7 @@
                     <form action="/search" method="get">
                         <div class="mb-3">
                             <label for="location" class="form-label">取車區域</label>
-                            <select class="form-select" id="location" name="location"></select>
+                            <select class="form-select" id="location" name="location" ></select>
                         </div>
 
                         <div class="mb-3">
@@ -185,7 +187,42 @@
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/zh.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/fronted_search_monthly_rental/date-validation.js"></script>
+<script src="/js/fronted_search_monthly_rental/MonthlyConfig.js"></script>
 
+<c:if test="${empty isLoggedIn or not isLoggedIn}">
+
+  <jsp:include page="../../common/authModal.jsp" />
+
+  <script>
+    const showLoginBtn = document.getElementById("showLoginForm");
+    const authSection = document.getElementById("auth-section");
+    const closeAuthBtn = document.getElementById("closeAuth");
+
+    showLoginBtn?.addEventListener("click", () => {
+      authSection.style.display = "flex";
+    });
+
+    closeAuthBtn?.addEventListener("click", () => {
+      authSection.style.display = "none";
+    });
+
+    // 點 modal 背景關閉
+    authSection?.addEventListener("click", (e) => {
+      if (e.target === authSection) {
+        authSection.style.display = "none";
+      }
+    });
+
+    // 阻止 modal 內部點擊冒泡
+    const authContainer = document.getElementById("auth-container");
+    authContainer?.addEventListener("click", (e) => {
+      e.stopPropagation(); // 阻止事件冒泡到 auth-section
+    });
+
+  </script>
+  
+</c:if>
 <script>
     // 漢堡選單
     const menuToggle = document.getElementById('menu-toggle');
@@ -203,8 +240,9 @@
     };
 </script>
 
-<script src="/js/fronted_search_monthly_rental/date-validation.js"></script>
-<script src="/js/fronted_search_monthly_rental/MonthlyConfig.js"></script>
+
+
+
 
 </body>
 </html>

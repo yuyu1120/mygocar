@@ -8,6 +8,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MyGoCar租車-關於我們</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/index.css">
   <link rel="stylesheet" href="/css/resetcss.css">
   <link rel="stylesheet" href="/css/aboutus.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -180,5 +183,46 @@
         });
     });
     </script>
+
+  <c:if test="${empty isLoggedIn or not isLoggedIn}">
+
+    <script src="/js/fronted_indexlogin/indexlogin.js"></script>
+
+    <jsp:include page="common/authModal.jsp"/>
+
+    <script src="/js/app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q" crossorigin="anonymous">
+    </script>
+
+    <script>
+      const showLoginBtn = document.getElementById("showLoginForm");
+      const authSection = document.getElementById("auth-section");
+      const closeAuthBtn = document.getElementById("closeAuth");
+
+      showLoginBtn?.addEventListener("click", () => {
+        authSection.style.display = "flex";
+      });
+
+      closeAuthBtn?.addEventListener("click", () => {
+        authSection.style.display = "none";
+      });
+
+      // 點 modal 背景關閉
+      authSection?.addEventListener("click", (e) => {
+        if (e.target === authSection) {
+          authSection.style.display = "none";
+        }
+      });
+
+      // 阻止 modal 內部點擊冒泡
+      const authContainer = document.getElementById("auth-container");
+      authContainer?.addEventListener("click", (e) => {
+        e.stopPropagation(); // 阻止事件冒泡到 auth-section
+      });
+
+    </script>
+    
+  </c:if>
 </body>
 </html>

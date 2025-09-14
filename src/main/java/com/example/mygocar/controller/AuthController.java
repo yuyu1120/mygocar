@@ -46,6 +46,9 @@ public class AuthController {
     public String login(@RequestParam("account") String account, @RequestParam("password") String password,
             HttpSession session, Model model) {
 
+        System.out.println("account：" + account);
+        System.out.println("password：" + password);
+
         Member member = memberDAO.findByAccount(account);
 
         if (member == null) {

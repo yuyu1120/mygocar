@@ -40,15 +40,15 @@ public class MemberController {
     @Autowired
     private RentalRecordDAO rentalRecordDAO;
 
-    @RequestMapping("/")
-    public String index(Model model) {
-        // System.out.println("123123123123");
-        Member members = memberDAO.findById(3);
+    // @RequestMapping("/")
+    // public String index(Model model) {
+    //     // System.out.println("123123123123");
+    //     Member members = memberDAO.findById(3);
 
-        model.addAttribute("members", members);
+    //     model.addAttribute("members", members);
 
-        return "index";
-    }
+    //     return "fronted/indexlogin";
+    // }
 
     @RequestMapping("/rental")
     public String showRentalPlans(Model model,

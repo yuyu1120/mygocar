@@ -91,7 +91,8 @@ public class VehicleController {
         session.setAttribute("sort", sort);
         session.setAttribute("rentalType", "monthly");
 
-        System.out.println("startDate" + startDate);
+        System.out.println("startDate：" + startDate);
+        System.out.println("location：" + location);
 
         // 登入資訊
         String username = (String) session.getAttribute("username");
