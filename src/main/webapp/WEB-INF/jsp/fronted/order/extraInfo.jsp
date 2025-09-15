@@ -86,10 +86,10 @@
                                             <th scope="row">品牌</th>
                                             <td>${vehicle.vehicleBrand}</td>
                                         </tr>
-                                        <tr>
+                                        <%-- <tr>
                                             <th scope="row">型號</th>
                                             <td>${vehicle.vehicleModel}</td>
-                                        </tr>
+                                        </tr> --%>
                                         <tr>
                                             <th scope="row">年份</th>
                                             <td>${vehicle.vehicleYear}</td>
@@ -98,14 +98,14 @@
                                             <th scope="row">顏色</th>
                                             <td>${vehicle.vehicleColor}</td>
                                         </tr>
-                                        <tr>
+                                        <%-- <tr>
                                             <th scope="row">燃料類型</th>
                                             <td>${vehicle.vehicleFuelType}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">里程數</th>
                                             <td>${vehicle.vehicleMileage}</td>
-                                        </tr>
+                                        </tr> --%>
                                         <tr>
                                             <th scope="row">位置</th>
                                             <td>${vehicle.vehicleLocation}</td>
@@ -126,7 +126,7 @@
                 </div>
 
                 <!-- 配件選購 -->
-                <div class="card mb-4 p-3">
+                <%-- <div class="card mb-4 p-3">
                     <h5 class="mb-3">用車配件選購</h5>
                     <div class="row g-3">
                         <c:set var="accessories" value="${['GPS','行車紀錄器','安全座椅']}" />
@@ -143,7 +143,7 @@
                             </div>
                         </c:forEach>
                     </div>
-                </div>
+                </div> --%>
 
                 <!-- 下一步按鈕 -->
                 <form method="post" action="/cart" class="mb-4">
@@ -205,7 +205,7 @@
                         <hr class="my-2">
 
                         <!-- 配件提示 -->
-                        <p class="mb-1"><strong>配件選購：</strong><br>可於左方頁面選擇 GPS、行車紀錄器或安全座椅，費用將另計。</p>
+                        <%-- <p class="mb-1"><strong>配件選購：</strong><br>可於左方頁面選擇 GPS、行車紀錄器或安全座椅，費用將另計。</p> --%>
                         <p class="mb-1 text-muted">※ 本訂單金額僅含車輛租金，保險、加油及其他服務費用未含在內。</p>
                         <p class="mb-0 text-muted">※ 請確認取還車日期與時間，以免影響租期計算。</p>
                 </div>
